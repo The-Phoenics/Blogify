@@ -3,10 +3,7 @@ dotenv.config();
 
 import { Request, Response } from "express";
 import app from "./app.js";
-import middleware from "./middlewares/middleware.js";
 import mongoose from "mongoose";
-
-middleware(app)
 
 // routes
 import userRouter from "./routes/user.js";
