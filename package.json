@@ -1,0 +1,32 @@
+{
+  "name": "blogify",
+  "version": "1.0.0",
+  "main": "index.js",
+  "scripts": {
+    "build": "npx tsc",
+    "start": "node dist/index.js",
+    "dev": "nodemon"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/The-Phoenics/Blogify.git"
+  },
+  "author": "",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/The-Phoenics/Blogify/issues"
+  },
+  "homepage": "https://github.com/The-Phoenics/Blogify#readme",
+  "description": "",
+  "dependencies": {
+    "dotenv": "^16.4.7",
+    "express": "^4.21.2",
+    "mongoose": "^8.10.0"
+  },
+  "devDependencies": {
+    "@types/express": "^5.0.0",
+    "@types/node": "^22.13.1",
+    "nodemon": "^3.1.9",
+    "typescript": "^5.7.3"
+  }
+}

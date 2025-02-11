@@ -1,0 +1,14 @@
+{
+  "compilerOptions": {
+    "target": "ESNext", // ESNext is for latest version
+    "module": "NodeNext",
+    "rootDir": "./",
+    "sourceMap": true,
+    "noEmitOnError": true,
+    "outDir": "./dist",
+    "removeComments": true,
+    "esModuleInterop": true,
+    "forceConsistentCasingInFileNames": true,
+    "skipLibCheck": true
+  }
+}
