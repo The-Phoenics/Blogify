@@ -1,9 +1,11 @@
-import express, { Request, Response, Router } from "express";
+import express, { Router } from "express";
+import { create_user, delete_user, get_user, update_user } from "../controllers/user";
 
 const userRouter: Router = express.Router()
 
-userRouter.get('/', (req: Request, res: Response) => {
-    res.send("Hello from user route")
-})
+userRouter.get("/", get_user)
+userRouter.post("/", create_user)
+userRouter.patch("/", update_user)
+userRouter.delete("/", delete_user)
 
 export default userRouter;

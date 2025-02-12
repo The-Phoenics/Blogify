@@ -7,8 +7,10 @@ import mongoose from "mongoose";
 
 // routes
 import userRouter from "./routes/user.js";
+import blogRouter from "./routes/blog.js";
 
 app.use('/user', userRouter)
+app.use('/blog', blogRouter)
 app.use('/', (req: Request, res: Response) => {
     res.send('Hello')
 })

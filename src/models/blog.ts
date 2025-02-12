@@ -1,17 +1,22 @@
 import mongoose from 'mongoose';
-const { Schema } = mongoose;
+import { commentSchema } from './comment';
+import { tagSchema } from './tag';
 
-const blogSchema = new Schema({
-    title: String,
-    author: String,
-    body: String,
-    comments: [{ body: String, date: Date }],
+const blogSchema = new mongoose.Schema({
+    title: {
+        type: String,
+        required: true
+    },
+    image: String,
+    body: {
+        type: String,
+        required: true
+    },
+    comments: [commentSchema],
+    published: Boolean,
+    tags: [tagSchema],
     date: { type: Date, default: Date.now },
-    hidden: Boolean,
-    meta: {
-        votes: Number,
-        favs: Number
-    }
+    lastUpdated: { type: Date, default: Date.now },
 });
 
 const Blog = mongoose.model("Blogs", blogSchema)

@@ -7,8 +7,9 @@
     "noEmitOnError": true,
     "outDir": "./dist",
     "removeComments": true,
-    "esModuleInterop": true,
+    "esModuleInterop": false,
     "forceConsistentCasingInFileNames": true,
-    "skipLibCheck": true
+    "skipLibCheck": true,
+    "allowSyntheticDefaultImports": true
   }
 }
