@@ -6,7 +6,7 @@ export const commentSchema = new mongoose.Schema({
         required: true
     },
     userId: {
-        type: mongoose.Types.ObjectId
+        type: mongoose.Types.ObjectId,
     },
     date: {
         type: Date,

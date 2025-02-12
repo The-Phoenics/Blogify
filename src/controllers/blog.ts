@@ -3,7 +3,20 @@ import Blog from "../models/blog";
 
 export async function get_blog(req: Request, res: Response) {
     const searchBlog = req.body
-    const blog = await Blog.findOne(searchBlog)
+    const id = req.params.id
+    const blog = await Blog.findOne({ _id: id })
+    if (!id || !blog) {
+        res.json({
+            message: "Invalid blog"
+        })
+        return
+    }
+    res.json(blog)
+}
+
+export async function get_blogs(req: Request, res: Response) {
+    const searchBlog = req.body
+    const blog = await Blog.find(searchBlog)
     res.json(blog)
 }
 
