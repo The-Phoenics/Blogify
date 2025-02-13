@@ -35,6 +35,8 @@ export const BlogPost = () => {
                         </p>
                     </article>
 
+                    <hr />
+                    
                     <div className="mt-10">
                         <h2 className="text-xl font-semibold text-gray-900 mb-2">Comments</h2>
                         <div className="border border-gray-300 p-4 rounded-lg">
