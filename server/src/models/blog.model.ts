@@ -1,6 +1,6 @@
 import mongoose from 'mongoose';
-import { commentSchema } from './comment';
-import { tagSchema } from './tag';
+import { commentSchema } from './comment.model';
+import { tagSchema } from './tag.model';
 
 const blogSchema = new mongoose.Schema({
     title: { type: String, required: true },

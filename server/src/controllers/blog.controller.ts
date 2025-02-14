@@ -1,5 +1,5 @@
 import { Request, Response } from "express";
-import Blog from "../models/blog";
+import Blog from "../models/blog.model";
 
 export async function get_blog(req: Request, res: Response) {
     const searchBlog = req.body

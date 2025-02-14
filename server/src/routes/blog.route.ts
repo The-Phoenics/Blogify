@@ -1,5 +1,5 @@
 import express, { Router } from "express";
-import { create_blog, delete_blog, get_blog, get_blogs, update_blog } from "../controllers/blog";
+import { create_blog, delete_blog, get_blog, get_blogs, update_blog } from "../controllers/blog.controller";
 
 const blogRouter: Router = express.Router()
 

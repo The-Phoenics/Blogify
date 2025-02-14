@@ -6,8 +6,8 @@ import app from "./app.js";
 import mongoose from "mongoose";
 
 // routes
-import userRouter from "./routes/user.js";
-import blogRouter from "./routes/blog.js";
+import userRouter from "./routes/user.route.js";
+import blogRouter from "./routes/blog.route.js";
 
 app.use('/user', userRouter)
 app.use('/blog', blogRouter)
