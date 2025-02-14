@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import { SiBloglovin } from "react-icons/si";
 
 export const BlogPost = () => {
@@ -7,7 +7,7 @@ export const BlogPost = () => {
     const [description, setDescription] = useState();
 
     return (
-        <div className="w-screen h-full flex items-center justify-center">
+        <div className="w-screen flex items-center justify-center">
             <div className="flex flex-col justify-center font-[sans-serif] p-4">
                 <div className="rounded-2xl p-8">
                     <div className="text-center mb-12">
@@ -34,29 +34,27 @@ export const BlogPost = () => {
                             Duis id egestas dolor. In ut porttitor sapien. Pellentesque euismod, felis at dapibus pellentesque, libero arcu ornare lectus, nec lobortis dui purus a diam. In dolor tortor, interdum non ipsum a, lacinia finibus ligula. Nam vitae ipsum cursus, viverra dui cursus, ultrices tortor. Vivamus ut luctus mauris. Aliquam bibendum arcu nulla, quis pellentesque justo semper vitae. Maecenas id venenatis tellus. Nullam at eros nunc. Vivamus sodales ultricies lacus vel eleifend. Suspendisse turpis nulla, tristique quis tempor sed, bibendum id mi. Curabitur molestie massa eros, eget rhoncus felis egestas in. Sed urna sem, vestibulum at congue non, pharetra in mi. In tincidunt pulvinar facilisis.
                         </p>
                     </article>
-
-                    <hr />
                     
-                    <div className="mt-10">
-                        <h2 className="text-xl font-semibold text-gray-900 mb-2">Comments</h2>
+                    <div className="mt-14">
+                        <h2 className="text-xl font-semibold text-gray-900 mb-4">Comments</h2>
                         <div className="border border-gray-300 p-4 rounded-lg">
                             <p className="text-gray-800 text-sm">User1: This is a great post!</p>
                         </div>
                         <div className="border border-gray-300 p-4 rounded-lg mt-2">
                             <p className="text-gray-800 text-sm">User2: Very informative, thanks!</p>
                         </div>
-                        <textarea className="mt-4 p-2 px-4 w-full border border-gray-300 rounded-md text-gray-800" placeholder="Add a comment..."></textarea>
+                        <textarea className="mt-8 p-2 px-4 w-full border border-gray-300 rounded-md text-gray-800" placeholder="Add a comment..."></textarea>
                         <button className="mt-2 py-2 px-4 text-sm tracking-wider font-semibold rounded-md text-white bg-blue-600 hover:bg-blue-700 focus:outline-none">
                             Post Comment
                         </button>
                     </div>
 
-                    <div className="mt-6">
+                    <div className="flex items-center justify-center mt-8">
                         <div className="flex gap-2 flex-wrap">
-                            <span className="bg-blue-100 text-blue-700 px-3 py-1 text-sm rounded-full">Technology</span>
-                            <span className="bg-blue-100 text-blue-700 px-3 py-1 text-sm rounded-full">Development</span>
-                            <span className="bg-blue-100 text-blue-700 px-3 py-1 text-sm rounded-full">React</span>
-                            <span className="bg-blue-100 text-blue-700 px-3 py-1 text-sm rounded-full">Web Development</span>
+                            <span className="bg-blue-100 text-blue-700 px-3 py-1 text-sm rounded-full hover:cursor-pointer">Technology</span>
+                            <span className="bg-blue-100 text-blue-700 px-3 py-1 text-sm rounded-full hover:cursor-pointer">Development</span>
+                            <span className="bg-blue-100 text-blue-700 px-3 py-1 text-sm rounded-full hover:cursor-pointer">React</span>
+                            <span className="bg-blue-100 text-blue-700 px-3 py-1 text-sm rounded-full hover:cursor-pointer">Web Development</span>
                         </div>
                     </div>
                 </div>
