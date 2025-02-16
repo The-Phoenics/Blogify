@@ -6,7 +6,7 @@ const blogRouter: Router = express.Router()
 blogRouter.get("/", get_blogs)
 blogRouter.get("/:id", get_blog)
 blogRouter.post("/", create_blog)
-blogRouter.patch("/", update_blog)
+blogRouter.patch("/:id", update_blog)
 blogRouter.delete("/", delete_blog)
 
 export default blogRouter;

@@ -5,7 +5,7 @@ const userRouter: Router = express.Router()
 
 userRouter.get("/", get_user)
 userRouter.post("/", create_user)
-userRouter.patch("/", update_user)
-userRouter.delete("/", delete_user)
+userRouter.patch("/:id", update_user)
+userRouter.delete("/:id", delete_user)
 
 export default userRouter;

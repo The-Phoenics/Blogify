@@ -3,7 +3,10 @@ dotenv.config();
 
 import { Request, Response } from "express";
 import app from "./app.js";
-import Database from "./db/db.js";
+import { connectDB } from "./db/db.js";
+
+// Load all the mongoose models first
+import "./Utils/loadModels.js"
 
 // routes
 import userRouter from "./routes/user.route.js";
@@ -18,8 +21,10 @@ app.get('*', (req: Request, res: Response) => {
     res.status(404).send("404 NOT FOUND")
 })
 
-
-const startServer = () => {
-    app.listen(process.env.PORT, () => console.log(`SUCCESS: Server started at port ${process.env.PORT}`))
+async function startServer() {
+    await connectDB(() => {
+        app.listen(process.env.PORT, () => console.log(`SUCCESS: Server started at port ${process.env.PORT}`))
+    })
 }
-Database.Connect(startServer)
+
+startServer()
