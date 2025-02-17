@@ -1,6 +1,5 @@
 import { Request, Response } from "express";
 import Blog from "../models/blog.model";
-import mongoose from "mongoose";
 
 export async function get_blog(req: Request, res: Response) {
     const id = req.params.id

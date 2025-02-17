@@ -1,7 +1,6 @@
 import mongoose from 'mongoose';
 import { commentSchema } from './comment.model';
 
-
 const blogSchema = new mongoose.Schema({
     title: { type: String, required: true },
     authorId: { type: mongoose.Types.ObjectId, required: true },
