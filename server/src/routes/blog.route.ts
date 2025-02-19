@@ -1,12 +1,12 @@
 import express, { Router } from "express";
-import { create_blog, delete_blog, get_blog, get_blogs, update_blog } from "../controllers/blog.controller";
+import * as blogController from "../controllers/blog.controller";
 
 const blogRouter: Router = express.Router()
 
-blogRouter.get("/", get_blogs)
-blogRouter.get("/:id", get_blog)
-blogRouter.post("/", create_blog)
-blogRouter.patch("/:id", update_blog)
-blogRouter.delete("/", delete_blog)
+blogRouter.get("/", blogController.get_blogs)
+blogRouter.get("/:id", blogController.get_blog)
+blogRouter.post("/", blogController.create_blog)
+blogRouter.patch("/:id", blogController.update_blog)
+blogRouter.delete("/", blogController.delete_blog)
 
 export default blogRouter;
