@@ -3,6 +3,7 @@ import Blog from "../models/blog.model";
 import mongoose, { isValidObjectId } from "mongoose";
 
 export async function get_blog(req: Request, res: Response) {
+    // console.log(req.session)
     const id = req.params.id
     let blog = await Blog.findOne({ _id: id })
     blog = await blog.populate("tags")
