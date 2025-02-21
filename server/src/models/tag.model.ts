@@ -1,6 +1,12 @@
 import mongoose from "mongoose";
 
-export const tagSchema = new mongoose.Schema({
+export interface ITagDocument extends Document {
+    tag: String,
+    blogsCount: number,
+    followers: number
+}
+
+export const tagSchema = new mongoose.Schema<ITagDocument>({
     tag: {
         type: String,
         unique: true,
@@ -16,5 +22,5 @@ export const tagSchema = new mongoose.Schema({
     }
 })
 
-const Tag = mongoose.model('Tag', tagSchema)
+const Tag = mongoose.model<ITagDocument>('Tag', tagSchema)
 export default Tag
