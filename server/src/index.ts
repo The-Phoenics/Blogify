@@ -9,8 +9,8 @@ import { connectDB } from "./db/db.js";
 import "./Utils/loadModels.js"
 
 // routes
-import userRouter from "./routes/user.route.js";
-import blogRouter from "./routes/blog.route.js";
+import userRouter from "@routes/user.route.js";
+import blogRouter from "@routes/blog.route.js";
 
 app.use('/user', userRouter)
 app.use('/blog', blogRouter)

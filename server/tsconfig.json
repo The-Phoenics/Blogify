@@ -10,6 +10,12 @@
     "esModuleInterop": false,
     "forceConsistentCasingInFileNames": true,
     "skipLibCheck": true,
-    "allowSyntheticDefaultImports": true
+    "allowSyntheticDefaultImports": true,
+    "baseUrl": "./", // for defining base directory for module resolution
+    "paths": {
+      "@models/*": ["src/models/*"],
+      "@controllers/*": ["src/controllers/*"],
+      "@routes/*": ["src/routes/*"]
+    }
   }
 }

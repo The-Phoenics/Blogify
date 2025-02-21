@@ -1,9 +1,10 @@
 import { Request, Response } from "express";
-import User from "../models/user.model";
-import Blog from "../models/blog.model";
+import User from "@models/user.model";
+import Blog from "@models/blog.model";
 import mongoose, { isValidObjectId } from "mongoose";
-import * as EmailValidator from "email-validator"
+import * as EmailValidator from "email-validator";
 const bcrypt = require('bcrypt');
+
 const SALT_ROUNDS = 10;
 
 export async function get_user(req: Request, res: Response) {

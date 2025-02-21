@@ -1,8 +1,8 @@
 import { Request, Response } from "express";
 import mongoose from "mongoose";
-import UserSession from "../models/userSession.model";
+import UserSession from "@models/userSession.model";
+import User from "@models/user.model";
 import * as crypto from "crypto"
-import User from "../models/user.model";
 
 async function generateSessionToken(): Promise<string> {
     const sessionToken = crypto.randomBytes(16).toString('base64');
@@ -41,7 +41,7 @@ export async function login(req: Request, res: Response) {
         })
         return
     }
-    
+
     // create session for user login
     const token = await generateSessionToken()
     // const session = createSession(token, user._id)

@@ -1,5 +1,5 @@
 import { Request, Response } from "express";
-import Blog from "../models/blog.model";
+import Blog from "@models/blog.model";
 import mongoose, { isValidObjectId } from "mongoose";
 
 export async function get_blog(req: Request, res: Response) {
