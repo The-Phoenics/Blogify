@@ -1,13 +1,15 @@
 import { Request, Response } from "express";
-import User from "@models/user.model";
+import User, { IUserDocument } from "@models/user.model";
 import Blog from "@models/blog.model";
 import mongoose, { isValidObjectId } from "mongoose";
 import * as EmailValidator from "email-validator";
 import bcrypt from "bcrypt";
 
+const SALT_ROUNDS = 10;
+
 export async function get_user(req: Request, res: Response) {
-    const email = req.body.email
-    const user = await User.findOne({
+    const email: string = req.body.email
+    const user: IUserDocument = await User.findOne({
         email: email
     })
     if (!user) {

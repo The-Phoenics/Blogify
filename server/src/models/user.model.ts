@@ -5,6 +5,7 @@ export interface IUserDocument extends Document {
     username: string,
     email: string,
     password: string,
+    emailVerified: string,
     joinDate: Date
 }
 
@@ -12,6 +13,7 @@ const userSchema = new mongoose.Schema<IUserDocument>({
     username: { type: String, unique: true, required: true },
     email: { type: String, unique: true, required: true },
     password: { type: String, required: true },
+    emailVerified: Boolean,
     joinDate: { type: Date, default: Date.now },
 });
 

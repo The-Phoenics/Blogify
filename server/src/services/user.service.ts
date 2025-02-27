@@ -3,7 +3,7 @@ import bcrypt from "bcrypt"
 
 const SALT_ROUNDS = 10;
 
-export async function createUser(email: string, password: string): Promise<IUserDocument> {
+export async function createUser(email: string, password: string): Promise<IUserDocument> | null {
     // encrypt password
     const salt = bcrypt.genSaltSync(SALT_ROUNDS);
     const hashedPasswd = bcrypt.hashSync(password, salt);

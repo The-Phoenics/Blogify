@@ -4,7 +4,7 @@ import { generateSessionId, createSession } from "@services/auth.service";
 import { IUserDocument } from "@models/user.model";
 import * as dayjs from 'dayjs';
 import bcrypt from "bcrypt";
-import UserSession from "@models/userSession.model";
+import UserSession, { IUserSessionDocument } from "@models/userSession.model";
 import * as emailValidator from "email-validator";
 import { createUser } from "@services/user.service";
 
@@ -64,7 +64,6 @@ export async function signup(req: Request, res: Response) {
         })
         return
     }
-
     // email validation
     if (!emailValidator.validate(email)) {
         res.status(400).json({
@@ -72,7 +71,7 @@ export async function signup(req: Request, res: Response) {
         })
         return
     }
-
+    // create user
     const createdUser: IUserDocument = await createUser(email, password);
     if (!createdUser) {
         res.status(400).json({
@@ -80,10 +79,9 @@ export async function signup(req: Request, res: Response) {
         })
         return
     }
-
     // create session for user signup
-    const sid = await generateSessionId()
-    const session = await createSession(sid, createdUser._id)
+    const sid: string = await generateSessionId()
+    const session: IUserSessionDocument = await createSession(sid, createdUser._id)
     res.cookie("sid", sid, {
         secure: false
     })
