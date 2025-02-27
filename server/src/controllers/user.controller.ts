@@ -5,8 +5,6 @@ import mongoose, { isValidObjectId } from "mongoose";
 import * as EmailValidator from "email-validator";
 import bcrypt from "bcrypt";
 
-const SALT_ROUNDS = 10;
-
 export async function get_user(req: Request, res: Response) {
     const email = req.body.email
     const user = await User.findOne({

@@ -1,9 +1,7 @@
 import dotenv from "dotenv";
 dotenv.config();
 import express, { Express } from "express";
-import cookieParser from "cookie-parser"
-
-const session_secret_key = process.env.SECRET_KEY
+import cookieParser from "cookie-parser";
 
 function middleware(app: Express) {
     app.use(express.json())

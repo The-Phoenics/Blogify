@@ -16,7 +16,7 @@ export async function generateSessionId(): Promise<string> {
 
 export async function createSession(sessionToken: string, userId: mongoose.Types.ObjectId) {
     const session: IUserSessionDocument = await UserSession.create({
-        token: sessionToken,
+        sid: sessionToken,
         user: userId
     })
     return session;
