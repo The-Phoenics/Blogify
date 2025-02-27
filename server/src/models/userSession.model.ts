@@ -1,13 +1,13 @@
 import mongoose from 'mongoose';
 
 export interface IUserSessionDocument extends Document {
-    token: string,
+    sid: string,
     user: typeof mongoose.Types.ObjectId,
     createdAt: Date,
 }
 
 const userSessionSchema = new mongoose.Schema<IUserSessionDocument>({
-    token: { type: String, required: true },
+    sid: { type: String, required: true },
     user: {
         type: mongoose.Types.ObjectId,
         ref: 'User',

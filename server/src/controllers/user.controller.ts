@@ -3,7 +3,7 @@ import User from "@models/user.model";
 import Blog from "@models/blog.model";
 import mongoose, { isValidObjectId } from "mongoose";
 import * as EmailValidator from "email-validator";
-const bcrypt = require('bcrypt');
+import bcrypt from "bcrypt";
 
 const SALT_ROUNDS = 10;
 

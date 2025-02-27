@@ -1,7 +1,6 @@
 import mongoose from 'mongoose';
-import { commentSchema } from './comment.model';
-import { ITagDocument } from './tag.model';
-import { ICommentDocument } from './comment.model';
+import { ITagDocument } from '@models/tag.model';
+import { commentSchema, ICommentDocument } from '@models/comment.model';
 
 export interface IBlogDocument extends Document {
     title: string,

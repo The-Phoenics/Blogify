@@ -11,9 +11,15 @@ import "./Utils/loadModels.js"
 // routes
 import userRouter from "@routes/user.route.js";
 import blogRouter from "@routes/blog.route.js";
+import authRouter from "@routes/auth.route.js";
+import { authenticateUser } from "@services/auth.service.js";
 
 app.use('/user', userRouter)
 app.use('/blog', blogRouter)
+app.use('/auth', authRouter)
+app.use('/pres', authenticateUser, (req: Request, res: Response) => {
+    res.send("here is your resource")
+})
 app.use('/', (req: Request, res: Response) => {
     res.send('Hello')
 })
