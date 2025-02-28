@@ -34,7 +34,7 @@ export const BlogPost = () => {
                             Duis id egestas dolor. In ut porttitor sapien. Pellentesque euismod, felis at dapibus pellentesque, libero arcu ornare lectus, nec lobortis dui purus a diam. In dolor tortor, interdum non ipsum a, lacinia finibus ligula. Nam vitae ipsum cursus, viverra dui cursus, ultrices tortor. Vivamus ut luctus mauris. Aliquam bibendum arcu nulla, quis pellentesque justo semper vitae. Maecenas id venenatis tellus. Nullam at eros nunc. Vivamus sodales ultricies lacus vel eleifend. Suspendisse turpis nulla, tristique quis tempor sed, bibendum id mi. Curabitur molestie massa eros, eget rhoncus felis egestas in. Sed urna sem, vestibulum at congue non, pharetra in mi. In tincidunt pulvinar facilisis.
                         </p>
                     </article>
-                    
+
                     <div className="mt-14">
                         <h2 className="text-xl font-semibold text-gray-900 mb-4">Comments</h2>
                         <div className="border border-gray-300 p-4 rounded-lg">

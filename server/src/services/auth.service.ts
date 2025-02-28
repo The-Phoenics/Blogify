@@ -23,6 +23,7 @@ export async function createSession(sessionToken: string, userId: mongoose.Types
     return session;
 }
 
+// user session authentication middleware
 export async function authenticateUser(req: Request, res: Response, next: NextFunction) {
     const cookie = req.cookies
     const session: IUserSessionDocument = await UserSession.findOne({
