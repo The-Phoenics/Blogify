@@ -17,10 +17,7 @@ import { authenticateUser } from "@services/auth.service.js";
 app.use('/user', userRouter)
 app.use('/blog', blogRouter)
 app.use('/auth', authRouter)
-app.use('/pres', authenticateUser, (req: Request, res: Response) => {
-    res.send("here is your resource")
-})
-app.use('/', (req: Request, res: Response) => {
+app.use('/', authenticateUser, (req: Request, res: Response) => {
     res.send('Hello')
 })
 app.get('*', (req: Request, res: Response) => {

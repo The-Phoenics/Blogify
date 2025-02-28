@@ -14,20 +14,20 @@ const transporter: Mail = nodemailer.createTransport({
     },
 });
 
-function getVerificationToken(user: IUserDocument): string {
-    let link: string = `http://localhost:${process.env.PORT}/verifyemail/`;
+function getVerificationTokenLink(user: IUserDocument): string {
+    let link: string = `http://localhost:${process.env.PORT}/auth/verifyemail/`;
     const jwtSecret = process.env.JWT_SECRET_KEY
     if (!jwtSecret) {
         console.log("jwt secret key env variable not loaded")
     }
-    const token = jwt.sign({
-        data: user._id
-    }, 'secret', { expiresIn: '300000ms' }); // 5 minutes
-    return link
+    const token: string = jwt.sign({
+        id: user._id
+    }, process.env.JWT_SECRET_KEY, { expiresIn: '300000ms' }); // 5 minutes
+    return link + token;
 }
 
 export async function sendVerificationLink(email: string, user: IUserDocument) {
-    const link: string = getVerificationToken(user)
+    const link: string = getVerificationTokenLink(user)
     const info = await transporter.sendMail({
         from: {
             name: 'Blogify',
@@ -36,6 +36,6 @@ export async function sendVerificationLink(email: string, user: IUserDocument) {
         to: email,
         subject: "Email verification",
         text: `Click the link below to verify your account:`,
-        html: `<h5>${link}<h5>`,
+        html: `Click this link to verify your accound: <a href=${link}>${link}<h5>`,
     });
 }

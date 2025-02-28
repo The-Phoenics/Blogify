@@ -8,6 +8,7 @@ import UserSession, { IUserSessionDocument } from "@models/userSession.model";
 import * as emailValidator from "email-validator";
 import { createUser } from "@services/user.service";
 import jwt from "jsonwebtoken"
+import { sendVerificationLink } from "@services/mail.service";
 
 export async function login(req: Request, res: Response) {
     const { email, password } = req.body
@@ -51,6 +52,7 @@ export async function logout(req: Request, res: Response) {
         })
         return
     }
+    await session.deleteOne()
     res.status(200).json({
         message: "logout success"
     })
@@ -72,6 +74,26 @@ export async function signup(req: Request, res: Response) {
         })
         return
     }
+
+    // check if user already exist with this email
+    const existingUser = await User.findOne({
+        email: email
+    })
+    if (existingUser) {
+        if (!existingUser.emailVerified) {
+            await sendVerificationLink(email, existingUser)
+            res.json({
+                message: "link sent, please verification your email"
+            })
+            return
+        }
+        res.status(200).json({
+            message: "User already exist with this email",
+            redirect: `http://localhost:${process.env.PORT}/auth/login`
+        })
+        return
+    }
+
     // create user
     const createdUser: IUserDocument = await createUser(email, password);
     if (!createdUser) {
@@ -80,13 +102,12 @@ export async function signup(req: Request, res: Response) {
         })
         return
     }
-    // create session for user signup
-    const sid: string = await generateSessionId()
-    const session: IUserSessionDocument = await createSession(sid, createdUser._id)
-    res.cookie("sid", sid, {
-        secure: false
+
+    await sendVerificationLink(email, createdUser)
+    res.status(201).json({
+        message: "email verification link sent",
+        createdUser: createdUser
     })
-    res.status(201).json(createdUser)
 }
 
 export async function verify_email(req: Request, res: Response) {
@@ -97,15 +118,31 @@ export async function verify_email(req: Request, res: Response) {
         })
         return
     }
-    let decoded = jwt.verify(verificationToken, process.env.JWT_SECRET_KEY)
-    let userId: string = decoded.data
-    if (!decoded || !userId) {
-        res.status(400).json({
-            message: "invalid token provided"
-        })
+
+    // verify user token
+    let userId = ""
+    try {
+        const decoded = await jwt.verify(verificationToken, process.env.JWT_SECRET_KEY);
+        userId = decoded.id;
+    } catch (err) {
+        if (err.name === "TokenExpiredError") {
+            return res.json({
+                message: "expired try again",
+                redirect: `http://localhost:${process.env.PORT}/auth/signup`,
+            });
+        }
+        if (err.name === "JsonWebTokenError") {
+            return res.json({
+                message: "invalid token",
+                redirect: `http://localhost:${process.env.PORT}/auth/signup`,
+            });
+        }
+    }
+    if (!userId) {
         return
     }
 
+    // make user verified
     const user = await User.findOne({
         _id: userId
     })
@@ -117,6 +154,13 @@ export async function verify_email(req: Request, res: Response) {
     }
     user.emailVerified = true
     await user.save()
+
+    // create session for user signup
+    const sid: string = await generateSessionId()
+    const session: IUserSessionDocument = await createSession(sid, user._id)
+    res.cookie("sid", sid, {
+        secure: false
+    })
 
     res.status(200).json({
         message: "email verified",

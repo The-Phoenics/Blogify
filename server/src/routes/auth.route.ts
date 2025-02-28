@@ -6,6 +6,6 @@ const authRouter: Router = express.Router()
 authRouter.post("/login", authController.login)
 authRouter.post("/logout", authController.logout)
 authRouter.post("/signup", authController.signup)
-authRouter.post("/verifyemail/:token", authController.verify_email)
+authRouter.get("/verifyemail/:token", authController.verify_email)
 
 export default authRouter;

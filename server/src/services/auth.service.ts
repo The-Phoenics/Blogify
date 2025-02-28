@@ -18,7 +18,7 @@ export async function generateSessionId(): Promise<string> {
 export async function createSession(sessionToken: string, userId: mongoose.Types.ObjectId) {
     const session: IUserSessionDocument = await UserSession.create({
         sid: sessionToken,
-        user: userId
+        userId: userId
     })
     return session;
 }
@@ -42,7 +42,7 @@ export async function authenticateUser(req: Request, res: Response, next: NextFu
     const user = await User.findOne({
         _id: session.userId
     })
-    if (!user.emailVerified) {
+    if (!user || !user.emailVerified) {
         res.status(401).json({
             messsage: "unauthorized"
         })
