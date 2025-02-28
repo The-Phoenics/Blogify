@@ -7,6 +7,7 @@ import bcrypt from "bcrypt";
 import UserSession, { IUserSessionDocument } from "@models/userSession.model";
 import * as emailValidator from "email-validator";
 import { createUser } from "@services/user.service";
+import jwt from "jsonwebtoken"
 
 export async function login(req: Request, res: Response) {
     const { email, password } = req.body
@@ -88,6 +89,37 @@ export async function signup(req: Request, res: Response) {
     res.status(201).json(createdUser)
 }
 
-export function verify_email(req: Request, res: Response) {
-    // TODO
+export async function verify_email(req: Request, res: Response) {
+    const verificationToken: string = req.params.token;
+    if (!verificationToken) {
+        res.status(200).json({
+            message: "verification token not provided"
+        })
+        return
+    }
+    let decoded = jwt.verify(verificationToken, process.env.JWT_SECRET_KEY)
+    let userId: string = decoded.data
+    if (!decoded || !userId) {
+        res.status(400).json({
+            message: "invalid token provided"
+        })
+        return
+    }
+
+    const user = await User.findOne({
+        _id: userId
+    })
+    if (!user) {
+        res.status(400).json({
+            message: "invalid token provided"
+        })
+        return
+    }
+    user.emailVerified = true
+    await user.save()
+
+    res.status(200).json({
+        message: "email verified",
+        redirect: `http://localhost:${process.env.PORT}/`
+    })
 }

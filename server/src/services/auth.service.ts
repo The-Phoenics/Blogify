@@ -2,6 +2,7 @@ import UserSession, { IUserSessionDocument } from "@models/userSession.model";
 import mongoose from "mongoose";
 import crypto from "crypto";
 import { NextFunction } from "express";
+import User from "@models/user.model";
 
 export async function generateSessionId(): Promise<string> {
     const sessionToken = crypto.randomBytes(16).toString('base64');
@@ -28,6 +29,19 @@ export async function authenticateUser(req: Request, res: Response, next: NextFu
         sid: cookie.sid
     })
     if (!session) {
+        res.status(401).json({
+            messsage: "unauthorized"
+        })
+        return
+    }
+
+    // TODO: check if session has expired
+
+    // check if user's email is verified
+    const user = await User.findOne({
+        _id: session.userId
+    })
+    if (!user.emailVerified) {
         res.status(401).json({
             messsage: "unauthorized"
         })
