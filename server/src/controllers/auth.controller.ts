@@ -83,7 +83,8 @@ export async function signup(req: Request, res: Response) {
         if (!existingUser.emailVerified) {
             await sendVerificationLink(email, existingUser)
             res.json({
-                message: "link sent, please verification your email"
+                success: true,
+                message: "link sent, please verify your email"
             })
             return
         }
@@ -98,6 +99,7 @@ export async function signup(req: Request, res: Response) {
     const createdUser: IUserDocument = await createUser(email, password);
     if (!createdUser) {
         res.status(400).json({
+            success: false,
             message: "failed to signup"
         })
         return
@@ -105,6 +107,7 @@ export async function signup(req: Request, res: Response) {
 
     await sendVerificationLink(email, createdUser)
     res.status(201).json({
+        success: true,
         message: "email verification link sent",
         createdUser: createdUser
     })
