@@ -6,7 +6,7 @@ import app from "./app.js";
 import { connectDB } from "./db/db.js";
 
 // Load all the mongoose models first
-import "./Utils/loadModels.js"
+import "@models/index.js"
 
 // routes
 import userRouter from "@routes/user.route.js";
@@ -18,13 +18,13 @@ app.use('/user', userRouter)
 app.use('/blog', blogRouter)
 app.use('/auth', authRouter)
 app.use('/', authenticateUser, (req: Request, res: Response) => {
-    res.send('Hello')
+    res.status(200).json({ message: 'You are authorized to see protected resource' })
 })
 app.get('*', (req: Request, res: Response) => {
-    res.status(404).send("404 NOT FOUND")
+    res.status(404).json({ message: "404 NOT FOUND" })
 })
 
-async function startServer() {
+async function startServer(): Promise<void> {
     await connectDB(() => {
         app.listen(process.env.PORT, () => console.log(`SUCCESS: Server started at port ${process.env.PORT}`))
     })

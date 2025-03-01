@@ -2,16 +2,11 @@ import UserSession, { IUserSessionDocument } from "@models/userSession.model";
 import mongoose from "mongoose";
 import crypto from "crypto";
 import { NextFunction } from "express";
-import User from "@models/user.model";
+import User, { IUserDocument } from "@models/user.model";
+import { Request, Response } from "express";
 
 export async function generateSessionId(): Promise<string> {
-    const sessionToken = crypto.randomBytes(16).toString('base64');
-    // const userSession = await UserSession.find({
-    //     sessionId: sessionToken
-    // })
-    // if (userSession) {
-    //     return generateSessionId();
-    // }
+    const sessionToken: string = crypto.randomBytes(16).toString('base64');
     return sessionToken
 }
 
@@ -23,7 +18,7 @@ export async function createSession(sessionToken: string, userId: mongoose.Types
     return session;
 }
 
-// user session authentication middleware
+// user cookie based session authentication middleware
 export async function authenticateUser(req: Request, res: Response, next: NextFunction) {
     const cookie = req.cookies
     const session: IUserSessionDocument = await UserSession.findOne({
@@ -36,10 +31,10 @@ export async function authenticateUser(req: Request, res: Response, next: NextFu
         return
     }
 
-    // TODO: check if session has expired
+    // TODO: check if session has expired and extend the session
 
     // check if user's email is verified
-    const user = await User.findOne({
+    const user: IUserDocument = await User.findOne({
         _id: session.userId
     })
     if (!user || !user.emailVerified) {
