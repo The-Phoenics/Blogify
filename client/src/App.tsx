@@ -2,7 +2,6 @@ import './App.css'
 
 import { Login } from './pages/auth/Login'
 import { Signup } from './pages/auth/Signup'
-import { VerifyEmail } from './pages/auth/VerifyEmail'
 import { BlogPost } from './pages/BlogPost'
 import { Home } from './pages/Home'
 import { NotFound } from './pages/NotFound'
