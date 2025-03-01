@@ -1,6 +1,7 @@
 import { SiBloglovin } from "react-icons/si";
+import { Link } from "react-router";
 
-export const Signin = () => {
+export const Login = () => {
     return (
         <div className="w-screen h-full flex items-center justify-center mt-[20vh]">
             <div className="flex flex-col justify-center font-[sans-serif] p-4">
@@ -31,7 +32,7 @@ export const Signin = () => {
                                 Login
                             </button>
                         </div>
-                        <p className="text-gray-800 text-sm mt-6 text-center">Don't have  an account? <a href="javascript:void(0);" className="text-blue-600 font-semibold hover:underline ml-1">Signup now</a></p>
+                        <p className="text-gray-800 text-sm mt-6 text-center">Don't have  an account? <Link className="text-blue-600 font-semibold hover:underline ml-1" to="/signup">Signup now</Link></p>
                     </form>
                 </div>
             </div>

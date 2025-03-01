@@ -33,7 +33,7 @@ export const VerifyEmail = () => {
                     <form>
                         <div className="space-y-6">
                             <div>
-                                <label className="text-gray-800 text-sm mb-2 block">Verification Code</label>
+                                <label className="text-gray-800 text-sm mb-4 block">Verification Code</label>
                                 <div className="flex gap-2 justify-center">
                                     {[...Array(6)].map((_, index) => (
                                         <input
