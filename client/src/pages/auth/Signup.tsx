@@ -2,6 +2,7 @@ import { useRef, useState } from "react";
 import { SiBloglovin } from "react-icons/si";
 import { Link } from "react-router";
 import { validate } from "email-validator"
+import { Spinner } from "@/components/Spinner";
 
 export const EmailSentMessageInfo = () => {
     return (
@@ -71,7 +72,7 @@ export const Signup = () => {
 
     // Handle signup form submission on sign up click
     const handleSignup = async () => {
-        if (isInputValid()) {
+        if (isInputValid() && apiStatus !== API_STATUS.WAITING) {
             await sendSignUpRequest()
         }
     }
@@ -127,11 +128,3 @@ export const Signup = () => {
         </div>
     )
 }
-
-const Spinner = () => {
-    return (
-        <div className="flex justify-center items-center">
-            <div className="border-4 border-t-transparent border-white rounded-full animate-spin"></div>
-        </div>
-    );
-};
