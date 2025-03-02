@@ -2,13 +2,15 @@ import mongoose from 'mongoose';
 
 export interface ICommentDocument extends Document {
     content: string,
-    userId: typeof mongoose.Types.ObjectId,
+    userId: mongoose.Types.ObjectId,
+    blogId: mongoose.Types.ObjectId,
     date: Date
 }
 
 export const commentSchema = new mongoose.Schema({
     content: { type: String, required: true },
-    userId: { type: mongoose.Types.ObjectId },
+    userId: { type: mongoose.Types.ObjectId, required: true },
+    blogId: { type: mongoose.Types.ObjectId, required: true },
     date: { type: Date, default: Date.now() }
 })
 

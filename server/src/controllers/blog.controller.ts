@@ -7,6 +7,7 @@ export async function get_blog(req: Request, res: Response) {
     let blog = await Blog.findOne({ _id: id })
     blog = await blog.populate("tags")
     blog = await blog.populate("author")
+    blog = await blog.populate("comments")
     if (!id || !blog) {
         res.json({
             message: "Invalid blog"
@@ -81,4 +82,8 @@ export async function delete_blog(req: Request, res: Response) {
         return
     }
     res.json(deletedBlog)
+}
+
+export async function create_comment(req: Request, res: Response) {
+    // TODO: implement this route for handling comment creation
 }

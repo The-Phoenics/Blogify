@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { SiBloglovin } from "react-icons/si";
 import { useParams } from "react-router";
 
@@ -36,6 +36,8 @@ enum API_STATUS {
 }
 
 export const BlogPost = () => {
+    const commentInputRef = useRef<HTMLTextAreaElement>(null)
+
     const [apiStatus, setApiStatus] = useState<API_STATUS>(API_STATUS.WAITING)
     const [blogData, setBlogData] = useState<IBlog>()
     const params = useParams()
@@ -47,6 +49,20 @@ export const BlogPost = () => {
         const result: IBlog = await response.json()
         setApiStatus(API_STATUS.DONE)
         setBlogData(result)
+    }
+
+    const handlePostComment = async () => {
+        const response = await fetch("http://localhost:4000/blog/comment", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({
+                // TODO: send comment data and create comment
+            }),
+        });
+        const result = await response.json();
+        console.log(result)
     }
 
     useEffect(() => {
@@ -88,8 +104,8 @@ export const BlogPost = () => {
 
                                         })
                                     }
-                                    <textarea className="mt-8 p-2 px-4 w-full border border-gray-300 rounded-md text-gray-800" placeholder="Add a comment..."></textarea>
-                                    <button className="mt-2 py-2 px-4 text-sm tracking-wider font-semibold rounded-md text-white bg-blue-600 hover:bg-blue-700 focus:outline-none">
+                                    <textarea ref={commentInputRef} className="mt-8 p-2 px-4 w-full border border-gray-300 rounded-md text-gray-800" placeholder="Add a comment..."></textarea>
+                                    <button className="mt-2 py-2 px-4 text-sm tracking-wider font-semibold rounded-md text-white bg-blue-600 hover:bg-blue-700 focus:outline-none" onClick={handlePostComment}>
                                         Post Comment
                                     </button>
                                 </div>

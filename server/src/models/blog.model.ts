@@ -18,13 +18,16 @@ export interface IBlogDocument extends Document {
 
 const blogSchema = new mongoose.Schema<IBlogDocument>({
     title: { type: String, required: true },
-    author: { 
+    author: {
         type: mongoose.Types.ObjectId,
         ref: 'User',
         required: true
     },
     content: { type: String, required: true },
-    comments: [commentSchema],
+    comments: [{
+        type: mongoose.Types.ObjectId,
+        ref: 'Comment'
+    }],
     published: { type: Boolean, default: false },
     public: { type: Boolean, default: true },
     image: String,
