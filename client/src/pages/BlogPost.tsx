@@ -1,5 +1,4 @@
-import { Spinner } from "@/components/Spinner";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useState } from "react";
 import { SiBloglovin } from "react-icons/si";
 import { useParams } from "react-router";
 
@@ -32,16 +31,11 @@ export interface IBlog {
     lastUpdated: Date,
 }
 
-
 enum API_STATUS {
     WAITING = 1, DONE
 }
 
 export const BlogPost = () => {
-    const titleElementRef = useRef<HTMLInputElement>(null);
-    const authorElementRef = useRef<HTMLInputElement>(null);
-    const descriptionElementRef = useRef<HTMLInputElement>(null);
-
     const [apiStatus, setApiStatus] = useState<API_STATUS>(API_STATUS.WAITING)
     const [blogData, setBlogData] = useState<IBlog>()
     const params = useParams()
@@ -51,7 +45,6 @@ export const BlogPost = () => {
             method: "GET",
         });
         const result: IBlog = await response.json()
-        console.log(result)
         setApiStatus(API_STATUS.DONE)
         setBlogData(result)
     }
@@ -59,9 +52,6 @@ export const BlogPost = () => {
     useEffect(() => {
         fetchBlog()
     }, [])
-
-    if (apiStatus === API_STATUS.WAITING)
-        return <Spinner />
 
     return (
         <div className="w-screen flex items-center justify-center">
@@ -78,9 +68,7 @@ export const BlogPost = () => {
 
                     {
                         apiStatus === API_STATUS.WAITING ?
-                            <div className="w-full h-full flex justify-center border border-red-600">
-                                <div className={`border-4 border-t-transparent border-white rounded-full animate-spin`}></div>
-                            </div> :
+                            <div className="w-full h-full flex justify-center items-center mt-20"><div className="w-10 h-10 border-4 border-t-transparent border-blue-500 rounded-full animate-spin"></div></div> :
                             <div>
                                 <article>
                                     <h1 className="text-2xl font-bold text-gray-900 mb-4">{blogData?.title}</h1>
