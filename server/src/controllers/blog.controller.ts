@@ -1,19 +1,19 @@
 import { Request, Response } from "express";
-import Blog, { IBlogDocument } from "@models/blog.model";
+import Blog from "@models/blog.model";
 import mongoose, { isValidObjectId } from "mongoose";
 
 export async function get_blog(req: Request, res: Response) {
     const id = req.params.id
     let blog = await Blog.findOne({ _id: id })
-    blog = await blog.populate("tags")
-    blog = await blog.populate("author")
-    blog = await blog.populate("comments")
     if (!id || !blog) {
-        res.json({
-            message: "Invalid blog"
+        res.status(404).json({
+            message: "invalid blog"
         })
         return
     }
+    blog = await blog.populate("tags")
+    blog = await blog.populate("author")
+    blog = await blog.populate("comments")
     res.json(blog)
 }
 

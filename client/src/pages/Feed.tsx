@@ -1,5 +1,67 @@
+import { useEffect, useState } from "react";
+import { Link } from "react-router";
+
+enum API_STATUS {
+    PENDING = 0, DONE, FAILED
+}
+
+export interface ITag {
+    tag: string,
+    blogsCount: number,
+    followers: number
+}
+
+export interface IComment {
+    content: string,
+    userId: string,
+    date: Date
+}
+
+export interface IUser {
+    username: string,
+}
+
+export interface IBlog {
+    _id: string,
+    title: string,
+    author: IUser,
+    content: string,
+    comments: [IComment],
+    published: boolean,
+    public: boolean,
+    image: string,
+    tags: [ITag],
+    date: Date,
+    lastUpdated: Date,
+}
+
+const WEEKDAYS: [string] = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
+const MONTHS: [string] = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December']
 
 export const Feed = () => {
+    const [feedBlogs, setFeedBlogs] = useState(null)
+    const [apiStatus, setApiStatus] = useState<API_STATUS>(API_STATUS.PENDING)
+
+    const fetchFeedBlogs = async () => {
+        const res = await fetch("http://localhost:4000/blog", {
+            method: "GET",
+        })
+        const blogs = await res.json()
+        console.log(blogs)
+        setFeedBlogs(blogs)
+        setApiStatus(API_STATUS.DONE)
+    }
+
+    useEffect(() => {
+        fetchFeedBlogs()
+    }, [])
+
+    if (apiStatus === API_STATUS.PENDING) {
+        return (
+            <div className="w-full h-full flex justify-center items-center mt-20"><div className="w-10 h-10 border-4 border-t-transparent border-blue-500 rounded-full animate-spin"></div></div>
+        )
+    }
+
     return (
         <div className="w-screen h-full flex justify-center bg-gray-100 p-6">
             <div className="max-w-6xl w-full grid grid-cols-3 gap-6">
@@ -15,13 +77,17 @@ export const Feed = () => {
 
                     {/* Blog Grid */}
                     <div className="grid grid-cols-2 gap-6">
-                        {[1, 2, 3, 4].map((id) => (
-                            <div key={id} className="bg-white border border-gray-300 p-4 rounded-lg shadow">
-                                <div className="bg-gray-300 h-40 flex items-center justify-center text-gray-500 text-lg font-bold">700 x 350</div>
-                                <p className="text-sm text-gray-600 mt-2">January 1, 2023</p>
-                                <h3 className="text-lg font-semibold text-gray-900 mt-1">Post Title</h3>
-                                <p className="text-gray-700 text-sm">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Reiciendis aliquid atque, nulla.</p>
-                                <button className="mt-3 px-3 py-2 text-sm font-semibold text-white bg-blue-600 rounded hover:bg-blue-700">Read more →</button>
+                        {feedBlogs?.map((blog: IBlog, idx: number) => (
+                            <div key={idx} className="bg-white border border-gray-300 p-4 rounded-lg shadow">
+                                <img src={`${blog.image}`} className="w-full aspect-square bg-transparent rounded-md object-cover" />
+                                <p className="text-sm text-gray-600 mt-2">{new Date(blog.date).getDate()}&nbsp;{MONTHS[new Date(blog.date).getMonth()]},&nbsp;{new Date(blog.date).getFullYear()}</p>
+                                <h3 className="text-lg font-semibold text-gray-900 mt-1">{blog.title.split(" ", 4).map((word: string, idx: number) => {
+                                    return <span key={idx}>{word}&nbsp;</span>
+                                })}{blog.content.length > 4 ? <span>...</span> : ""}</h3>
+                                <p className="text-gray-700 text-sm">{blog.content.split(" ", 5).map((word: string, idx: number) => {
+                                    return <span key={idx}>{word}&nbsp;</span>
+                                })}{blog.content.length > 5 ? <span>...</span> : ""}</p>
+                                <Link to={`http://localhost:5173/blog/${blog._id}`} className="mt-13 px-3 py-2 text-sm font-semibold text-white bg-blue-600 rounded hover:bg-blue-700">Read more →</Link>
                             </div>
                         ))}
                     </div>
