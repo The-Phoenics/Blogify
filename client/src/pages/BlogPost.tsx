@@ -90,6 +90,11 @@ const BlogBody = ({ blogData, setBlogData }) => {
             <article>
                 <h1 className="text-2xl font-bold text-gray-900 mb-4">{blogData?.title}</h1>
                 <p className="text-gray-700 text-sm mb-4">By <span className="font-semibold">{blogData?.author?.username}</span></p>
+                {
+                    blogData?.image ? <div className="h-80 mb-6 flex justify-center items-center">
+                        <img src={`${blogData?.image}`} className="h-full w-full object-contain" />
+                    </div> : ""
+                }
                 <p className="text-gray-800 text-lg leading-relaxed mb-6">
                     {blogData?.content}
                 </p>
