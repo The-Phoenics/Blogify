@@ -47,7 +47,6 @@ export const Feed = () => {
             method: "GET",
         })
         const blogs = await res.json()
-        console.log(blogs)
         setFeedBlogs(blogs)
         setApiStatus(API_STATUS.DONE)
     }
