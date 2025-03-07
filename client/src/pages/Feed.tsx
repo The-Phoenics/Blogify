@@ -1,42 +1,12 @@
 import { useEffect, useState } from "react";
 import { Link } from "react-router";
+import { IBlog } from "@/types/types";
 
 enum API_STATUS {
     PENDING = 0, DONE, FAILED
 }
 
-export interface ITag {
-    tag: string,
-    blogsCount: number,
-    followers: number
-}
-
-export interface IComment {
-    content: string,
-    userId: string,
-    date: Date
-}
-
-export interface IUser {
-    username: string,
-}
-
-export interface IBlog {
-    _id: string,
-    title: string,
-    author: IUser,
-    content: string,
-    comments: [IComment],
-    published: boolean,
-    public: boolean,
-    image: string,
-    tags: [ITag],
-    date: Date,
-    lastUpdated: Date,
-}
-
-const WEEKDAYS: [string] = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
-const MONTHS: [string] = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December']
+const MONTHS: string[] = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December']
 
 export const Feed = () => {
     const [feedBlogs, setFeedBlogs] = useState(null)

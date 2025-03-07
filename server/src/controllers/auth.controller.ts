@@ -14,6 +14,7 @@ export async function login(req: Request, res: Response) {
     const { email, password } = req.body
     if (!email || !password) {
         res.status(400).json({
+            success: false,
             message: "email and password is required"
         })
         return
@@ -24,6 +25,7 @@ export async function login(req: Request, res: Response) {
     })
     if (!user || !bcrypt.compareSync(password, user.password)) {
         res.status(404).json({
+            success: false,
             message: "email or password is incorrect"
         })
         return
@@ -36,6 +38,7 @@ export async function login(req: Request, res: Response) {
         secure: false
     })
     res.status(200).json({
+        success: true,
         message: "login success"
     })
 }
@@ -54,6 +57,7 @@ export async function logout(req: Request, res: Response) {
     }
     await session.deleteOne()
     res.status(200).json({
+        success: true,
         message: "logout success"
     })
 }

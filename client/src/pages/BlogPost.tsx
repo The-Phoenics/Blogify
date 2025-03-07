@@ -1,35 +1,7 @@
 import { useEffect, useRef, useState } from "react";
 import { SiBloglovin } from "react-icons/si";
 import { useParams } from "react-router";
-
-export interface ITag {
-    tag: string,
-    blogsCount: number,
-    followers: number
-}
-
-export interface IComment {
-    content: string,
-    userId: string,
-    date: Date
-}
-
-export interface IUser {
-    username: string,
-}
-
-export interface IBlog {
-    title: string,
-    author: IUser,
-    content: string,
-    comments: [IComment],
-    published: boolean,
-    public: boolean,
-    image: string,
-    tags: [ITag],
-    date: Date,
-    lastUpdated: Date,
-}
+import { ITag, IBlog } from "@/types/types";
 
 enum API_STATUS {
     WAITING = 1, DONE, FAILED
@@ -158,7 +130,7 @@ export const BlogPost = () => {
                     {
                         apiStatus === API_STATUS.WAITING ?
                             <div className="w-full h-full flex justify-center items-center mt-20"><div className="w-10 h-10 border-4 border-t-transparent border-blue-500 rounded-full animate-spin"></div></div> :
-                            <BlogBody blogData={blogData} />
+                            <BlogBody blogData={blogData} setBlogData={setBlogData} />
                     }
                 </div>
             </div>

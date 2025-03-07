@@ -17,21 +17,21 @@ export const EmailSentMessageInfo = () => {
 
 export const Signup = () => {
     enum API_STATUS {
-        NOTSENT = 0, WAITING, DONE
+        IDLE = 0, WAITING, DONE
     }
 
     const [emailInputValid, setEmailInputValid] = useState<boolean>(true)
     const [passwordMatching, setPasswordMatching] = useState<boolean>(true)
-    const [apiStatus, setApiStatus] = useState<API_STATUS>(API_STATUS.NOTSENT)
+    const [apiStatus, setApiStatus] = useState<API_STATUS>(API_STATUS.IDLE)
 
     const emailInputRef = useRef<HTMLInputElement>(null)
     const passwordInputRef = useRef<HTMLInputElement>(null)
     const confirmPasswordInputRef = useRef<HTMLInputElement>(null)
 
     const isInputValid = (): boolean => {
-        const emailValue = emailInputRef.current?.value
-        const passwordValue = passwordInputRef.current?.value
-        const confirmPassValue = confirmPasswordInputRef.current?.value
+        const emailValue: string | undefined = emailInputRef.current?.value
+        const passwordValue: string | undefined = passwordInputRef.current?.value
+        const confirmPassValue: string | undefined = confirmPasswordInputRef.current?.value
 
         if (!emailValue || emailValue === "" || !validate(emailValue)) {
             setEmailInputValid(false)
