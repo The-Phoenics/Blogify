@@ -1,3 +1,7 @@
+export enum API_STATUS {
+    IDLE = 0, WAITING, SUCCESS, ERROR
+}
+
 export interface ITag {
     tag: string,
     blogsCount: number,

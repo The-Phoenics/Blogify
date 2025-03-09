@@ -2,7 +2,6 @@ import { Request, Response } from "express";
 import User from "@models/user.model";
 import { generateSessionId, createSession } from "@services/auth.service";
 import { IUserDocument } from "@models/user.model";
-import * as dayjs from 'dayjs';
 import bcrypt from "bcrypt";
 import UserSession, { IUserSessionDocument } from "@models/userSession.model";
 import * as emailValidator from "email-validator";
@@ -94,7 +93,7 @@ export async function signup(req: Request, res: Response) {
         }
         res.status(200).json({
             message: "User already exist with this email",
-            redirect: `http://localhost:${process.env.PORT}/auth/login`
+            redirect: `${process.env.SERVER_ADDRESS}/${process.env.SERVER_PORT}/auth/login`
         })
         return
     }
@@ -135,13 +134,13 @@ export async function verify_email(req: Request, res: Response) {
         if (err.name === "TokenExpiredError") {
             return res.json({
                 message: "expired try again",
-                redirect: `http://localhost:${process.env.PORT}/auth/signup`,
+                redirect: `${process.env.SERVER_ADDRESS}/${process.env.SERVER_PORT}/auth/signup`,
             });
         }
         if (err.name === "JsonWebTokenError") {
             return res.json({
                 message: "invalid token",
-                redirect: `http://localhost:${process.env.PORT}/auth/signup`,
+                redirect: `${process.env.SERVER_ADDRESS}/${process.env.SERVER_PORT}/auth/signup`,
             });
         }
     }
@@ -171,6 +170,6 @@ export async function verify_email(req: Request, res: Response) {
 
     res.status(200).json({
         message: "email verified",
-        redirect: `http://localhost:${process.env.PORT}/`
+        redirect: `${process.env.SERVER_ADDRESS}/${process.env.SERVER_PORT}/`
     })
 }

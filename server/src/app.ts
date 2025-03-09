@@ -1,8 +1,7 @@
 import express, { Express } from "express";
 import middleware from "./middlewares/middleware";
 
-const app: Express = express();
-
-middleware(app)
+let app: Express = express()
+app = middleware(app)
 
 export default app

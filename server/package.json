@@ -23,7 +23,6 @@
     "bcrypt": "^5.1.1",
     "bcryptjs": "^3.0.2",
     "cookie-parser": "^1.4.7",
-    "cors": "^2.8.5",
     "crypto": "^1.0.1",
     "dayjs": "^1.11.13",
     "dotenv": "^16.4.7",
@@ -35,6 +34,7 @@
   },
   "devDependencies": {
     "@faker-js/faker": "^9.5.1",
+    "@types/cors": "^2.8.17",
     "@types/express": "^5.0.0",
     "@types/node": "^22.13.1",
     "@types/nodemailer": "^6.4.17",

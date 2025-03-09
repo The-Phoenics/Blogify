@@ -3,22 +3,19 @@ import { SiBloglovin } from "react-icons/si";
 import { Link, useNavigate } from "react-router";
 import { validate } from "email-validator";
 import { Spinner } from "@/components/Spinner";
-
-enum API_STATUS {
-    IDLE = 0, WAITING, SUCCESS, ERROR
-}
+import { API_STATUS } from "../../types/types";
 
 export const Login = () => {
-    const [emailInputValid, setEmailInputValid] = useState<boolean>(true)
-    const [passwordInputValid, setPasswordInputValid] = useState<boolean>(true)
     const emailInputRef = useRef<HTMLInputElement>(null)
     const passwordInputRef = useRef<HTMLInputElement>(null)
-
-    const navigate = useNavigate()
+    const [emailInputValid, setEmailInputValid] = useState<boolean>(true)
+    const [passwordInputValid, setPasswordInputValid] = useState<boolean>(true)
     const [apiStatus, setApiStatus] = useState<API_STATUS>(API_STATUS.IDLE)
 
+    const navigate = useNavigate()
+
     const validateInput = () => {
-        const emailValue: string | undefined = emailInputRef?.current?.value;
+        const emailValue: string | undefined = emailInputRef?.current?.value
         const passwordValue: string | undefined = passwordInputRef.current?.value
         if (!emailValue || emailValue === "" || !validate(emailValue)) {
             setEmailInputValid(false)
@@ -32,18 +29,18 @@ export const Login = () => {
     }
 
     const handleLogin = async () => {
-        setApiStatus(API_STATUS.WAITING)
-
-        if (!validateInput()) {
+        if (apiStatus === API_STATUS.WAITING || !validateInput()) {
             setApiStatus(API_STATUS.IDLE)
             return
         }
+        setApiStatus(API_STATUS.WAITING)
 
         const emailValue: string | undefined = emailInputRef.current?.value
         const passwordValue: string | undefined = passwordInputRef.current?.value
 
-        const response = await fetch("http://localhost:4000/auth/login", {
+        const response = await fetch(`${import.meta.env.VITE_SERVER_ADDRESS}${import.meta.env.VITE_SERVER_PORT}/auth/login`, {
             method: "POST",
+            credentials: 'include',
             headers: {
                 "Content-Type": "application/json"
             },
@@ -57,18 +54,18 @@ export const Login = () => {
             setApiStatus(API_STATUS.ERROR)
             setEmailInputValid(false)
             setPasswordInputValid(false)
+            return
         }
-        return
+        setApiStatus(API_STATUS.SUCCESS)
+        navigate("/feed")
     }
-    setApiStatus(API_STATUS.SUCCESS)
-    navigate("/feed")
 
     return (
         <div className="w-screen h-full flex items-center justify-center mt-[20vh]">
             <div className="flex flex-col justify-center font-[sans-serif] p-4">
                 <div className="max-w-md w-full mx-auto border border-gray-300 rounded-2xl p-8">
                     <div className="text-center mb-12">
-                        <a href="http://localhost:4000">
+                        <a href={`${import.meta.env.VITE_SERVER_ADDRESS}${import.meta.env.VITE_SERVER_PORT}/`}>
                             <div className="flex justify-center items-center flex-row w-full gap-1 text-gray-700">
                                 <SiBloglovin className='mb-1' />
                                 <p className="font-bolder">Logify</p>

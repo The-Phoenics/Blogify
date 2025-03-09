@@ -15,7 +15,7 @@ const transporter: Mail = nodemailer.createTransport({
 });
 
 function getVerificationTokenLink(user: IUserDocument): string {
-    let link: string = `http://localhost:${process.env.PORT}/auth/verifyemail/`;
+    let link: string = `${process.env.SERVER_ADDRESS}/${process.env.SERVER_PORT}/auth/verifyemail/`;
     const jwtSecret = process.env.JWT_SECRET_KEY
     if (!jwtSecret) {
         console.log("jwt secret key env variable not loaded")

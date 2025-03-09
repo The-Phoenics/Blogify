@@ -6,7 +6,6 @@ import { BlogPost } from './pages/BlogPost'
 import { Feed } from './pages/Feed'
 import { Home } from './pages/Home'
 import { NotFound } from './pages/NotFound'
-
 import { BrowserRouter, Routes, Route } from "react-router"
 
 function App() {

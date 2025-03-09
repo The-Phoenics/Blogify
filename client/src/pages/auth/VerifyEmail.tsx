@@ -22,7 +22,7 @@ export const VerifyEmail = () => {
             <div className="flex flex-col justify-center font-[sans-serif] p-4">
                 <div className="max-w-md w-full mx-auto border border-gray-300 rounded-2xl p-8">
                     <div className="text-center mb-12">
-                        <a href="http://localhost:4000">
+                        <a href={`${import.meta.env.VITE_SERVER_ADDRESS}${import.meta.env.VITE_SERVER_PORT}/`}>
                             <div className="flex justify-center items-center flex-row w-full gap-1 text-gray-700">
                                 <SiBloglovin className='mb-1' />
                                 <p className="font-bolder">Logify</p>

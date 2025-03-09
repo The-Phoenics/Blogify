@@ -1,16 +1,12 @@
 import { useEffect, useRef, useState } from "react";
 import { SiBloglovin } from "react-icons/si";
 import { useParams } from "react-router";
-import { ITag, IBlog } from "@/types/types";
-
-enum API_STATUS {
-    WAITING = 1, DONE, FAILED
-}
+import { ITag, IBlog, API_STATUS, IComment } from "@/types/types";
 
 const BlogPostHeader = () => {
     return (
         <div className="text-center mb-12">
-            <a href="http://localhost:4000">
+            <a href={`${import.meta.env.VITE_SERVER_ADDRESS}${import.meta.env.VITE_SERVER_PORT}/`}>
                 <div className="flex justify-center items-center flex-row gap-1 text-gray-700">
                     <SiBloglovin className='mb-1' />
                     <p className="font-bolder">Logify</p>
@@ -24,7 +20,7 @@ const CommentSection = ({ blogData, setBlogData }) => {
     const commentInputRef = useRef<HTMLTextAreaElement>(null)
 
     const handlePostComment = async () => {
-        const response = await fetch("http://localhost:4000/blog/comment", {
+        const response = await fetch(`${import.meta.env.VITE_SERVER_ADDRESS}${import.meta.env.VITE_SERVER_PORT}/blog/comment`, {
             method: "POST",
             headers: {
                 "Content-Type": "application/json"
@@ -41,7 +37,7 @@ const CommentSection = ({ blogData, setBlogData }) => {
         <div className="mt-14">
             <h2 className="text-xl font-semibold text-gray-900 mb-4">Comments</h2>
             {
-                blogData?.comments?.map((comment, idx: number) => {
+                blogData?.comments?.map((comment: IComment, idx: number) => {
                     return <div key={idx} className="border border-gray-300 p-4 rounded-lg">
                         <p className="text-gray-800 text-sm">{comment.content}</p>
                     </div>
@@ -94,24 +90,23 @@ export const BlogPost = () => {
     const params = useParams()
 
     const fetchBlog = async () => {
-        const response = await fetch(`http://localhost:4000/blog/${params.blogId}`, {
+        const response = await fetch(`${import.meta.env.VITE_SERVER_ADDRESS}${import.meta.env.VITE_SERVER_PORT}/blog/${params.blogId}`, {
             method: "GET",
         });
-        const result: IBlog = await response.json()
+        const result = await response.json()
         if (result.message === "invalid blog") {
-            setApiStatus(API_STATUS.FAILED)
+            setApiStatus(API_STATUS.ERROR)
         } else {
-            setApiStatus(API_STATUS.DONE)
+            setApiStatus(API_STATUS.SUCCESS)
             setBlogData(result)
         }
-        console.log(result)
     }
 
     useEffect(() => {
         fetchBlog()
     }, [])
 
-    if (apiStatus === API_STATUS.FAILED) {
+    if (apiStatus === API_STATUS.ERROR) {
         return (<div className="w-screen flex items-center justify-center">
             <div className="flex flex-col justify-center font-[sans-serif] p-4">
                 <div className="rounded-2xl p-8">

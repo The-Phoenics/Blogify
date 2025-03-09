@@ -1,31 +1,30 @@
 import { useEffect, useState } from "react";
 import { Link } from "react-router";
-import { IBlog } from "@/types/types";
-
-enum API_STATUS {
-    PENDING = 0, DONE, FAILED
-}
+import { API_STATUS, IBlog } from "../types/types";
 
 const MONTHS: string[] = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December']
 
 export const Feed = () => {
     const [feedBlogs, setFeedBlogs] = useState(null)
-    const [apiStatus, setApiStatus] = useState<API_STATUS>(API_STATUS.PENDING)
+    const [apiStatus, setApiStatus] = useState<API_STATUS>(API_STATUS.WAITING)
 
     const fetchFeedBlogs = async () => {
-        const res = await fetch("http://localhost:4000/blog", {
-            method: "GET",
-        })
+        const url = `${import.meta.env.VITE_SERVER_ADDRESS}${import.meta.env.VITE_SERVER_PORT}/blog`
+        const res = await fetch(url)
+        if (!res.ok) {
+            setApiStatus(API_STATUS.ERROR)
+            return
+        }
         const blogs = await res.json()
         setFeedBlogs(blogs)
-        setApiStatus(API_STATUS.DONE)
+        setApiStatus(API_STATUS.SUCCESS)
     }
 
     useEffect(() => {
         fetchFeedBlogs()
     }, [])
 
-    if (apiStatus === API_STATUS.PENDING) {
+    if (apiStatus === API_STATUS.WAITING) {
         return (
             <div className="w-full h-full flex justify-center items-center mt-20"><div className="w-10 h-10 border-4 border-t-transparent border-blue-500 rounded-full animate-spin"></div></div>
         )
@@ -36,13 +35,13 @@ export const Feed = () => {
             <div className="max-w-6xl w-full grid grid-cols-3 gap-6">
                 <div className="col-span-2">
                     {/* Featured Post */}
-                    <div className="bg-white border border-gray-300 p-6 rounded-lg mb-6 shadow">
+                    {/* <div className="bg-white border border-gray-300 p-6 rounded-lg mb-6 shadow">
                         <div className="bg-gray-300 h-64 flex items-center justify-center text-gray-500 text-xl font-bold">850 x 350</div>
                         <p className="text-sm text-gray-600 mt-4">January 1, 2023</p>
                         <h2 className="text-2xl font-bold text-gray-900 mt-2">Featured Post Title</h2>
                         <p className="text-gray-700 mt-2">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Reiciendis aliquid atque, nulla?</p>
                         <button className="mt-4 px-4 py-2 text-sm font-semibold text-white bg-blue-600 rounded hover:bg-blue-700">Read more →</button>
-                    </div>
+                    </div> */}
 
                     {/* Blog Grid */}
                     <div className="grid grid-cols-2 gap-6">
@@ -56,7 +55,7 @@ export const Feed = () => {
                                 <p className="text-gray-700 text-sm">{blog.content.split(" ", 5).map((word: string, idx: number) => {
                                     return <span key={idx}>{word}&nbsp;</span>
                                 })}{blog.content.length > 5 ? <span>...</span> : ""}</p>
-                                <Link to={`http://localhost:5173/blog/${blog._id}`} className="mt-13 px-3 py-2 text-sm font-semibold text-white bg-blue-600 rounded hover:bg-blue-700">Read more →</Link>
+                                <Link to={`${import.meta.env.VITE_SERVER_ADDRESS}${import.meta.env.VITE_SERVER_PORT}/blog/${blog._id}`} className="mt-13 px-3 py-2 text-sm font-semibold text-white bg-blue-600 rounded hover:bg-blue-700">Read more →</Link>
                             </div>
                         ))}
                     </div>

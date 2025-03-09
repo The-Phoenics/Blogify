@@ -3,6 +3,7 @@ import { SiBloglovin } from "react-icons/si";
 import { Link } from "react-router";
 import { validate } from "email-validator"
 import { Spinner } from "@/components/Spinner";
+import { API_STATUS } from "@/types/types";
 
 export const EmailSentMessageInfo = () => {
     return (
@@ -16,10 +17,6 @@ export const EmailSentMessageInfo = () => {
 }
 
 export const Signup = () => {
-    enum API_STATUS {
-        IDLE = 0, WAITING, DONE
-    }
-
     const [emailInputValid, setEmailInputValid] = useState<boolean>(true)
     const [passwordMatching, setPasswordMatching] = useState<boolean>(true)
     const [apiStatus, setApiStatus] = useState<API_STATUS>(API_STATUS.IDLE)
@@ -52,7 +49,8 @@ export const Signup = () => {
         const emailValue = emailInputRef.current?.value
         const passwordValue = passwordInputRef.current?.value
         setApiStatus(API_STATUS.WAITING)
-        const response = await fetch("http://localhost:4000/auth/signup", {
+
+        const response = await fetch(`${import.meta.env.VITE_SERVER_ADDRESS}${import.meta.env.VITE_SERVER_PORT}/auth/signup`, {
             method: "POST",
             headers: {
                 "Content-Type": "application/json"
@@ -64,20 +62,19 @@ export const Signup = () => {
         });
         const result = await response.json();
         if (result.success == true) {
-            setApiStatus(API_STATUS.DONE)
-        } else {
-            console.log(result.message)
+            setApiStatus(API_STATUS.SUCCESS)
         }
     }
 
     // Handle signup form submission on sign up click
     const handleSignup = async () => {
-        if (isInputValid() && apiStatus !== API_STATUS.WAITING) {
+        if (apiStatus !== API_STATUS.WAITING && isInputValid()) {
             await sendSignUpRequest()
         }
+        setApiStatus(API_STATUS.IDLE)
     }
 
-    if (apiStatus === API_STATUS.DONE)
+    if (apiStatus === API_STATUS.SUCCESS)
         return <EmailSentMessageInfo />
 
     return (
@@ -85,7 +82,7 @@ export const Signup = () => {
             <div className="flex flex-col justify-center font-[sans-serif] p-4">
                 <div className="max-w-md w-full mx-auto border border-gray-300 rounded-2xl p-8">
                     <div className="text-center mb-12">
-                        <a href="http://localhost:4000">
+                        <a href={`${import.meta.env.VITE_SERVER_ADDRESS}${import.meta.env.VITE_SERVER_PORT}/`}>
                             <div className="flex justify-center items-center flex-row w-full gap-1 text-gray-700">
                                 <SiBloglovin className='mb-1' />
                                 <p className="font-bolder">Logify</p>

@@ -22,6 +22,7 @@ export async function get_blogs(req: Request, res: Response) {
     const blogs = await Blog.find(searchBlog)
     if (!blogs) {
         res.json({
+            success: false,
             message: "No such blogs"
         })
         return

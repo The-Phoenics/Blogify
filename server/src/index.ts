@@ -26,7 +26,7 @@ app.get('*', (req: Request, res: Response) => {
 
 async function startServer(): Promise<void> {
     await connectDB(() => {
-        app.listen(process.env.PORT, () => console.log(`SUCCESS: Server started at port ${process.env.PORT}`))
+        app.listen(process.env.SERVER_PORT, () => console.log(`SUCCESS: Server started at port ${process.env.SERVER_PORT}`))
     })
 }
 
