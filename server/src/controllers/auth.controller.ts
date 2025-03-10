@@ -66,6 +66,7 @@ export async function signup(req: Request, res: Response) {
     // check if email or password is missing
     if (!email || !password) {
         res.status(400).json({
+            success: false,
             message: "Email and password is required"
         })
         return
@@ -73,6 +74,7 @@ export async function signup(req: Request, res: Response) {
     // email validation
     if (!emailValidator.validate(email)) {
         res.status(400).json({
+            success: false,
             message: "Invalid email"
         })
         return
@@ -92,6 +94,7 @@ export async function signup(req: Request, res: Response) {
             return
         }
         res.status(200).json({
+            success: false,
             message: "User already exist with this email",
             redirect: `${process.env.SERVER_ADDRESS}/${process.env.SERVER_PORT}/auth/login`
         })
@@ -118,6 +121,7 @@ export async function signup(req: Request, res: Response) {
 
 export async function verify_email(req: Request, res: Response) {
     const verificationToken: string = req.params.token;
+    console.log(verificationToken)
     if (!verificationToken) {
         res.status(200).json({
             message: "verification token not provided"

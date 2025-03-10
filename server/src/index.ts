@@ -12,14 +12,11 @@ import "@models/index.js"
 import userRouter from "@routes/user.route.js";
 import blogRouter from "@routes/blog.route.js";
 import authRouter from "@routes/auth.route.js";
-import { authenticateUser } from "@services/auth.service.js";
+import { verifyUserSession } from "@middlewares/verifyUserSession.js";
 
 app.use('/user', userRouter)
 app.use('/blog', blogRouter)
 app.use('/auth', authRouter)
-app.use('/pres', authenticateUser, (req: Request, res: Response) => {
-    res.status(200).json({ message: 'You are authorized to see protected resource' })
-})
 app.get('*', (req: Request, res: Response) => {
     res.status(404).json({ message: "404 NOT FOUND" })
 })

@@ -36,6 +36,6 @@ export async function sendVerificationLink(email: string, user: IUserDocument) {
         to: email,
         subject: "Email verification",
         text: `Click the link below to verify your account:`,
-        html: `Click this link to verify your accound: <a href=${link}>${link}<h5>`,
+        html: `Click this link to verify your account: <a href=${link}>${link}<h5>`,
     });
 }

@@ -10,7 +10,9 @@ export const Feed = () => {
 
     const fetchFeedBlogs = async () => {
         const url = `${import.meta.env.VITE_SERVER_ADDRESS}${import.meta.env.VITE_SERVER_PORT}/blog`
-        const res = await fetch(url)
+        const res = await fetch(url, {
+            credentials: "same-origin"
+        })
         if (!res.ok) {
             setApiStatus(API_STATUS.ERROR)
             return
