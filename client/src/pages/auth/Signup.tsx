@@ -1,7 +1,7 @@
 import { useRef, useState } from "react";
 import { SiBloglovin } from "react-icons/si";
 import { Link } from "react-router";
-import { validate } from "email-validator"
+import { validate } from "email-validator";
 import { Spinner } from "@/components/Spinner";
 import { API_STATUS } from "@/types/types";
 
@@ -61,8 +61,10 @@ export const Signup = () => {
             }),
         });
         const result = await response.json();
-        if (result.success == true) {
+        if (result.success === true) {
             setApiStatus(API_STATUS.SUCCESS)
+        } else {
+            setApiStatus(API_STATUS.ERROR)
         }
     }
 
@@ -71,8 +73,10 @@ export const Signup = () => {
         if (apiStatus !== API_STATUS.WAITING && isInputValid()) {
             await sendSignUpRequest()
         }
-        setApiStatus(API_STATUS.IDLE)
     }
+
+    if (apiStatus === API_STATUS.ERROR)
+        return <div>Failed to signup!</div>
 
     if (apiStatus === API_STATUS.SUCCESS)
         return <EmailSentMessageInfo />

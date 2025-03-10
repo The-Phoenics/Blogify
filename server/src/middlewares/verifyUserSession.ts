@@ -6,10 +6,8 @@ import { Request, Response, NextFunction } from "express"
 export async function verifyUserSession(req: Request, res: Response, next: NextFunction) {
     const cookie = req.cookies
     const session: IUserSessionDocument = await UserSession.findOne({
-        sid: cookie.sid
+        sid: cookie["sid"]
     })
-    console.log(cookie)
-    console.log(session)
     if (!session) {
         res.status(401).json({
             messsage: "unauthorized"

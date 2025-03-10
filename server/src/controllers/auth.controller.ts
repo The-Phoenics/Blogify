@@ -1,4 +1,4 @@
-import { Request, Response } from "express";
+import { CookieOptions, Request, Response } from "express";
 import User from "@models/user.model";
 import { generateSessionId, createSession } from "@services/auth.service";
 import { IUserDocument } from "@models/user.model";
@@ -8,6 +8,13 @@ import * as emailValidator from "email-validator";
 import { createUser } from "@services/user.service";
 import jwt from "jsonwebtoken"
 import { sendVerificationLink } from "@services/mail.service";
+
+const cookieOptions: CookieOptions = {
+    secure: true,
+    httpOnly: true,
+    sameSite: "none",
+    maxAge: 1000 * 60 * 10 // 10 min
+}
 
 export async function login(req: Request, res: Response) {
     const { email, password } = req.body
@@ -33,9 +40,7 @@ export async function login(req: Request, res: Response) {
     // create session for user login
     const sid = await generateSessionId()
     const session = await createSession(sid, user._id)
-    res.cookie("sid", sid, {
-        secure: false
-    })
+    res.cookie("sid", sid, cookieOptions)
     res.status(200).json({
         success: true,
         message: "login success"
@@ -96,7 +101,7 @@ export async function signup(req: Request, res: Response) {
         res.status(200).json({
             success: false,
             message: "User already exist with this email",
-            redirect: `${process.env.SERVER_ADDRESS}/${process.env.SERVER_PORT}/auth/login`
+            redirect: `${process.env.SERVER_ADDRESS}:${process.env.SERVER_PORT}/auth/login`
         })
         return
     }
@@ -138,13 +143,13 @@ export async function verify_email(req: Request, res: Response) {
         if (err.name === "TokenExpiredError") {
             return res.json({
                 message: "expired try again",
-                redirect: `${process.env.SERVER_ADDRESS}/${process.env.SERVER_PORT}/auth/signup`,
+                redirect: `${process.env.SERVER_ADDRESS}:${process.env.SERVER_PORT}/auth/signup`,
             });
         }
         if (err.name === "JsonWebTokenError") {
             return res.json({
                 message: "invalid token",
-                redirect: `${process.env.SERVER_ADDRESS}/${process.env.SERVER_PORT}/auth/signup`,
+                redirect: `${process.env.SERVER_ADDRESS}:${process.env.SERVER_PORT}/auth/signup`,
             });
         }
     }
@@ -168,12 +173,10 @@ export async function verify_email(req: Request, res: Response) {
     // create session for user signup
     const sid: string = await generateSessionId()
     const session: IUserSessionDocument = await createSession(sid, user._id)
-    res.cookie("sid", sid, {
-        secure: false
-    })
+    res.cookie("sid", sid, cookieOptions)
 
     res.status(200).json({
         message: "email verified",
-        redirect: `${process.env.SERVER_ADDRESS}/${process.env.SERVER_PORT}/`
+        redirect: `${process.env.SERVER_ADDRESS}:${process.env.SERVER_PORT}/`
     })
 }

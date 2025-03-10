@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { Link } from "react-router";
+import { Link, useNavigate } from "react-router";
 import { API_STATUS, IBlog } from "../types/types";
 
 const MONTHS: string[] = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December']
@@ -8,13 +8,16 @@ export const Feed = () => {
     const [feedBlogs, setFeedBlogs] = useState(null)
     const [apiStatus, setApiStatus] = useState<API_STATUS>(API_STATUS.WAITING)
 
+    const navigate = useNavigate()
+
     const fetchFeedBlogs = async () => {
         const url = `${import.meta.env.VITE_SERVER_ADDRESS}${import.meta.env.VITE_SERVER_PORT}/blog`
         const res = await fetch(url, {
-            credentials: "same-origin"
+            credentials: "include"
         })
         if (!res.ok) {
             setApiStatus(API_STATUS.ERROR)
+            navigate("/login")
             return
         }
         const blogs = await res.json()
@@ -57,7 +60,7 @@ export const Feed = () => {
                                 <p className="text-gray-700 text-sm">{blog.content.split(" ", 5).map((word: string, idx: number) => {
                                     return <span key={idx}>{word}&nbsp;</span>
                                 })}{blog.content.length > 5 ? <span>...</span> : ""}</p>
-                                <Link to={`${import.meta.env.VITE_SERVER_ADDRESS}${import.meta.env.VITE_SERVER_PORT}/blog/${blog._id}`} className="mt-13 px-3 py-2 text-sm font-semibold text-white bg-blue-600 rounded hover:bg-blue-700">Read more →</Link>
+                                <Link to={`/blog/${blog._id}`} className="mt-13 px-3 py-2 text-sm font-semibold text-white bg-blue-600 rounded hover:bg-blue-700">Read more →</Link>
                             </div>
                         ))}
                     </div>

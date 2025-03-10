@@ -2,6 +2,7 @@ import dotenv from "dotenv";
 dotenv.config();
 import express, { Request, Response, Express, NextFunction } from "express";
 import cookieParser from "cookie-parser";
+import cors from "cors"
 
 const clientReqUrl = "http://localhost:5173"
 
@@ -17,7 +18,14 @@ function middleware(app: Express): Express {
     app.use(express.json())
     app.use(express.urlencoded({ extended: true }))
     app.use(cookieParser())
-    app.use(allowCrossDomain)
+    // app.use(allowCrossDomain)
+    app.use(
+        cors({
+            origin: [`${clientReqUrl}`],
+            methods: ["GET", "POST", "PUT", "OPTIONS", "DELETE"],
+            credentials: true
+        })
+    );
     return app
 }
 
