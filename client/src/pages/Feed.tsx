@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { Link, useNavigate } from "react-router";
 import { API_STATUS, IBlog } from "../types/types";
 
@@ -9,6 +9,7 @@ export const Feed = () => {
     const [apiStatus, setApiStatus] = useState<API_STATUS>(API_STATUS.WAITING)
 
     const navigate = useNavigate()
+    const searchInputRef = useRef<HTMLInputElement>(undefined)
 
     const fetchFeedBlogs = async () => {
         const url = `${import.meta.env.VITE_SERVER_ADDRESS}${import.meta.env.VITE_SERVER_PORT}/blog`
@@ -28,6 +29,14 @@ export const Feed = () => {
     useEffect(() => {
         fetchFeedBlogs()
     }, [])
+
+    const searchBlogs = () => {
+        const searchString = searchInputRef.current?.value
+        console.log(searchString)
+        if (searchString?.trim() === "") {
+            // search blogs
+        }
+    }
 
     if (apiStatus === API_STATUS.WAITING) {
         return (
@@ -51,13 +60,13 @@ export const Feed = () => {
                     {/* Blog Grid */}
                     <div className="grid grid-cols-2 gap-6">
                         {feedBlogs?.map((blog: IBlog, idx: number) => (
-                            <div key={idx} className="bg-white border border-gray-300 p-4 rounded-lg shadow">
+                            <div key={idx} className="pb-6 bg-white border border-gray-300 p-4 rounded-lg shadow">
                                 <img src={`${blog.image}`} className="w-full aspect-square bg-transparent rounded-md object-cover" />
                                 <p className="text-sm text-gray-600 mt-2">{new Date(blog.date).getDate()}&nbsp;{MONTHS[new Date(blog.date).getMonth()]},&nbsp;{new Date(blog.date).getFullYear()}</p>
                                 <h3 className="text-lg font-semibold text-gray-900 mt-1">{blog.title.split(" ", 4).map((word: string, idx: number) => {
                                     return <span key={idx}>{word}&nbsp;</span>
                                 })}{blog.content.length > 4 ? <span>...</span> : ""}</h3>
-                                <p className="text-gray-700 text-sm">{blog.content.split(" ", 5).map((word: string, idx: number) => {
+                                <p className="text-gray-700 mb-4 text-sm">{blog.content.split(" ", 5).map((word: string, idx: number) => {
                                     return <span key={idx}>{word}&nbsp;</span>
                                 })}{blog.content.length > 5 ? <span>...</span> : ""}</p>
                                 <Link to={`/blog/${blog._id}`} className="mt-13 px-3 py-2 text-sm font-semibold text-white bg-blue-600 rounded hover:bg-blue-700">Read more →</Link>
@@ -70,7 +79,7 @@ export const Feed = () => {
                 <div className="space-y-6">
                     <div className="bg-white border border-gray-300 p-4 rounded-lg shadow">
                         <h4 className="font-semibold text-gray-900 mb-2">Search</h4>
-                        <input type="text" className="w-full border border-gray-300 p-2 rounded-md" placeholder="Enter search term..." />
+                        <input ref={searchInputRef} onChange={searchBlogs} type="text" className="w-full border border-gray-300 p-2 rounded-md" placeholder="Enter search term..." />
                         <button className="mt-2 w-full bg-blue-600 text-white py-2 rounded hover:bg-blue-700">Go!</button>
                     </div>
                     <div className="bg-white border border-gray-300 p-4 rounded-lg shadow">
