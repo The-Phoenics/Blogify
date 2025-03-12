@@ -4,8 +4,14 @@ import mongoose, { isValidObjectId } from "mongoose";
 
 export async function get_blog(req: Request, res: Response) {
     const id = req.params.id
+    if (!id) {
+        res.status(404).json({
+            message: "invalid blog"
+        })
+        return
+    }
     let blog = await Blog.findOne({ _id: id })
-    if (!id || !blog) {
+    if (!blog) {
         res.status(404).json({
             message: "invalid blog"
         })
@@ -87,4 +93,40 @@ export async function delete_blog(req: Request, res: Response) {
 
 export async function create_comment(req: Request, res: Response) {
     // TODO: implement this route for handling comment creation
+}
+
+export async function search_blog(req: Request, res: Response) {
+    let searchString = req.query.title
+    searchString = searchString.trim()
+    if (!searchString) {
+        res.json({
+            message: "empty search string"
+        })
+        return
+    }
+    const regexFilter = []
+    searchString.split(" ").forEach(word => {
+        regexFilter.push({ "title": { $regex: new RegExp(`${word}`, "i") } })
+    })
+    let result;
+    try {
+        result = await Blog.find({
+            $or: regexFilter
+        });
+        console.log(result);
+    } catch (error) {
+        console.error("Error searching for blogs:", error);
+    }
+    console.log("result:", result)
+
+    if (!result) {
+        res.json({
+            message: "search not found"
+        })
+        return
+    }
+    res.status(200).json({
+        message: "found matches",
+        data: result
+    })
 }

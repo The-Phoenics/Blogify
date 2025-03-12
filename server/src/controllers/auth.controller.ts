@@ -13,7 +13,7 @@ const cookieOptions: CookieOptions = {
     secure: true,
     httpOnly: true,
     sameSite: "none",
-    maxAge: 1000 * 60 * 10 // 10 min
+    maxAge: 1000 * 60 * 60 * 2 // 60min * 2days
 }
 
 export async function login(req: Request, res: Response) {
