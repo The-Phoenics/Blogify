@@ -1,12 +1,15 @@
 import { useEffect, useRef, useState } from "react";
 import { Link, useNavigate } from "react-router";
 import { API_STATUS, IBlog } from "../types/types";
+import { IoDocumentTextOutline } from "react-icons/io5";
+import Header from "@/components/Header";
 
 const MONTHS: string[] = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December']
 
 export const Feed = () => {
     const [feedBlogs, setFeedBlogs] = useState<IBlog[]>([])
     const [apiStatus, setApiStatus] = useState<API_STATUS>(API_STATUS.WAITING)
+    const [searchNotFound, setSearchNotFound] = useState<boolean>(false)
 
     const navigate = useNavigate()
     const searchInputRef = useRef<HTMLInputElement>(undefined)
@@ -36,6 +39,9 @@ export const Feed = () => {
             console.log(res)
             if (res.ok) {
                 const result = await res.json()
+                if (result.data.length === 0) {
+                    setSearchNotFound(true)
+                }
                 if (result.message === "found matches") {
                     setFeedBlogs([...result.data])
                 }
@@ -54,8 +60,9 @@ export const Feed = () => {
     }
 
     return (
-        <div className="w-screen h-full flex justify-center bg-gray-100 p-6">
-            <div className="max-w-6xl w-full grid grid-cols-3 gap-6">
+        <div className="w-screen flex flex-col justify-center bg-gray-100">
+            <Header />
+            <div className="max-w-6xl w-full grid grid-cols-3 gap-6 p-6">
                 <div className="col-span-2">
                     {/* Featured Post */}
                     {/* <div className="bg-white border border-gray-300 p-6 rounded-lg mb-6 shadow">
@@ -67,21 +74,28 @@ export const Feed = () => {
                     </div> */}
 
                     {/* Blog Grid */}
-                    <div className="grid grid-cols-2 gap-6">
-                        {feedBlogs?.map((blog: IBlog, idx: number) => (
-                            <div key={idx} className="pb-6 bg-white border border-gray-300 p-4 rounded-lg shadow">
-                                <img src={`${blog.image}`} className="w-full aspect-square bg-transparent rounded-md object-cover" />
-                                <p className="text-sm text-gray-600 mt-2">{new Date(blog.date).getDate()}&nbsp;{MONTHS[new Date(blog.date).getMonth()]},&nbsp;{new Date(blog.date).getFullYear()}</p>
-                                <h3 className="text-lg font-semibold text-gray-900 mt-1">{blog.title.split(" ", 4).map((word: string, idx: number) => {
-                                    return <span key={idx}>{word}&nbsp;</span>
-                                })}{blog.content.length > 4 ? <span>...</span> : ""}</h3>
-                                <p className="text-gray-700 mb-4 text-sm">{blog.content.split(" ", 5).map((word: string, idx: number) => {
-                                    return <span key={idx}>{word}&nbsp;</span>
-                                })}{blog.content.length > 5 ? <span>...</span> : ""}</p>
-                                <Link to={`/blog/${blog._id}`} className="mt-13 px-3 py-2 text-sm font-semibold text-white bg-blue-600 rounded hover:bg-blue-700">Read more →</Link>
+                    {
+                        searchNotFound ? <div className="flex flex-col items-center justify-center py-10 mt-6">
+                            <IoDocumentTextOutline size={"2.5rem"} />
+                            <h2 className="mt-2">Not found!</h2>
+                            <p className="text-gray-500 text-sm mt-1">Try searching for something else.</p>
+                        </div> :
+                            <div className="grid grid-cols-2 gap-6">
+                                {feedBlogs?.map((blog: IBlog, idx: number) => (
+                                    <div key={idx} className="pb-6 bg-white border border-gray-300 p-4 rounded-lg shadow">
+                                        <img src={`${blog.image}`} className="w-full aspect-square bg-transparent rounded-md object-cover" />
+                                        <p className="text-sm text-gray-600 mt-2">{new Date(blog.date).getDate()}&nbsp;{MONTHS[new Date(blog.date).getMonth()]},&nbsp;{new Date(blog.date).getFullYear()}</p>
+                                        <h3 className="text-lg font-semibold text-gray-900 mt-1">{blog.title.split(" ", 4).map((word: string, idx: number) => {
+                                            return <span key={idx}>{word}&nbsp;</span>
+                                        })}{blog.content.length > 4 ? <span>...</span> : ""}</h3>
+                                        <p className="text-gray-700 mb-4 text-sm">{blog.content.split(" ", 5).map((word: string, idx: number) => {
+                                            return <span key={idx}>{word}&nbsp;</span>
+                                        })}{blog.content.length > 5 ? <span>...</span> : ""}</p>
+                                        <Link to={`/blog/${blog._id}`} className="mt-13 px-3 py-2 text-sm font-semibold text-white bg-blue-600 rounded hover:bg-blue-700">Read more →</Link>
+                                    </div>
+                                ))}
                             </div>
-                        ))}
-                    </div>
+                    }
                 </div>
 
                 {/* Sidebar */}

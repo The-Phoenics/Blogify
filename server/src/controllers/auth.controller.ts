@@ -45,7 +45,6 @@ export async function login(req: Request, res: Response) {
         success: true,
         message: "login success"
     })
-    // res.redirect(`${process.env.CLIENT_ADDRESS}/feed`)
 }
 
 export async function logout(req: Request, res: Response) {

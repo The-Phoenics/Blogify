@@ -1,20 +1,7 @@
 import { useEffect, useRef, useState } from "react";
-import { SiBloglovin } from "react-icons/si";
 import { useParams } from "react-router";
 import { ITag, IBlog, API_STATUS, IComment } from "@/types/types";
-
-const BlogPostHeader = () => {
-    return (
-        <div className="text-center mb-12">
-            <a href={`${import.meta.env.VITE_SERVER_ADDRESS}${import.meta.env.VITE_SERVER_PORT}/`}>
-                <div className="flex justify-center items-center flex-row gap-1 text-gray-700">
-                    <SiBloglovin className='mb-1' />
-                    <p className="font-bolder">Logify</p>
-                </div>
-            </a>
-        </div>
-    )
-}
+import Header from "@/components/Header";
 
 const CommentSection = ({ blogData, setBlogData }) => {
     const commentInputRef = useRef<HTMLTextAreaElement>(null)
@@ -45,7 +32,7 @@ const CommentSection = ({ blogData, setBlogData }) => {
                 })
             }
             <textarea ref={commentInputRef} className="mt-8 p-2 px-4 w-full border border-gray-300 rounded-md text-gray-800" placeholder="Add a comment..."></textarea>
-            <button className="mt-2 py-2 px-4 text-sm tracking-wider font-semibold rounded-md text-white bg-blue-600 hover:bg-blue-700 focus:outline-none" onClick={handlePostComment}>
+            <button className="mt-4 py-2 px-4 text-sm tracking-wider font-semibold rounded-md text-white bg-blue-600 hover:bg-blue-700 focus:outline-none" onClick={handlePostComment}>
                 Post Comment
             </button>
         </div>
@@ -54,7 +41,7 @@ const CommentSection = ({ blogData, setBlogData }) => {
 
 const BlogBody = ({ blogData, setBlogData }) => {
     return (
-        <div>
+        <div className="px-6">
             <article>
                 <h1 className="text-2xl font-bold text-gray-900 mb-4">{blogData?.title}</h1>
                 <p className="text-gray-700 text-sm mb-4">By <span className="font-semibold">{blogData?.author?.username}</span></p>
@@ -108,9 +95,9 @@ export const BlogPost = () => {
 
     if (apiStatus === API_STATUS.ERROR) {
         return (<div className="w-screen flex items-center justify-center">
-            <div className="flex flex-col justify-center font-[sans-serif] p-4">
-                <div className="rounded-2xl p-8">
-                    <BlogPostHeader />
+            <div className="flex flex-col justify-center font-[sans-serif]">
+                <div className="rounded-2xl">
+                    <Header />
                     <div>Couldn't find this blog</div>
                 </div>
             </div>
@@ -119,9 +106,9 @@ export const BlogPost = () => {
 
     return (
         <div className="w-screen flex items-center justify-center">
-            <div className="flex flex-col justify-center font-[sans-serif] p-4">
-                <div className="rounded-2xl p-8">
-                    <BlogPostHeader />
+            <div className="flex flex-col justify-center font-[sans-serif]">
+                <div className="rounded-2xl pb-6">
+                    <Header />
                     {
                         apiStatus === API_STATUS.WAITING ?
                             <div className="w-full h-full flex justify-center items-center mt-20"><div className="w-10 h-10 border-4 border-t-transparent border-blue-500 rounded-full animate-spin"></div></div> :
