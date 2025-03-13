@@ -104,20 +104,20 @@ export async function search_blog(req: Request, res: Response) {
         })
         return
     }
+
     const regexFilter = []
     searchString.split(" ").forEach(word => {
         regexFilter.push({ "title": { $regex: new RegExp(`${word}`, "i") } })
     })
+    // search blogs
     let result;
     try {
         result = await Blog.find({
             $or: regexFilter
         });
-        console.log(result);
     } catch (error) {
         console.error("Error searching for blogs:", error);
     }
-    console.log("result:", result)
 
     if (!result) {
         res.json({

@@ -5,7 +5,7 @@ import { API_STATUS, IBlog } from "../types/types";
 const MONTHS: string[] = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December']
 
 export const Feed = () => {
-    const [feedBlogs, setFeedBlogs] = useState(null)
+    const [feedBlogs, setFeedBlogs] = useState<IBlog[]>([])
     const [apiStatus, setApiStatus] = useState<API_STATUS>(API_STATUS.WAITING)
 
     const navigate = useNavigate()
@@ -26,17 +26,26 @@ export const Feed = () => {
         setApiStatus(API_STATUS.SUCCESS)
     }
 
+    const searchBlogs = async () => {
+        const searchString = searchInputRef.current?.value
+        if (searchString?.trim() !== "") {
+            const url = `${import.meta.env.VITE_SERVER_ADDRESS}${import.meta.env.VITE_SERVER_PORT}/blog/search?title=${searchString}`
+            const res = await fetch(url, {
+                credentials: "include"
+            })
+            console.log(res)
+            if (res.ok) {
+                const result = await res.json()
+                if (result.message === "found matches") {
+                    setFeedBlogs([...result.data])
+                }
+            }
+        }
+    }
+
     useEffect(() => {
         fetchFeedBlogs()
     }, [])
-
-    const searchBlogs = () => {
-        const searchString = searchInputRef.current?.value
-        console.log(searchString)
-        if (searchString?.trim() === "") {
-            // search blogs
-        }
-    }
 
     if (apiStatus === API_STATUS.WAITING) {
         return (
@@ -79,8 +88,8 @@ export const Feed = () => {
                 <div className="space-y-6">
                     <div className="bg-white border border-gray-300 p-4 rounded-lg shadow">
                         <h4 className="font-semibold text-gray-900 mb-2">Search</h4>
-                        <input ref={searchInputRef} onChange={searchBlogs} type="text" className="w-full border border-gray-300 p-2 rounded-md" placeholder="Enter search term..." />
-                        <button className="mt-2 w-full bg-blue-600 text-white py-2 rounded hover:bg-blue-700">Go!</button>
+                        <input ref={searchInputRef} type="text" className="w-full border border-gray-300 p-2 rounded-md" placeholder="Enter search term..." />
+                        <button onClick={searchBlogs} className="mt-2 w-full bg-blue-600 text-white py-2 rounded hover:bg-blue-700">Go!</button>
                     </div>
                     <div className="bg-white border border-gray-300 p-4 rounded-lg shadow">
                         <h4 className="font-semibold text-gray-900 mb-4">Categories</h4>
