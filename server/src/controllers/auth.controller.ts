@@ -13,7 +13,7 @@ const cookieOptions: CookieOptions = {
     secure: true,
     httpOnly: true,
     sameSite: "none",
-    maxAge: 1000 * 60 * 60 * 2 // 60min * 2days
+    maxAge: 3600000 * 24 * 2 // 1hour * 24 x 2 = 2days
 }
 
 export async function login(req: Request, res: Response) {
@@ -45,6 +45,7 @@ export async function login(req: Request, res: Response) {
         success: true,
         message: "login success"
     })
+    // res.redirect(`${process.env.CLIENT_ADDRESS}/feed`)
 }
 
 export async function logout(req: Request, res: Response) {
@@ -126,7 +127,6 @@ export async function signup(req: Request, res: Response) {
 
 export async function verify_email(req: Request, res: Response) {
     const verificationToken: string = req.params.token;
-    console.log(verificationToken)
     if (!verificationToken) {
         res.status(200).json({
             message: "verification token not provided"
@@ -174,9 +174,5 @@ export async function verify_email(req: Request, res: Response) {
     const sid: string = await generateSessionId()
     const session: IUserSessionDocument = await createSession(sid, user._id)
     res.cookie("sid", sid, cookieOptions)
-
-    res.status(200).json({
-        message: "email verified",
-        redirect: `${process.env.SERVER_ADDRESS}:${process.env.SERVER_PORT}/`
-    })
+    res.redirect(`${process.env.CLIENT_ADDRESS}/feed`)
 }
