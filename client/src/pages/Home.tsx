@@ -6,7 +6,7 @@ export const Home = () => {
     <div className="flex min-h-screen flex-col">
       {/* Header */}
       <header className="sticky top-0 z-50 w-full border-b bg-white/95 backdrop-blur">
-        <div className="container flex h-16 items-center justify-between px-4 md:px-6">
+        <div className="flex h-16 items-center justify-between px-4 md:px-6">
           <div className="flex items-center gap-2">
             <BookOpen className="h-6 w-6" />
             <span className="text-xl font-bold">Blogify</span>
@@ -29,19 +29,23 @@ export const Home = () => {
       </header>
 
       {/* Hero Section */}
-      <main className="flex-1 flex justify-center items-center h-full w-full bg-gray-100">
-        <section className="w-full">
-          <div className="container px-4 md:px-6 text-center">
+      <main className="relative flex-1 flex justify-center items-center h-full w-full bg-gray-100 bg-transparent text-white">
+        <section className="w-full mb-10">
+          <div className="px-4 md:px-6 text-center">
             <h1 className="text-4xl font-bold">Share Your Stories with the World</h1>
-            <p className="mt-2 text-gray-600">Join our community of writers and readers today.</p>
-            <div className="mt-4 flex justify-center gap-4">
-              <Link to="/signup" className="bg-blue-600 text-white px-6 py-3 rounded-md">Get Started</Link>
-              <Link to="/feed" className="border px-6 py-3 rounded-md flex items-center">
+            <p className="mt-2">Join our community of writers and readers today.</p>
+            <div className="mt-4 flex flex-col sm:flex-row justify-center gap-4">
+              <Link to="/signup" className="bg-blue-600 text-white px-6 py-3 rounded-md shadow-md">Get Started</Link>
+              <Link to="/feed" className="border px-6 py-3 rounded-md flex items-center shadow-md">
                 Explore Blogs <ChevronRight className="ml-1 h-4 w-4" />
               </Link>
             </div>
           </div>
         </section>
+        <div className="absolute z-[-1] top-0 left-0 w-full h-full object-cover blur-sm">
+        <img src="/backgroundimg.jpg" className="w-full h-full object-cover" />
+
+        </div>
       </main>
     </div>
   );

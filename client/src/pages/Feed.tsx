@@ -62,7 +62,32 @@ export const Feed = () => {
     return (
         <div className="w-screen flex flex-col justify-center bg-gray-100">
             <Header />
-            <div className="max-w-6xl w-full grid grid-cols-3 gap-6 p-6">
+            <div className="max-w-6xl w-full flex flex-col md:flex-row gap-6 p-6">
+
+                {/* Sidebar */}
+                <div className="space-y-6 md:invisible">
+                    <div className="bg-white border border-gray-300 p-4 rounded-lg shadow">
+                        <h4 className="font-semibold text-gray-900 mb-2">Search</h4>
+                        <input ref={searchInputRef} type="text" className="w-full border border-gray-300 p-2 rounded-md" placeholder="Enter search term..." />
+                        <button onClick={searchBlogs} className="mt-2 w-full bg-blue-600 text-white py-2 rounded hover:bg-blue-700">Go!</button>
+                    </div>
+                    <div className="bg-white border border-gray-300 p-4 rounded-lg shadow">
+                        <h4 className="font-semibold text-gray-900 mb-4">Categories</h4>
+                        <div className="flex flex-wrap gap-2 justify-center items-center">
+                            <span className="bg-blue-100 text-blue-700 px-3 py-1 text-sm rounded-full hover:cursor-pointer">Technology</span>
+                            <span className="bg-blue-100 text-blue-700 px-3 py-1 text-sm rounded-full hover:cursor-pointer">Development</span>
+                            <span className="bg-blue-100 text-blue-700 px-3 py-1 text-sm rounded-full hover:cursor-pointer">React</span>
+                            <span className="bg-blue-100 text-blue-700 px-3 py-1 text-sm rounded-full hover:cursor-pointer">Web Development</span>
+
+                        </div>
+                    </div>
+                    {/* <div className="bg-white border border-gray-300 p-4 rounded-lg shadow">
+                        <h4 className="font-semibold text-gray-900 mb-2">Side Widget</h4>
+                        <p className="text-gray-700 text-sm">You can put anything you want inside of these side widgets. They are easy to use and feature the Bootstrap 5 card component!</p>
+                    </div> */}
+                </div>
+
+                {/* Blogs grid */}
                 <div className="col-span-2">
                     {/* Featured Post */}
                     {/* <div className="bg-white border border-gray-300 p-6 rounded-lg mb-6 shadow">
@@ -73,14 +98,13 @@ export const Feed = () => {
                         <button className="mt-4 px-4 py-2 text-sm font-semibold text-white bg-blue-600 rounded hover:bg-blue-700">Read more →</button>
                     </div> */}
 
-                    {/* Blog Grid */}
                     {
                         searchNotFound ? <div className="flex flex-col items-center justify-center py-10 mt-6">
                             <IoDocumentTextOutline size={"2.5rem"} />
                             <h2 className="mt-2">Not found!</h2>
                             <p className="text-gray-500 text-sm mt-1">Try searching for something else.</p>
                         </div> :
-                            <div className="grid grid-cols-2 gap-6">
+                            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                                 {feedBlogs?.map((blog: IBlog, idx: number) => (
                                     <div key={idx} className="pb-6 bg-white border border-gray-300 p-4 rounded-lg shadow">
                                         <img src={`${blog.image}`} className="w-full aspect-square bg-transparent rounded-md object-cover" />
@@ -99,7 +123,7 @@ export const Feed = () => {
                 </div>
 
                 {/* Sidebar */}
-                <div className="space-y-6">
+                <div className="space-y-6 invisible md:visible">
                     <div className="bg-white border border-gray-300 p-4 rounded-lg shadow">
                         <h4 className="font-semibold text-gray-900 mb-2">Search</h4>
                         <input ref={searchInputRef} type="text" className="w-full border border-gray-300 p-2 rounded-md" placeholder="Enter search term..." />
@@ -115,10 +139,10 @@ export const Feed = () => {
 
                         </div>
                     </div>
-                    <div className="bg-white border border-gray-300 p-4 rounded-lg shadow">
+                    {/* <div className="bg-white border border-gray-300 p-4 rounded-lg shadow">
                         <h4 className="font-semibold text-gray-900 mb-2">Side Widget</h4>
                         <p className="text-gray-700 text-sm">You can put anything you want inside of these side widgets. They are easy to use and feature the Bootstrap 5 card component!</p>
-                    </div>
+                    </div> */}
                 </div>
             </div>
         </div>
