@@ -62,10 +62,10 @@ export const Feed = () => {
     return (
         <div className="w-screen flex flex-col justify-center bg-gray-100">
             <Header />
-            <div className="max-w-6xl w-full flex flex-col md:flex-row gap-6 p-6">
+            <div className="w-full flex flex-col md:flex-row gap-6 p-6">
 
                 {/* Sidebar */}
-                <div className="space-y-6 md:invisible">
+                <div className="space-y-6 md:hidden">
                     <div className="bg-white border border-gray-300 p-4 rounded-lg shadow">
                         <h4 className="font-semibold text-gray-900 mb-2">Search</h4>
                         <input ref={searchInputRef} type="text" className="w-full border border-gray-300 p-2 rounded-md" placeholder="Enter search term..." />
@@ -123,7 +123,7 @@ export const Feed = () => {
                 </div>
 
                 {/* Sidebar */}
-                <div className="space-y-6 invisible md:visible">
+                <div className="space-y-6 hidden md:block">
                     <div className="bg-white border border-gray-300 p-4 rounded-lg shadow">
                         <h4 className="font-semibold text-gray-900 mb-2">Search</h4>
                         <input ref={searchInputRef} type="text" className="w-full border border-gray-300 p-2 rounded-md" placeholder="Enter search term..." />
