@@ -24,10 +24,7 @@ const blogSchema = new mongoose.Schema<IBlogDocument>({
         required: true
     },
     content: { type: String, required: true },
-    comments: [{
-        type: mongoose.Types.ObjectId,
-        ref: 'Comment'
-    }],
+    comments: [commentSchema],
     published: { type: Boolean, default: false },
     public: { type: Boolean, default: true },
     image: String,

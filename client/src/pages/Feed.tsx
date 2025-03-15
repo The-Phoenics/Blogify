@@ -36,7 +36,6 @@ export const Feed = () => {
             const res = await fetch(url, {
                 credentials: "include"
             })
-            console.log(res)
             if (res.ok) {
                 const result = await res.json()
                 if (result.data.length === 0) {
@@ -64,7 +63,7 @@ export const Feed = () => {
             <Header />
             <div className="w-full flex flex-col md:flex-row gap-6 p-6">
 
-                {/* Sidebar */}
+                {/* Sidebar for sm-screen size */}
                 <div className="space-y-6 md:hidden">
                     <div className="bg-white border border-gray-300 p-4 rounded-lg shadow">
                         <h4 className="font-semibold text-gray-900 mb-2">Search</h4>
@@ -78,26 +77,12 @@ export const Feed = () => {
                             <span className="bg-blue-100 text-blue-700 px-3 py-1 text-sm rounded-full hover:cursor-pointer">Development</span>
                             <span className="bg-blue-100 text-blue-700 px-3 py-1 text-sm rounded-full hover:cursor-pointer">React</span>
                             <span className="bg-blue-100 text-blue-700 px-3 py-1 text-sm rounded-full hover:cursor-pointer">Web Development</span>
-
                         </div>
                     </div>
-                    {/* <div className="bg-white border border-gray-300 p-4 rounded-lg shadow">
-                        <h4 className="font-semibold text-gray-900 mb-2">Side Widget</h4>
-                        <p className="text-gray-700 text-sm">You can put anything you want inside of these side widgets. They are easy to use and feature the Bootstrap 5 card component!</p>
-                    </div> */}
                 </div>
 
                 {/* Blogs grid */}
                 <div className="col-span-2">
-                    {/* Featured Post */}
-                    {/* <div className="bg-white border border-gray-300 p-6 rounded-lg mb-6 shadow">
-                        <div className="bg-gray-300 h-64 flex items-center justify-center text-gray-500 text-xl font-bold">850 x 350</div>
-                        <p className="text-sm text-gray-600 mt-4">January 1, 2023</p>
-                        <h2 className="text-2xl font-bold text-gray-900 mt-2">Featured Post Title</h2>
-                        <p className="text-gray-700 mt-2">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Reiciendis aliquid atque, nulla?</p>
-                        <button className="mt-4 px-4 py-2 text-sm font-semibold text-white bg-blue-600 rounded hover:bg-blue-700">Read more →</button>
-                    </div> */}
-
                     {
                         searchNotFound ? <div className="flex flex-col items-center justify-center py-10 mt-6">
                             <IoDocumentTextOutline size={"2.5rem"} />
@@ -122,7 +107,7 @@ export const Feed = () => {
                     }
                 </div>
 
-                {/* Sidebar */}
+                {/* Sidebar for screen size above sm */}
                 <div className="space-y-6 hidden md:block">
                     <div className="bg-white border border-gray-300 p-4 rounded-lg shadow">
                         <h4 className="font-semibold text-gray-900 mb-2">Search</h4>
@@ -136,9 +121,9 @@ export const Feed = () => {
                             <span className="bg-blue-100 text-blue-700 px-3 py-1 text-sm rounded-full hover:cursor-pointer">Development</span>
                             <span className="bg-blue-100 text-blue-700 px-3 py-1 text-sm rounded-full hover:cursor-pointer">React</span>
                             <span className="bg-blue-100 text-blue-700 px-3 py-1 text-sm rounded-full hover:cursor-pointer">Web Development</span>
-
                         </div>
                     </div>
+
                     {/* <div className="bg-white border border-gray-300 p-4 rounded-lg shadow">
                         <h4 className="font-semibold text-gray-900 mb-2">Side Widget</h4>
                         <p className="text-gray-700 text-sm">You can put anything you want inside of these side widgets. They are easy to use and feature the Bootstrap 5 card component!</p>

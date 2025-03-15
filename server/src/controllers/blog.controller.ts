@@ -44,7 +44,7 @@ export async function create_blog(req: Request, res: Response) {
 }
 
 export async function update_blog(req: Request, res: Response) {
-    const id = req.params.id
+    const id = req.body._id
     const updates = req.body
     if (!id || !isValidObjectId(id)) {
         res.status(400).json({

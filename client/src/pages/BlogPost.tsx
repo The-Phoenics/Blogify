@@ -1,12 +1,20 @@
-import { useEffect, useRef, useState } from "react";
 import { useParams } from "react-router";
-import { ITag, IBlog, API_STATUS, IComment } from "@/types/types";
+import { useEffect, useRef, useState } from "react";
 import Header from "@/components/Header";
+import { ITag, IBlog, API_STATUS, IComment } from "@/types/types";
+import { Spinner } from "@/components/Spinner";
+
+const MONTHS: string[] = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'June', 'July', 'Aug', 'Sept', 'Oct', 'Nov', 'Dec']
 
 const CommentSection = ({ blogData, setBlogData }) => {
     const commentInputRef = useRef<HTMLTextAreaElement>(null)
+    const [apiStatus, setApiStatus] = useState<API_STATUS>(API_STATUS.IDLE)
 
     const handlePostComment = async () => {
+        if (apiStatus === API_STATUS.WAITING)
+            return
+        setApiStatus(API_STATUS.WAITING)
+
         const response = await fetch(`${import.meta.env.VITE_SERVER_ADDRESS}${import.meta.env.VITE_SERVER_PORT}/blog/comment`, {
             method: "POST",
             headers: {
@@ -16,46 +24,70 @@ const CommentSection = ({ blogData, setBlogData }) => {
                 // TODO: send comment data and create comment
             }),
         });
+
+        if (!response.ok) {
+            setApiStatus(API_STATUS.ERROR)
+            return
+        }
         const result = await response.json();
         console.log(result)
+        setApiStatus(API_STATUS.SUCCESS)
     }
 
     return (
-        <div className="mt-14">
-            <h2 className="text-xl font-semibold text-gray-900 mb-4">Comments</h2>
+        <div className="mt-8 mb-6 flex flex-col justify-center items-center">
+            <h2 className="text-xl font-semibold text-gray-900">Comments</h2>
             {
                 blogData?.comments?.map((comment: IComment, idx: number) => {
-                    return <div key={idx} className="border border-gray-300 p-4 rounded-lg">
-                        <p className="text-gray-800 text-sm">{comment.content}</p>
-                    </div>
-
+                    return (
+                        <div key={idx} className="flex flex-col text-left gap-2 w-full text-gray-800 text-lg p-4 rounded-lg">
+                            <p className="">{comment.content}</p>
+                            <span className="w-full flex justify-end">
+                                <span className="font-semibold mr-10 hover:cursor-pointer text-gray-700">@{"UserA232E!"}</span>
+                            </span>
+                        </div>
+                    )
                 })
             }
-            <textarea ref={commentInputRef} className="mt-8 p-2 px-4 w-full border border-gray-300 rounded-md text-gray-800" placeholder="Add a comment..."></textarea>
-            <button className="mt-4 py-2 px-4 text-sm tracking-wider font-semibold rounded-md text-white bg-blue-600 hover:bg-blue-700 focus:outline-none" onClick={handlePostComment}>
-                Post Comment
+            <textarea ref={commentInputRef} rows={6} className="w-full mx-2 mt-8 p-2 px-4 border border-gray-300 rounded-md text-gray-800" placeholder="Add a comment..."></textarea>
+            <button className="mt-4 min-w-[200px] min-h-9 py-2 px-4 text-sm tracking-wider font-semibold rounded-md text-white bg-blue-600 hover:bg-blue-700 focus:outline-none" onClick={handlePostComment}>
+                {
+                    apiStatus === API_STATUS.WAITING ? <Spinner /> : "Post Comment"
+                }
             </button>
         </div>
     )
 }
 
 const BlogBody = ({ blogData, setBlogData }) => {
+    const date = new Date(blogData.date)
+    const dateString = MONTHS[date.getMonth()] + " " + date.getDate() + ", " + date.getFullYear();
+
     return (
-        <div className="px-6">
+        <div className="px-16 max-w-[2100px]">
             <article>
                 <h1 className="text-2xl font-bold text-gray-900 mb-4">{blogData?.title}</h1>
-                <p className="text-gray-700 text-sm mb-4">By <span className="font-semibold">{blogData?.author?.username}</span></p>
+                <div className="flex justify-center items-center gap-2 text-gray-700 text-sm mb-4">
+                    <div className="hover:cursor-pointer">
+                        <p className="">By <span className="font-semibold">{blogData?.author?.username}</span></p>
+                    </div>
+                    <span>•</span>
+                    <div>{dateString}</div>
+                </div>
                 {
-                    blogData?.image ? <div className="h-80 mb-6 flex justify-center items-center">
-                        <img src={`${blogData?.image}`} className="h-full w-[50%] max-w-[500px] rounded-md object-cover" />
+                    blogData?.image ? <div className="h-90 w-full mb-6 flex justify-center items-center">
+                        <img src={`${blogData?.image}`} className="w-full md:w-[80%] shadow-lg max-w-[500px] rounded-md object-cover" />
                     </div> : ""
                 }
-                <p className="text-gray-800 text-lg leading-relaxed mb-6">
+                <p className="text-gray-800 text-lg text-left leading-relaxed mb-6">
                     {blogData?.content}
                 </p>
             </article>
 
+            <hr />
+
             <CommentSection blogData={blogData} setBlogData={setBlogData} />
+
             <div className="flex items-center justify-center mt-8">
                 <div className="flex gap-2 flex-wrap">
                     {
@@ -86,6 +118,7 @@ export const BlogPost = () => {
         } else {
             setApiStatus(API_STATUS.SUCCESS)
             setBlogData(result)
+            console.log(result)
         }
     }
 

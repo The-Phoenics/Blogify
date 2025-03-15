@@ -14,7 +14,7 @@ const Header = () => {
     }
 
     return (
-        <div className="relative flex justify-between items-center px-6 py-4 mb-6 shadow-sm bg-white border">
+        <div className="relative flex justify-between items-center px-6 py-4 mb-6 shadow-sm bg-white border-b">
             <a href={`${import.meta.env.VITE_SERVER_ADDRESS}${import.meta.env.VITE_SERVER_PORT}/`}>
                 <div className="flex items-center gap-1 text-gray-700">
                     <SiBloglovin className='mb-1' />
