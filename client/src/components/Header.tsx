@@ -4,7 +4,7 @@ import { FaUserCircle } from "react-icons/fa";
 import { SiBloglovin } from "react-icons/si";
 import { useNavigate } from "react-router";
 
-const Header = () => {
+const BlogHeader = () => {
     const navigate = useNavigate();
     const [isOpen, setIsOpen] = useState(false);
 
@@ -55,4 +55,4 @@ const Header = () => {
     );
 };
 
-export default Header
+export default BlogHeader

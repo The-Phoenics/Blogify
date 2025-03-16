@@ -1,8 +1,9 @@
 import { useParams } from "react-router";
 import { useEffect, useRef, useState } from "react";
-import Header from "@/components/Header";
+import BlogHeader from "@/components/Header";
 import { ITag, IBlog, API_STATUS, IComment } from "@/types/types";
 import { Spinner } from "@/components/Spinner";
+import Editor from "@/components/Editor";
 
 const MONTHS: string[] = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'June', 'July', 'Aug', 'Sept', 'Oct', 'Nov', 'Dec']
 
@@ -74,18 +75,22 @@ const BlogBody = ({ blogData, setBlogData }) => {
                     <span>•</span>
                     <div>{dateString}</div>
                 </div>
+
+                {/* image banner for blog */}
                 {
                     blogData?.image ? <div className="h-90 w-full mb-6 flex justify-center items-center">
                         <img src={`${blogData?.image}`} className="w-full md:w-[80%] shadow-lg max-w-[500px] rounded-md object-cover" />
                     </div> : ""
                 }
-                <p className="text-gray-800 text-lg text-left leading-relaxed mb-6">
+
+                {/* editor for writing blogs content */}
+                <Editor className="text-gray-800 text-lg text-left leading-relaxed mb-6">
                     {blogData?.content}
-                </p>
+                </Editor>
             </article>
-
             <hr />
-
+            
+            {/* render comments */}
             <CommentSection blogData={blogData} setBlogData={setBlogData} />
 
             <div className="flex items-center justify-center mt-8">
@@ -118,7 +123,6 @@ export const BlogPost = () => {
         } else {
             setApiStatus(API_STATUS.SUCCESS)
             setBlogData(result)
-            console.log(result)
         }
     }
 
@@ -130,7 +134,7 @@ export const BlogPost = () => {
         return (<div className="w-screen flex items-center justify-center">
             <div className="flex flex-col justify-center font-[sans-serif]">
                 <div className="rounded-2xl">
-                    <Header />
+                    <BlogHeader />
                     <div>Couldn't find this blog</div>
                 </div>
             </div>
@@ -141,7 +145,7 @@ export const BlogPost = () => {
         <div className="w-screen flex items-center justify-center">
             <div className="flex flex-col justify-center font-[sans-serif]">
                 <div className="rounded-2xl pb-6">
-                    <Header />
+                    <BlogHeader />
                     {
                         apiStatus === API_STATUS.WAITING ?
                             <div className="w-full h-full flex justify-center items-center mt-20"><div className="w-10 h-10 border-4 border-t-transparent border-blue-500 rounded-full animate-spin"></div></div> :

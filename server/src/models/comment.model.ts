@@ -13,6 +13,4 @@ export const commentSchema = new mongoose.Schema({
 })
 
 const Comment = mongoose.model<ICommentDocument>('Comment', commentSchema)
-export default Comment
-
-const foo = {"content": "Great read.", "userId": "67c4cab7655d13a6324c7579", "blogId": "67c4cab7655d13a6324c7587"}
+export default Comment;

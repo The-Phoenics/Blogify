@@ -1,0 +1,13 @@
+
+.ce-block__content {
+    max-width: unset;
+}
+
+/* disable red error squiggles */
+.ce-paragraph {
+    spellcheck: false;
+}
+
+.codex-editor__redactor {
+    padding-bottom: unset !important;
+}

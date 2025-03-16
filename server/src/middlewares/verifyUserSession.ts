@@ -5,10 +5,10 @@ import { Request, Response, NextFunction } from "express"
 export async function verifyUserSession(req: Request, res: Response, next: NextFunction) {
     const cookie = req.cookies
     if (!cookie) {
+        res.clearCookie("sid")
         res.status(401).json({
             messsage: "unauthorized"
         })
-        res.clearCookie("sid")
         return
     }
 
@@ -16,10 +16,10 @@ export async function verifyUserSession(req: Request, res: Response, next: NextF
         sid: cookie["sid"]
     })
     if (!session) {
+        res.clearCookie("sid")
         res.status(401).json({
             messsage: "unauthorized"
         })
-        res.clearCookie("sid")
         return
     }
 

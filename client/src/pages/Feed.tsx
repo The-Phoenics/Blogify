@@ -2,7 +2,7 @@ import { useEffect, useRef, useState } from "react";
 import { Link, useNavigate } from "react-router";
 import { API_STATUS, IBlog } from "../types/types";
 import { IoDocumentTextOutline } from "react-icons/io5";
-import Header from "@/components/Header";
+import BlogHeader from "@/components/Header";
 
 const MONTHS: string[] = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December']
 
@@ -60,7 +60,7 @@ export const Feed = () => {
 
     return (
         <div className="w-screen flex flex-col justify-center bg-gray-100">
-            <Header />
+            <BlogHeader />
             <div className="w-full flex flex-col md:flex-row gap-6 p-6">
 
                 {/* Sidebar for sm-screen size */}
