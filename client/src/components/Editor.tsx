@@ -38,16 +38,16 @@ function Editor(props) {
       },
       autofocus: true,
       spellcheck: false,
-      readOnly: props.editable,
-      // data: convertToEditorData(blogContent),
-      data: { blocks: [
-        {
-          type: 'paragraph',
-          data: {
-            text: blogContent
-          }
-        }
-      ]},
+      readOnly: !props.editable,
+      data: convertToEditorData(blogContent),
+      // data: { blocks: [
+      //   {
+      //     type: 'paragraph',
+      //     data: {
+      //       text: blogContent
+      //     }
+      //   }
+      // ]},
       onChange: async () => {
         const content = await editor.saver.save();
         console.log("content:", content);
@@ -74,9 +74,7 @@ function Editor(props) {
   }, []);
 
   return (
-    <div id="editorjs" ref={editorRef} className={` ${stylingClasses} min-h-[100vh]`}>
-      {/* {blogContent} */}
-    </div>
+    <div id="editorjs" ref={editorRef} className={` ${stylingClasses} min-h-[100vh]`}></div>
   )
 }
 

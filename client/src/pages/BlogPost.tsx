@@ -57,7 +57,7 @@ export const BlogPost = () => {
                     {
                         apiStatus === API_STATUS.WAITING ?
                             <div className="w-full h-full flex justify-center items-center mt-20"><div className="w-10 h-10 border-4 border-t-transparent border-blue-500 rounded-full animate-spin"></div></div> :
-                            <BlogContent editable={editable} blogData={blogData} setBlogData={setBlogData} />
+                            <BlogContent editable={true} blogData={blogData} setBlogData={setBlogData} />
                     }
                 </div>
             </div>
