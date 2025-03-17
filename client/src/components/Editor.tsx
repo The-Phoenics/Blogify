@@ -26,7 +26,7 @@ function Editor(props) {
   const editorRef = useRef<HTMLDivElement>(null);
   const stylingClasses = props.className
   const blogContent = props.children
-  // console.log("props:", props)
+  console.log("props:", props)
 
   const initEditor = () => {
     const editor = new EditorJS({
@@ -37,8 +37,8 @@ function Editor(props) {
         document.querySelector('[contenteditable]').setAttribute('spellcheck', 'false');
       },
       autofocus: true,
-      spellcheck: false, // This doesn't work directly, use method below
-      readOnly: false,
+      spellcheck: false,
+      readOnly: props.editable,
       // data: convertToEditorData(blogContent),
       data: { blocks: [
         {
