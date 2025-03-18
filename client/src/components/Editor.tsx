@@ -26,7 +26,6 @@ function Editor(props) {
   const editorRef = useRef<HTMLDivElement>(null);
   const stylingClasses = props.className
   const blogContent = props.children
-  console.log("props:", props)
 
   const initEditor = () => {
     const editor = new EditorJS({
@@ -39,15 +38,7 @@ function Editor(props) {
       autofocus: true,
       spellcheck: false,
       readOnly: !props.editable,
-      data: convertToEditorData(blogContent),
-      // data: { blocks: [
-      //   {
-      //     type: 'paragraph',
-      //     data: {
-      //       text: blogContent
-      //     }
-      //   }
-      // ]},
+      data: convertToEditorData(blogContent), // set initial data
       onChange: async () => {
         const content = await editor.saver.save();
         console.log("content:", content);

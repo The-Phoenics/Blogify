@@ -1,15 +1,8 @@
 import Editor from "@/components/Editor";
 import { ITag } from "@/types/types";
 
-const MONTHS: string[] = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'June', 'July', 'Aug', 'Sept', 'Oct', 'Nov', 'Dec']
-
-function EditableBlogHeader() {
-    
-}
-
-function Editable({ blogData, setBlogData }) {
-    const date = new Date(blogData.date)
-    const dateString = MONTHS[date.getMonth()] + " " + date.getDate() + ", " + date.getFullYear();
+function Editable(props) {
+    const { blogData, setBlogData } = props
 
     return (
         <div className="px-16 max-w-[2100px]">

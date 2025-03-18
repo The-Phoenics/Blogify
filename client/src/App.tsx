@@ -2,7 +2,7 @@ import './App.css'
 
 import { Login } from './pages/auth/Login'
 import { Signup } from './pages/auth/Signup'
-import { BlogPost } from './pages/BlogPost'
+import { BlogPost } from './pages/blog/Blog'
 import { Feed } from './pages/Feed'
 import { Home } from './pages/Home'
 import { NotFound } from './pages/NotFound'
