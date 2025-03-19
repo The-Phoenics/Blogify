@@ -9,13 +9,13 @@ function Editable(props) {
   const { blogData, setBlogData, setEditorDataChanged } = props
 
   const handleTitleChange = () => {
-    console.log("handle title change")
+    console.log('handle title change')
     const newBlogTitle = titleRef.current?.innerText
     if (newBlogTitle) {
       setBlogData((prev: IBlog) => {
         const blog: IBlog = {
           ...prev,
-          title: newBlogTitle
+          title: newBlogTitle,
         }
         return blog
       })
@@ -24,9 +24,14 @@ function Editable(props) {
   }
 
   return (
-    <div className='max-w-[2100px] px-16'>
+    <div className='w-full max-w-[2100px] px-16'>
       <article>
-        <h1 ref={titleRef} onInput={handleTitleChange} className='border-none text-2xl font-bold text-gray-900 outline-none focus:underline' contentEditable={true}>
+        <h1
+          ref={titleRef}
+          onInput={handleTitleChange}
+          className='border-none text-2xl font-bold text-gray-900 outline-none focus:underline'
+          contentEditable={true}
+        >
           {blogData?.title}
         </h1>
 

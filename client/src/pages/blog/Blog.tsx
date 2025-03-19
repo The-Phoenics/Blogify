@@ -57,12 +57,16 @@ export const BlogPost = () => {
               >
                 {previewStatus === API_STATUS.WAITING ? <Spinner color={'black'} /> : 'Preview'}
               </button>{' '}
-              <button
-                className='min-h-14 min-w-[140px] rounded-lg border bg-blue-600 p-2 px-6 py-3 text-white shadow-sm'
-                onClick={handlePublishing}
-              >
-                {publishApiStatus === API_STATUS.WAITING ? <Spinner /> : 'Publish'}
-              </button>
+              {blogData?.published ? (
+                ''
+              ) : (
+                <button
+                  className='min-h-14 min-w-[140px] rounded-lg border bg-blue-600 p-2 px-6 py-3 text-white shadow-sm'
+                  onClick={handlePublishing}
+                >
+                  {publishApiStatus === API_STATUS.WAITING ? <Spinner /> : 'Publish'}
+                </button>
+              )}
             </div>
             <BlogHeaderUserModel />
           </div>
@@ -77,6 +81,16 @@ export const BlogPost = () => {
               >
                 Edit
               </button>
+              {blogData?.published ? (
+                ''
+              ) : (
+                <button
+                  className='min-h-14 min-w-[140px] rounded-lg border bg-blue-600 p-2 px-6 py-3 text-white shadow-sm'
+                  onClick={handlePublishing}
+                >
+                  {publishApiStatus === API_STATUS.WAITING ? <Spinner /> : 'Publish'}
+                </button>
+              )}
             </div>
             <BlogHeaderUserModel />
           </div>
@@ -87,7 +101,7 @@ export const BlogPost = () => {
     }
 
     return (
-      <div className='relative mb-6 flex items-center justify-between border-b bg-white px-6 py-4 shadow-sm'>
+      <div className='relative mb-6 flex w-full items-center justify-between border-b bg-white px-6 py-4 shadow-sm'>
         <a href={`${import.meta.env.VITE_SERVER_ADDRESS}${import.meta.env.VITE_SERVER_PORT}/`}>
           <div className='flex items-center gap-1 text-gray-700'>
             <SiBloglovin className='mb-1' />
@@ -121,18 +135,18 @@ export const BlogPost = () => {
   }, [])
 
   const handleBlogSave = async () => {
-    console.log("saving blog")
+    console.log('saving blog')
     const url = `${import.meta.env.VITE_SERVER_ADDRESS}${import.meta.env.VITE_SERVER_PORT}/blog/${params.blogId}`
     const res = await fetch(url, {
-      method: "PATCH",
-      credentials: "include",
-      body: JSON.stringify(blogData)
+      method: 'PATCH',
+      credentials: 'include',
+      body: JSON.stringify(blogData),
     })
     if (!res.ok) {
       return
     }
     const blog = await res.json()
-    console.log("blog saved", blog)
+    console.log('blog saved', blog)
   }
 
   useEffect(() => {
@@ -157,15 +171,17 @@ export const BlogPost = () => {
 
   return (
     <div className='flex w-screen items-center justify-center'>
-      <div className='flex flex-col justify-center font-[sans-serif] w-full'>
-        <div className='rounded-2xl pb-6'>
+      <div className='flex w-full flex-col justify-center font-[sans-serif]'>
+        <div className='flex flex-col items-center justify-center rounded-2xl pb-6'>
           {getHeader()}
           {apiStatus === API_STATUS.WAITING ? (
             <div className='mt-20 flex h-full w-full items-center justify-center'>
               <div className='h-10 w-10 animate-spin rounded-full border-4 border-blue-500 border-t-transparent'></div>
             </div>
+          ) : editing ? (
+            <Editable blogData={blogData} setBlogData={setBlogData} setEditorDataChanged={setEditorDataChanged} />
           ) : (
-              editing ? (<Editable blogData={blogData} setBlogData={setBlogData} setEditorDataChanged={setEditorDataChanged} />) : (<NonEditable blogData={blogData} setBlogData={setBlogData} />)
+            <NonEditable blogData={blogData} setBlogData={setBlogData} />
           )}
         </div>
       </div>

@@ -10,14 +10,14 @@ function Editor(props) {
   const editable = props.editable
 
   const editorRef = useRef<HTMLTextAreaElement>(null)
-  
+
   const handleBlogContentChange = () => {
     const newBlogContent = editorRef.current?.value
     if (newBlogContent) {
       setBlogData((prev: IBlog) => {
         const blog: IBlog = {
           ...prev,
-          content: newBlogContent
+          content: newBlogContent,
         }
         return blog
       })
@@ -25,9 +25,16 @@ function Editor(props) {
     setEditorDataChanged(true)
   }
 
-  return (<textarea ref={editorRef} readOnly={!editable} onChange={handleBlogContentChange} className={` ${stylingClasses} min-h-[100vh] w-full outline-none overflow-scroll p-2 bg-transparent`}>
-    {blogContent}
-  </textarea>)
+  return (
+    <textarea
+      ref={editorRef}
+      readOnly={!editable}
+      onChange={handleBlogContentChange}
+      className={` ${stylingClasses} min-h-[100vh] w-full overflow-scroll bg-transparent p-2 outline-none`}
+    >
+      {blogContent}
+    </textarea>
+  )
 }
 
 export default Editor

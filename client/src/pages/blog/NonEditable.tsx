@@ -10,7 +10,7 @@ function NonEditable(props) {
   const dateString = MONTHS[date.getMonth()] + ' ' + date.getDate() + ', ' + date.getFullYear()
 
   return (
-    <div className='max-w-[2100px] px-16'>
+    <div className='w-full max-w-[2100px] px-16'>
       <article>
         <h1 className='mb-4 border-none text-2xl font-bold text-gray-900'>{blogData?.title}</h1>
         <div className='mb-4 flex items-center justify-center gap-2 text-sm text-gray-700'>

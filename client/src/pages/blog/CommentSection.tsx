@@ -2,7 +2,7 @@ import { Spinner } from '@/components/Spinner'
 import { API_STATUS, IComment } from '@/types/types'
 import { useRef, useState } from 'react'
 
-const CommentSection = (props) => {
+const CommentSection = props => {
   const { blogData, setEditorDataChanged } = props
   const commentInputRef = useRef<HTMLTextAreaElement>(null)
   const [apiStatus, setApiStatus] = useState<API_STATUS>(API_STATUS.IDLE)
