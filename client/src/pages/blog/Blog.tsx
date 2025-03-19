@@ -7,17 +7,6 @@ import NonEditable from './NonEditable'
 import { SiBloglovin } from 'react-icons/si'
 import { Spinner } from '@/components/Spinner'
 
-function BlogContent(props) {
-  const { editing, blogData, setBlogData } = props
-
-  if (editing) {
-    return <Editable blogData={blogData} setBlogData={setBlogData} />
-  }
-  return <NonEditable blogData={blogData} setBlogData={setBlogData} />
-}
-
-// TODO: Add a blog save button, which sends a PATCH request to update blog data in db
-
 // Main component
 export const BlogPost = () => {
   const params = useParams()
@@ -29,9 +18,10 @@ export const BlogPost = () => {
   const [publishApiStatus, setPublishApiStatus] = useState<API_STATUS>(API_STATUS.IDLE)
   const [previewStatus, setpPreviewStatus] = useState<API_STATUS>(API_STATUS.IDLE)
   const [editing, setEditing] = useState<boolean>(false)
+  const [editorDataChanged, setEditorDataChanged] = useState<boolean>(false)
 
   const handleEditing = () => {
-    setEditing(prev => !prev)
+    setEditing(true)
   }
 
   const handlePublishing = () => {
@@ -49,6 +39,7 @@ export const BlogPost = () => {
     }
     setpPreviewStatus(API_STATUS.WAITING)
     // TODO: also save the blog
+    console.log(blogData)
     setEditing(false)
     setpPreviewStatus(API_STATUS.SUCCESS)
   }
@@ -129,25 +120,27 @@ export const BlogPost = () => {
     fetchBlog()
   }, [])
 
-  // const handleBlogSave = async () => {
-  //     console.log("saving blog")
+  const handleBlogSave = async () => {
+    console.log("saving blog")
+    const url = `${import.meta.env.VITE_SERVER_ADDRESS}${import.meta.env.VITE_SERVER_PORT}/blog/${params.blogId}`
+    const res = await fetch(url, {
+      method: "PATCH",
+      credentials: "include",
+      body: JSON.stringify(blogData)
+    })
+    if (!res.ok) {
+      return
+    }
+    const blog = await res.json()
+    console.log("blog saved", blog)
+  }
 
-  //     console.log(blogData)
-  //     const url = `${import.meta.env.VITE_SERVER_ADDRESS}${import.meta.env.VITE_SERVER_PORT}/blog`
-  //     const res = await fetch(url, {
-  //         method: "PATCH",
-  //         credentials: "include"
-  //     })
-  //     if (!res.ok) {
-  //         return
-  //     }
-  //     const blog = await res.json()
-  //     console.log("blog saved")
-  // }
-
-  // useEffect(() => {
-  //     handleBlogSave()
-  // }, [blogData])
+  useEffect(() => {
+    if (editorDataChanged) {
+      handleBlogSave()
+      setEditorDataChanged(false)
+    }
+  }, [editorDataChanged])
 
   if (apiStatus === API_STATUS.ERROR) {
     return (
@@ -164,7 +157,7 @@ export const BlogPost = () => {
 
   return (
     <div className='flex w-screen items-center justify-center'>
-      <div className='flex flex-col justify-center font-[sans-serif]'>
+      <div className='flex flex-col justify-center font-[sans-serif] w-full'>
         <div className='rounded-2xl pb-6'>
           {getHeader()}
           {apiStatus === API_STATUS.WAITING ? (
@@ -172,7 +165,7 @@ export const BlogPost = () => {
               <div className='h-10 w-10 animate-spin rounded-full border-4 border-blue-500 border-t-transparent'></div>
             </div>
           ) : (
-            <BlogContent editing={editing} blogData={blogData} setBlogData={setBlogData} />
+              editing ? (<Editable blogData={blogData} setBlogData={setBlogData} setEditorDataChanged={setEditorDataChanged} />) : (<NonEditable blogData={blogData} setBlogData={setBlogData} />)
           )}
         </div>
       </div>

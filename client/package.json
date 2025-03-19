@@ -11,10 +11,6 @@
     "format": "npx prettier --write ."
   },
   "dependencies": {
-    "@editorjs/code": "^2.9.3",
-    "@editorjs/editorjs": "^2.30.8",
-    "@editorjs/header": "^2.8.8",
-    "@editorjs/inline-code": "^1.5.1",
     "email-validator": "^2.0.4",
     "lucide-react": "^0.477.0",
     "react": "^19.0.0",

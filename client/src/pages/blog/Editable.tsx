@@ -1,13 +1,32 @@
 import Editor from '@/components/Editor'
-import { ITag } from '@/types/types'
+import { IBlog, ITag } from '@/types/types'
+import { useRef } from 'react'
+
+// TODO: Add props types for all components taking prop args
 
 function Editable(props) {
-  const { blogData, setBlogData } = props
+  const titleRef = useRef<HTMLHeadingElement | null>(null)
+  const { blogData, setBlogData, setEditorDataChanged } = props
+
+  const handleTitleChange = () => {
+    console.log("handle title change")
+    const newBlogTitle = titleRef.current?.innerText
+    if (newBlogTitle) {
+      setBlogData((prev: IBlog) => {
+        const blog: IBlog = {
+          ...prev,
+          title: newBlogTitle
+        }
+        return blog
+      })
+    }
+    setEditorDataChanged(true)
+  }
 
   return (
     <div className='max-w-[2100px] px-16'>
       <article>
-        <h1 className='border-none text-2xl font-bold text-gray-900' contentEditable={true}>
+        <h1 ref={titleRef} onInput={handleTitleChange} className='border-none text-2xl font-bold text-gray-900 outline-none focus:underline' contentEditable={true}>
           {blogData?.title}
         </h1>
 
@@ -41,6 +60,7 @@ function Editable(props) {
         {/* editor for writing blogs content */}
         <Editor
           editable={true}
+          setEditorDataChanged={setEditorDataChanged}
           setBlogData={setBlogData}
           className='mb-14 text-left text-lg leading-relaxed text-gray-800'
         >

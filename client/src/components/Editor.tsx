@@ -1,81 +1,33 @@
-import { useEffect, useRef } from 'react'
-import EditorJS from '@editorjs/editorjs'
-import CodeTool from '@editorjs/code'
-import InlineCode from '@editorjs/inline-code'
+import { useRef } from 'react'
 import './Editor.css'
-
-function getEditorData(editorData): string {
-  let data = ''
-  if (editorData) {
-    editorData.blocks.forEach(block => {
-      data += block.data.text
-      data += '\n'
-    })
-  }
-  return data
-}
-
-function convertToEditorData(blogData: string) {
-  if (!blogData || blogData === '') {
-    return ''
-  }
-  const data = { blocks: [] }
-  const paragraphArray = blogData.split('\n')
-  paragraphArray.forEach(paragraph => {
-    data.blocks.push({
-      type: 'paragraph',
-      data: {
-        text: paragraph,
-      },
-    })
-  })
-  return data
-}
+import { IBlog } from '@/types/types'
 
 function Editor(props) {
-  const editorRef = useRef<HTMLDivElement>(null)
   const stylingClasses = props.className
   const blogContent = props.children
   const setBlogData = props.setBlogData
+  const setEditorDataChanged = props.setEditorDataChanged
+  const editable = props.editable
 
-  const initEditor = () => {
-    const editor = new EditorJS({
-      holder: 'editorjs',
-      onReady: () => {
-        editorRef.current = editor
-      },
-      autofocus: true,
-      spellcheck: false,
-      readOnly: !props.editable,
-      data: convertToEditorData(blogContent), // set initial data
-      onChange: async () => {
-        const content = await editor.saver.save()
-        if (setBlogData) {
-          // setBlogData(content)
+  const editorRef = useRef<HTMLTextAreaElement>(null)
+  
+  const handleBlogContentChange = () => {
+    const newBlogContent = editorRef.current?.value
+    if (newBlogContent) {
+      setBlogData((prev: IBlog) => {
+        const blog: IBlog = {
+          ...prev,
+          content: newBlogContent
         }
-      },
-      tools: {
-        code: CodeTool,
-        inlineCode: {
-          class: InlineCode,
-          shortcut: 'CMD+SHIFT+M',
-        },
-      },
-    })
+        return blog
+      })
+    }
+    setEditorDataChanged(true)
   }
 
-  useEffect(() => {
-    if (editorRef.current !== null) {
-      initEditor()
-    }
-
-    return () => {
-      editorRef?.current?.destroy()
-      editorRef.current = null
-    }
-  }, [])
-
-  return <div id='editorjs' ref={editorRef} className={` ${stylingClasses} min-h-[100vh]`}></div>
+  return (<textarea ref={editorRef} readOnly={!editable} onChange={handleBlogContentChange} className={` ${stylingClasses} min-h-[100vh] w-full outline-none overflow-scroll p-2 bg-transparent`}>
+    {blogContent}
+  </textarea>)
 }
 
 export default Editor

@@ -4,7 +4,8 @@ import { ITag } from '@/types/types'
 
 const MONTHS: string[] = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'June', 'July', 'Aug', 'Sept', 'Oct', 'Nov', 'Dec']
 
-function NonEditable({ blogData, setBlogData }) {
+function NonEditable(props) {
+  const { blogData, setBlogData, setEditorDataChanged } = props
   const date = new Date(blogData.date)
   const dateString = MONTHS[date.getMonth()] + ' ' + date.getDate() + ', ' + date.getFullYear()
 
@@ -37,7 +38,7 @@ function NonEditable({ blogData, setBlogData }) {
         {/* editor for writing blogs content */}
         <Editor
           editable={false}
-          setBlogData={setBlogData}
+          setEditorDataChanged={setEditorDataChanged}
           className='mb-6 text-left text-lg leading-relaxed text-gray-800'
         >
           {blogData?.content}
