@@ -7,12 +7,14 @@ import { Feed } from './pages/Feed'
 import { Home } from './pages/Home'
 import { NotFound } from './pages/NotFound'
 import { BrowserRouter, Routes, Route } from 'react-router'
+import ProfilePage from './pages/Profile'
 
 function App() {
   return (
     <BrowserRouter>
       <Routes>
         <Route path='/' element={<Home />} />
+        <Route path='/:username' element={<ProfilePage />} />
         <Route path='/feed' element={<Feed />} />
         <Route path='/signup' element={<Signup />} />
         <Route path='/login' element={<Login />} />

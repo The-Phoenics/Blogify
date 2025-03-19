@@ -19,6 +19,7 @@ export interface IComment {
 
 export interface IUser {
   username: string
+  email: string
 }
 
 export interface IBlog {
