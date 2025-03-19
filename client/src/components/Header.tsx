@@ -1,11 +1,5 @@
 import { useState } from 'react'
-import {
-  BsBookmark,
-  BsBoxArrowRight,
-  BsClockHistory,
-  BsGear,
-  BsListCheck,
-} from 'react-icons/bs'
+import { BsBookmark, BsBoxArrowRight, BsClockHistory, BsGear, BsListCheck } from 'react-icons/bs'
 import { FaUserCircle } from 'react-icons/fa'
 import { SiBloglovin } from 'react-icons/si'
 import { useNavigate } from 'react-router'
@@ -15,9 +9,7 @@ export const BlogHeaderUserModel = () => {
   const [isOpen, setIsOpen] = useState(false)
 
   const handleLogout = async () => {
-    await fetch(
-      `${import.meta.env.VITE_SERVER_ADDRESS}${import.meta.env.VITE_SERVER_PORT}/auth/logout`
-    )
+    await fetch(`${import.meta.env.VITE_SERVER_ADDRESS}${import.meta.env.VITE_SERVER_PORT}/auth/logout`)
     navigate('/login')
   }
 
@@ -61,9 +53,7 @@ export const BlogHeaderUserModel = () => {
 const BlogHeader = () => {
   return (
     <div className='relative mb-6 flex items-center justify-between border-b bg-white px-6 py-4 shadow-sm'>
-      <a
-        href={`${import.meta.env.VITE_SERVER_ADDRESS}${import.meta.env.VITE_SERVER_PORT}/`}
-      >
+      <a href={`${import.meta.env.VITE_SERVER_ADDRESS}${import.meta.env.VITE_SERVER_PORT}/`}>
         <div className='flex items-center gap-1 text-gray-700'>
           <SiBloglovin className='mb-1' />
           <p className='font-bold'>Logify</p>

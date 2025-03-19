@@ -9,15 +9,10 @@ export const EmailSentMessageInfo = () => {
   return (
     <div className='mt-[20vh] flex h-full w-screen items-center justify-center'>
       <div className='flex flex-col justify-center rounded-md border p-6 px-8 font-[sans-serif]'>
-        <h1 className='text-xl font-medium'>
-          Check your email to verify your account!
-        </h1>
+        <h1 className='text-xl font-medium'>Check your email to verify your account!</h1>
         <h1 className='mt-2'>
           Please{' '}
-          <Link
-            style={{ textDecoration: 'underline', color: 'blue' }}
-            to='/login'
-          >
+          <Link style={{ textDecoration: 'underline', color: 'blue' }} to='/login'>
             login here
           </Link>{' '}
           after verifying your account.
@@ -39,8 +34,7 @@ export const Signup = () => {
   const isInputValid = (): boolean => {
     const emailValue: string | undefined = emailInputRef.current?.value
     const passwordValue: string | undefined = passwordInputRef.current?.value
-    const confirmPassValue: string | undefined =
-      confirmPasswordInputRef.current?.value
+    const confirmPassValue: string | undefined = confirmPasswordInputRef.current?.value
 
     if (!emailValue || emailValue === '' || !validate(emailValue)) {
       setEmailInputValid(false)
@@ -48,11 +42,7 @@ export const Signup = () => {
     } else {
       setEmailInputValid(true)
     }
-    if (
-      !passwordValue ||
-      passwordValue !== confirmPassValue ||
-      passwordValue === ''
-    ) {
+    if (!passwordValue || passwordValue !== confirmPassValue || passwordValue === '') {
       setPasswordMatching(false)
       return false
     } else {
@@ -103,9 +93,7 @@ export const Signup = () => {
       <div className='flex flex-col justify-center p-4 font-[sans-serif]'>
         <div className='mx-auto w-full max-w-md rounded-2xl border border-gray-300 p-8'>
           <div className='mb-12 text-center'>
-            <a
-              href={`${import.meta.env.VITE_SERVER_ADDRESS}${import.meta.env.VITE_SERVER_PORT}/`}
-            >
+            <a href={`${import.meta.env.VITE_SERVER_ADDRESS}${import.meta.env.VITE_SERVER_PORT}/`}>
               <div className='flex w-full flex-row items-center justify-center gap-1 text-gray-700'>
                 <SiBloglovin className='mb-1' />
                 <p className='font-bolder'>Logify</p>
@@ -116,9 +104,7 @@ export const Signup = () => {
           <form>
             <div className='space-y-6'>
               <div>
-                <label className='mb-2 block text-sm text-gray-800'>
-                  Email Id
-                </label>
+                <label className='mb-2 block text-sm text-gray-800'>Email Id</label>
                 <input
                   ref={emailInputRef}
                   name='email'
@@ -128,9 +114,7 @@ export const Signup = () => {
                 />
               </div>
               <div>
-                <label className='mb-2 block text-sm text-gray-800'>
-                  Password
-                </label>
+                <label className='mb-2 block text-sm text-gray-800'>Password</label>
                 <input
                   ref={passwordInputRef}
                   name='password'
@@ -140,9 +124,7 @@ export const Signup = () => {
                 />
               </div>
               <div>
-                <label className='mb-2 block text-sm text-gray-800'>
-                  Confirm Password
-                </label>
+                <label className='mb-2 block text-sm text-gray-800'>Confirm Password</label>
                 <input
                   ref={confirmPasswordInputRef}
                   name='cpassword'
@@ -161,10 +143,7 @@ export const Signup = () => {
                 />
                 <label className='ml-3 block text-sm text-gray-800'>
                   I accept the{' '}
-                  <a
-                    href='javascript:void(0);'
-                    className='ml-1 font-semibold text-blue-600 hover:underline'
-                  >
+                  <a href='javascript:void(0);' className='ml-1 font-semibold text-blue-600 hover:underline'>
                     Terms and Conditions
                   </a>
                 </label>
@@ -177,19 +156,12 @@ export const Signup = () => {
                 className='min-h-11 w-full rounded-md bg-blue-600 px-4 py-3 text-sm font-semibold tracking-wider text-white hover:bg-blue-700 focus:outline-none'
                 onClick={handleSignup}
               >
-                {apiStatus === API_STATUS.WAITING ? (
-                  <Spinner />
-                ) : (
-                  <span>Create an account</span>
-                )}
+                {apiStatus === API_STATUS.WAITING ? <Spinner /> : <span>Create an account</span>}
               </button>
             </div>
             <p className='mt-6 text-center text-sm text-gray-800'>
               Already have an account?{' '}
-              <Link
-                className='ml-1 font-semibold text-blue-600 hover:underline'
-                to='/login'
-              >
+              <Link className='ml-1 font-semibold text-blue-600 hover:underline' to='/login'>
                 Login here
               </Link>
             </p>

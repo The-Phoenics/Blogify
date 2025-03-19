@@ -21,18 +21,13 @@ function BlogContent(props) {
 // Main component
 export const BlogPost = () => {
   const params = useParams()
-
   const [apiStatus, setApiStatus] = useState<API_STATUS>(API_STATUS.WAITING)
   const [blogData, setBlogData] = useState<IBlog>()
   const [editable, setEditable] = useState<boolean>(true)
   const owner: boolean = editable
 
-  const [publishApiStatus, setPublishApiStatus] = useState<API_STATUS>(
-    API_STATUS.IDLE
-  )
-  const [previewStatus, setpPreviewStatus] = useState<API_STATUS>(
-    API_STATUS.IDLE
-  )
+  const [publishApiStatus, setPublishApiStatus] = useState<API_STATUS>(API_STATUS.IDLE)
+  const [previewStatus, setpPreviewStatus] = useState<API_STATUS>(API_STATUS.IDLE)
   const [editing, setEditing] = useState<boolean>(false)
 
   const handleEditing = () => {
@@ -69,21 +64,13 @@ export const BlogPost = () => {
                 className='min-h-14 min-w-[140px] rounded-lg border p-2 px-6 py-3 shadow-sm'
                 onClick={handlePreviewing}
               >
-                {previewStatus === API_STATUS.WAITING ? (
-                  <Spinner color={'black'} />
-                ) : (
-                  'Preview'
-                )}
+                {previewStatus === API_STATUS.WAITING ? <Spinner color={'black'} /> : 'Preview'}
               </button>{' '}
               <button
                 className='min-h-14 min-w-[140px] rounded-lg border bg-blue-600 p-2 px-6 py-3 text-white shadow-sm'
                 onClick={handlePublishing}
               >
-                {publishApiStatus === API_STATUS.WAITING ? (
-                  <Spinner />
-                ) : (
-                  'Publish'
-                )}
+                {publishApiStatus === API_STATUS.WAITING ? <Spinner /> : 'Publish'}
               </button>
             </div>
             <BlogHeaderUserModel />
@@ -110,9 +97,7 @@ export const BlogPost = () => {
 
     return (
       <div className='relative mb-6 flex items-center justify-between border-b bg-white px-6 py-4 shadow-sm'>
-        <a
-          href={`${import.meta.env.VITE_SERVER_ADDRESS}${import.meta.env.VITE_SERVER_PORT}/`}
-        >
+        <a href={`${import.meta.env.VITE_SERVER_ADDRESS}${import.meta.env.VITE_SERVER_PORT}/`}>
           <div className='flex items-center gap-1 text-gray-700'>
             <SiBloglovin className='mb-1' />
             <p className='font-bold'>Logify</p>
@@ -187,11 +172,7 @@ export const BlogPost = () => {
               <div className='h-10 w-10 animate-spin rounded-full border-4 border-blue-500 border-t-transparent'></div>
             </div>
           ) : (
-            <BlogContent
-              editing={editing}
-              blogData={blogData}
-              setBlogData={setBlogData}
-            />
+            <BlogContent editing={editing} blogData={blogData} setBlogData={setBlogData} />
           )}
         </div>
       </div>

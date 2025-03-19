@@ -7,10 +7,7 @@ function Editable(props) {
   return (
     <div className='max-w-[2100px] px-16'>
       <article>
-        <h1
-          className='border-none text-2xl font-bold text-gray-900'
-          contentEditable={true}
-        >
+        <h1 className='border-none text-2xl font-bold text-gray-900' contentEditable={true}>
           {blogData?.title}
         </h1>
 

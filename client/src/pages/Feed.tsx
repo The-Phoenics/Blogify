@@ -87,10 +87,7 @@ export const Feed = () => {
               className='w-full rounded-md border border-gray-300 p-2'
               placeholder='Enter search term...'
             />
-            <button
-              onClick={searchBlogs}
-              className='mt-2 w-full rounded bg-blue-600 py-2 text-white hover:bg-blue-700'
-            >
+            <button onClick={searchBlogs} className='mt-2 w-full rounded bg-blue-600 py-2 text-white hover:bg-blue-700'>
               Go!
             </button>
           </div>
@@ -119,40 +116,28 @@ export const Feed = () => {
             <div className='mt-6 flex flex-col items-center justify-center py-10'>
               <IoDocumentTextOutline size={'2.5rem'} />
               <h2 className='mt-2'>Not found!</h2>
-              <p className='mt-1 text-sm text-gray-500'>
-                Try searching for something else.
-              </p>
+              <p className='mt-1 text-sm text-gray-500'>Try searching for something else.</p>
             </div>
           ) : (
             <div className='grid grid-cols-1 gap-6 md:grid-cols-2'>
               {feedBlogs?.map((blog: IBlog, idx: number) => (
-                <div
-                  key={idx}
-                  className='rounded-lg border border-gray-300 bg-white p-4 pb-6 shadow'
-                >
-                  <img
-                    src={`${blog.image}`}
-                    className='aspect-square w-full rounded-md bg-transparent object-cover'
-                  />
+                <div key={idx} className='rounded-lg border border-gray-300 bg-white p-4 pb-6 shadow'>
+                  <img src={`${blog.image}`} className='aspect-square w-full rounded-md bg-transparent object-cover' />
                   <p className='mt-2 text-sm text-gray-600'>
                     {new Date(blog.date).getDate()}&nbsp;
                     {MONTHS[new Date(blog.date).getMonth()]},&nbsp;
                     {new Date(blog.date).getFullYear()}
                   </p>
                   <h3 className='mt-1 text-lg font-semibold text-gray-900'>
-                    {blog.title
-                      .split(' ', 4)
-                      .map((word: string, idx: number) => {
-                        return <span key={idx}>{word}&nbsp;</span>
-                      })}
+                    {blog.title.split(' ', 4).map((word: string, idx: number) => {
+                      return <span key={idx}>{word}&nbsp;</span>
+                    })}
                     {blog.content.length > 4 ? <span>...</span> : ''}
                   </h3>
                   <p className='mb-4 text-sm text-gray-700'>
-                    {blog.content
-                      .split(' ', 5)
-                      .map((word: string, idx: number) => {
-                        return <span key={idx}>{word}&nbsp;</span>
-                      })}
+                    {blog.content.split(' ', 5).map((word: string, idx: number) => {
+                      return <span key={idx}>{word}&nbsp;</span>
+                    })}
                     {blog.content.length > 5 ? <span>...</span> : ''}
                   </p>
                   <Link
@@ -177,10 +162,7 @@ export const Feed = () => {
               className='w-full rounded-md border border-gray-300 p-2'
               placeholder='Enter search term...'
             />
-            <button
-              onClick={searchBlogs}
-              className='mt-2 w-full rounded bg-blue-600 py-2 text-white hover:bg-blue-700'
-            >
+            <button onClick={searchBlogs} className='mt-2 w-full rounded bg-blue-600 py-2 text-white hover:bg-blue-700'>
               Go!
             </button>
           </div>

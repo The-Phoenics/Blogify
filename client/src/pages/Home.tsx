@@ -15,41 +15,25 @@ export const Home = () => {
             <Link to='/' className='hover:text-primary text-sm font-medium'>
               Home
             </Link>
-            <Link
-              to='#'
-              className='hover:text-primary text-sm font-medium text-gray-500'
-            >
+            <Link to='#' className='hover:text-primary text-sm font-medium text-gray-500'>
               Explore
             </Link>
-            <Link
-              to='#'
-              className='hover:text-primary text-sm font-medium text-gray-500'
-            >
+            <Link to='#' className='hover:text-primary text-sm font-medium text-gray-500'>
               About
             </Link>
-            <Link
-              to='#'
-              className='hover:text-primary text-sm font-medium text-gray-500'
-            >
+            <Link to='#' className='hover:text-primary text-sm font-medium text-gray-500'>
               Contact
             </Link>
           </nav>
           <div className='flex items-center gap-4'>
             <div className='relative hidden md:flex'>
               <Search className='absolute left-2.5 top-2.5 h-4 w-4 text-gray-400' />
-              <input
-                type='search'
-                placeholder='Search...'
-                className='w-[200px] rounded-md border px-2 py-1 pl-8'
-              />
+              <input type='search' placeholder='Search...' className='w-[200px] rounded-md border px-2 py-1 pl-8' />
             </div>
             <Link to='/login' className='rounded-md border px-4 py-2 text-sm'>
               Log in
             </Link>
-            <Link
-              to='/signup'
-              className='rounded-md bg-blue-600 px-4 py-2 text-sm text-white'
-            >
+            <Link to='/signup' className='rounded-md bg-blue-600 px-4 py-2 text-sm text-white'>
               Sign up
             </Link>
           </div>
@@ -60,33 +44,20 @@ export const Home = () => {
       <main className='relative flex h-full w-full flex-1 items-center justify-center bg-gray-100 bg-transparent text-white'>
         <section className='mb-10 w-full'>
           <div className='px-4 text-center md:px-6'>
-            <h1 className='text-4xl font-bold'>
-              Share Your Stories with the World
-            </h1>
-            <p className='mt-2'>
-              Join our community of writers and readers today.
-            </p>
+            <h1 className='text-4xl font-bold'>Share Your Stories with the World</h1>
+            <p className='mt-2'>Join our community of writers and readers today.</p>
             <div className='mt-4 flex flex-col justify-center gap-4 sm:flex-row'>
-              <Link
-                to='/signup'
-                className='rounded-md bg-blue-600 px-6 py-3 text-white shadow-md'
-              >
+              <Link to='/signup' className='rounded-md bg-blue-600 px-6 py-3 text-white shadow-md'>
                 Get Started
               </Link>
-              <Link
-                to='/feed'
-                className='flex items-center rounded-md border px-6 py-3 shadow-md'
-              >
+              <Link to='/feed' className='flex items-center rounded-md border px-6 py-3 shadow-md'>
                 Explore Blogs <ChevronRight className='ml-1 h-4 w-4' />
               </Link>
             </div>
           </div>
         </section>
         <div className='absolute left-0 top-0 z-[-1] h-full w-full object-cover blur-sm'>
-          <img
-            src='/backgroundimg.jpg'
-            className='h-full w-full object-cover'
-          />
+          <img src='/backgroundimg.jpg' className='h-full w-full object-cover' />
         </div>
       </main>
     </div>

@@ -37,15 +37,10 @@ const CommentSection = ({ blogData, setBlogData }) => {
       <h2 className='text-xl font-semibold text-gray-900'>Comments</h2>
       {blogData?.comments?.map((comment: IComment, idx: number) => {
         return (
-          <div
-            key={idx}
-            className='flex w-full flex-col gap-2 rounded-lg p-4 text-left text-lg text-gray-800'
-          >
+          <div key={idx} className='flex w-full flex-col gap-2 rounded-lg p-4 text-left text-lg text-gray-800'>
             <p className=''>{comment.content}</p>
             <span className='flex w-full justify-end'>
-              <span className='mr-10 font-semibold text-gray-700 hover:cursor-pointer'>
-                @{'UserA232E!'}
-              </span>
+              <span className='mr-10 font-semibold text-gray-700 hover:cursor-pointer'>@{'UserA232E!'}</span>
             </span>
           </div>
         )

@@ -75,13 +75,7 @@ function Editor(props) {
     }
   }, [])
 
-  return (
-    <div
-      id='editorjs'
-      ref={editorRef}
-      className={` ${stylingClasses} min-h-[100vh]`}
-    ></div>
-  )
+  return <div id='editorjs' ref={editorRef} className={` ${stylingClasses} min-h-[100vh]`}></div>
 }
 
 export default Editor

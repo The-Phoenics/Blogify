@@ -69,9 +69,7 @@ export const Login = () => {
       <div className='flex flex-col justify-center p-4 font-[sans-serif]'>
         <div className='mx-auto w-full max-w-md rounded-2xl border border-gray-300 p-8'>
           <div className='mb-12 text-center'>
-            <a
-              href={`${import.meta.env.VITE_SERVER_ADDRESS}${import.meta.env.VITE_SERVER_PORT}/`}
-            >
+            <a href={`${import.meta.env.VITE_SERVER_ADDRESS}${import.meta.env.VITE_SERVER_PORT}/`}>
               <div className='flex w-full flex-row items-center justify-center gap-1 text-gray-700'>
                 <SiBloglovin className='mb-1' />
                 <p className='font-bolder'>Logify</p>
@@ -82,9 +80,7 @@ export const Login = () => {
           <form>
             <div className='space-y-6'>
               <div>
-                <label className='mb-2 block text-sm text-gray-800'>
-                  Email Id
-                </label>
+                <label className='mb-2 block text-sm text-gray-800'>Email Id</label>
                 <input
                   ref={emailInputRef}
                   name='email'
@@ -94,9 +90,7 @@ export const Login = () => {
                 />
               </div>
               <div>
-                <label className='mb-2 block text-sm text-gray-800'>
-                  Password
-                </label>
+                <label className='mb-2 block text-sm text-gray-800'>Password</label>
                 <input
                   ref={passwordInputRef}
                   name='password'
@@ -113,19 +107,12 @@ export const Login = () => {
                 className='min-h-11 w-full rounded-md bg-blue-600 px-4 py-3 text-sm font-semibold tracking-wider text-white hover:bg-blue-700 focus:outline-none'
                 onClick={handleLogin}
               >
-                {apiStatus === API_STATUS.WAITING ? (
-                  <Spinner />
-                ) : (
-                  <span>Login</span>
-                )}
+                {apiStatus === API_STATUS.WAITING ? <Spinner /> : <span>Login</span>}
               </button>
             </div>
             <p className='mt-6 text-center text-sm text-gray-800'>
               Don't have an account?
-              <Link
-                className='ml-1 font-semibold text-blue-600 hover:underline'
-                to='/signup'
-              >
+              <Link className='ml-1 font-semibold text-blue-600 hover:underline' to='/signup'>
                 Signup now
               </Link>
             </p>
