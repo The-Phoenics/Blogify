@@ -22,7 +22,7 @@ function middleware(app: Express): Express {
     app.use(
         cors({
             origin: [`${clientReqUrl}`],
-            methods: ["GET", "POST", "PUT", "OPTIONS", "DELETE"],
+            methods: ["GET", "POST", "PUT", "OPTIONS", "DELETE", "PATCH"],
             credentials: true
         })
     );
