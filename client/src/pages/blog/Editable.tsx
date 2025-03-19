@@ -1,39 +1,57 @@
-import Editor from "@/components/Editor";
-import { ITag } from "@/types/types";
+import Editor from '@/components/Editor'
+import { ITag } from '@/types/types'
 
 function Editable(props) {
-    const { blogData, setBlogData } = props
+  const { blogData, setBlogData } = props
 
-    return (
-        <div className="px-16 max-w-[2100px]">
-            <article>
-                <h1 className="text-2xl font-bold text-gray-900 border-none" contentEditable={true}>{blogData?.title}</h1>
+  return (
+    <div className='max-w-[2100px] px-16'>
+      <article>
+        <h1
+          className='border-none text-2xl font-bold text-gray-900'
+          contentEditable={true}
+        >
+          {blogData?.title}
+        </h1>
 
-                <div className="flex items-center justify-center mt-8 mb-8">
-                    <div className="flex gap-2 flex-wrap">
-                        {
-                            blogData?.tags?.map((tag: ITag, idx: number) => {
-                                return <span key={idx} className="bg-blue-100 text-blue-700 px-3 py-1 text-sm rounded-full hover:cursor-pointer">{tag.tag}</span>
-
-                            })
-                        }
-                    </div>
-                </div>
-
-                {/* image banner for blog */}
-                {
-                    blogData?.image ? <div className="h-90 w-full mb-6 flex justify-center items-center">
-                        <img src={`${blogData?.image}`} className="w-full md:w-[80%] shadow-lg max-w-[500px] rounded-md object-cover" />
-                    </div> : ""
-                }
-
-                {/* editor for writing blogs content */}
-                <Editor editable={true} className="text-gray-800 text-lg text-left leading-relaxed mb-14">
-                    {blogData?.content}
-                </Editor>
-            </article>
+        <div className='mb-8 mt-8 flex items-center justify-center'>
+          <div className='flex flex-wrap gap-2'>
+            {blogData?.tags?.map((tag: ITag, idx: number) => {
+              return (
+                <span
+                  key={idx}
+                  className='rounded-full bg-blue-100 px-3 py-1 text-sm text-blue-700 hover:cursor-pointer'
+                >
+                  {tag.tag}
+                </span>
+              )
+            })}
+          </div>
         </div>
-    )
+
+        {/* image banner for blog */}
+        {blogData?.image ? (
+          <div className='h-90 mb-6 flex w-full items-center justify-center'>
+            <img
+              src={`${blogData?.image}`}
+              className='w-full max-w-[500px] rounded-md object-cover shadow-lg md:w-[80%]'
+            />
+          </div>
+        ) : (
+          ''
+        )}
+
+        {/* editor for writing blogs content */}
+        <Editor
+          editable={true}
+          setBlogData={setBlogData}
+          className='mb-14 text-left text-lg leading-relaxed text-gray-800'
+        >
+          {blogData?.content}
+        </Editor>
+      </article>
+    </div>
+  )
 }
 
 export default Editable
