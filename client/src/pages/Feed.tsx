@@ -3,21 +3,7 @@ import { Link, useNavigate } from 'react-router'
 import { API_STATUS, IBlog } from '../types/types'
 import { IoDocumentTextOutline } from 'react-icons/io5'
 import BlogHeader from '@/components/Header'
-
-const MONTHS: string[] = [
-  'January',
-  'February',
-  'March',
-  'April',
-  'May',
-  'June',
-  'July',
-  'August',
-  'September',
-  'October',
-  'November',
-  'December',
-]
+import { getLargeDate } from '@/utils'
 
 export const Feed = () => {
   const [feedBlogs, setFeedBlogs] = useState<IBlog[]>([])
@@ -25,7 +11,7 @@ export const Feed = () => {
   const [searchNotFound, setSearchNotFound] = useState<boolean>(false)
 
   const navigate = useNavigate()
-  const searchInputRef = useRef<HTMLInputElement>(undefined)
+  const searchInputRef = useRef<HTMLInputElement | undefined>(undefined)
 
   const fetchFeedBlogs = async () => {
     const url = `${import.meta.env.VITE_SERVER_ADDRESS}${import.meta.env.VITE_SERVER_PORT}/blog`
@@ -124,9 +110,7 @@ export const Feed = () => {
                 <div key={idx} className='rounded-lg border border-gray-300 bg-white p-4 pb-6 shadow'>
                   <img src={`${blog.image}`} className='aspect-square w-full rounded-md bg-transparent object-cover' />
                   <p className='mt-2 text-sm text-gray-600'>
-                    {new Date(blog.date).getDate()}&nbsp;
-                    {MONTHS[new Date(blog.date).getMonth()]},&nbsp;
-                    {new Date(blog.date).getFullYear()}
+                    {getLargeDate(blog.date)}
                   </p>
                   <h3 className='mt-1 text-lg font-semibold text-gray-900'>
                     {blog.title.split(' ', 4).map((word: string, idx: number) => {

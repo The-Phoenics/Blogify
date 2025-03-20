@@ -1,13 +1,10 @@
 import Editor from '@/components/Editor'
 import CommentSection from './CommentSection'
 import { ITag } from '@/types/types'
-
-const MONTHS: string[] = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'June', 'July', 'Aug', 'Sept', 'Oct', 'Nov', 'Dec']
+import { getSmallDate } from '@/utils'
 
 function NonEditable(props) {
   const { blogData, setBlogData, setEditorDataChanged } = props
-  const date = new Date(blogData.date)
-  const dateString = MONTHS[date.getMonth()] + ' ' + date.getDate() + ', ' + date.getFullYear()
 
   return (
     <div className='w-full max-w-[2100px] px-16'>
@@ -20,7 +17,7 @@ function NonEditable(props) {
             </p>
           </div>
           <span>•</span>
-          <div>{dateString}</div>
+          <div>{getSmallDate(blogData.date)}</div>
         </div>
 
         {/* image banner for blog */}
