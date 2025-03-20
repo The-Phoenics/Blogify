@@ -39,7 +39,6 @@ export const BlogPost = () => {
     }
     setpPreviewStatus(API_STATUS.WAITING)
     // TODO: also save the blog
-    console.log(blogData)
     setEditing(false)
     setpPreviewStatus(API_STATUS.SUCCESS)
   }
@@ -140,6 +139,9 @@ export const BlogPost = () => {
     const res = await fetch(url, {
       method: 'PATCH',
       credentials: 'include',
+      headers: {
+        'Content-Type': 'application/json',
+      },
       body: JSON.stringify(blogData),
     })
     if (!res.ok) {
