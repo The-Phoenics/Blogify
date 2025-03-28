@@ -1,10 +1,50 @@
 import { Spinner } from '@/components/Spinner'
 import { API_STATUS, IComment } from '@/types/types'
-import { useRef, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 
-const CommentSection = props => {
+const CommentSection = (props) => {
   const { blogData, setEditorDataChanged } = props
-  const commentInputRef = useRef<HTMLTextAreaElement>(null)
+  const blogId = blogData._id
+
+  return (
+    <div className='mb-6 mt-8 flex flex-col items-center justify-center'>
+      <h2 className='text-xl font-semibold text-gray-900'>Comments</h2>
+      <CommentViewSection blogData={blogData} />
+      <CommentPostSection blogId={blogId} />
+    </div>
+  )
+}
+
+function CommentViewSection(props) {
+  const { blogData } = props
+  const [apiStatus, setApiStatus] = useState<API_STATUS>(API_STATUS.IDLE)
+  const [comments, setComments] = useState<IComment[]>([])
+
+  const fetchCommentsOfBlog =(blogId: string) => {
+    // TODO: fetch comments of a blog
+    setComments(blogData.comments)
+  }
+
+  useEffect(() => {
+    fetchCommentsOfBlog(blogData._id)
+  }, [])
+
+  return (<>
+    {comments?.map((comment: IComment, idx: number) => {
+      return (
+        <div key={idx} className='flex w-full flex-col gap-2 rounded-lg p-4 text-left text-lg text-gray-800'>
+          <p className=''>{comment.content}</p>
+          <span className='flex w-full justify-end'>
+            <span className='mr-10 font-semibold text-gray-700 hover:cursor-pointer'>@{'UserA232E!'}</span>
+          </span>
+        </div>
+      )
+    })}
+  </>)
+}
+
+function CommentPostSection(props) {
+  const commentInputRef = useRef<HTMLTextAreaElement | null>(null)
   const [apiStatus, setApiStatus] = useState<API_STATUS>(API_STATUS.IDLE)
 
   const handlePostComment = async () => {
@@ -19,7 +59,7 @@ const CommentSection = props => {
           'Content-Type': 'application/json',
         },
         body: JSON.stringify({
-          // TODO: send comment data and create comment
+          // TODO: post comment for a specific blog
         }),
       }
     )
@@ -34,18 +74,7 @@ const CommentSection = props => {
   }
 
   return (
-    <div className='mb-6 mt-8 flex flex-col items-center justify-center'>
-      <h2 className='text-xl font-semibold text-gray-900'>Comments</h2>
-      {blogData?.comments?.map((comment: IComment, idx: number) => {
-        return (
-          <div key={idx} className='flex w-full flex-col gap-2 rounded-lg p-4 text-left text-lg text-gray-800'>
-            <p className=''>{comment.content}</p>
-            <span className='flex w-full justify-end'>
-              <span className='mr-10 font-semibold text-gray-700 hover:cursor-pointer'>@{'UserA232E!'}</span>
-            </span>
-          </div>
-        )
-      })}
+    <>
       <textarea
         ref={commentInputRef}
         rows={6}
@@ -58,7 +87,7 @@ const CommentSection = props => {
       >
         {apiStatus === API_STATUS.WAITING ? <Spinner /> : 'Post Comment'}
       </button>
-    </div>
+    </>
   )
 }
 
