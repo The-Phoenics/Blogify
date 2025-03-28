@@ -12,11 +12,12 @@ import "@models/index.js"
 import userRouter from "@routes/user.route.js";
 import blogRouter from "@routes/blog.route.js";
 import authRouter from "@routes/auth.route.js";
-import { verifyUserSession } from "@middlewares/verifyUserSession.js";
+import commentRouter from "@routes/comment.route.js";
 
 app.use('/user', userRouter)
 app.use('/blog', blogRouter)
 app.use('/auth', authRouter)
+app.use('/comment', commentRouter)
 app.get('*', (req: Request, res: Response) => {
     res.status(404).json({ message: "404 NOT FOUND" })
 })

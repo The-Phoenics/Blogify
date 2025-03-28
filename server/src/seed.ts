@@ -36,6 +36,7 @@ const generateBlogs = async (users, tags, count) => {
             content: faker.lorem.paragraphs(5),
             author: faker.helpers.arrayElement(users)._id,
             tags: faker.helpers.arrayElements(tags.map(tag => tag._id), faker.number.int({ min: 1, max: 3 })),
+            // comments: faker.helpers.arrayElements(comments),
             date: faker.date.past(),
             lastUpdated: faker.date.recent(),
             public: faker.datatype.boolean(),
@@ -74,8 +75,8 @@ const seedDatabase = async () => {
             const blogs = await generateBlogs(users, tags, 10);
             console.log('Blogs created.');
 
-            await generateComments(users, blogs, 20);
-            console.log('Comments created.');
+            // await generateComments(users, blogs, 20);
+            // console.log('Comments created.');
 
             console.log('Database seeding complete.');
             mongoose.connection.close();

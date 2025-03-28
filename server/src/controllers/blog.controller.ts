@@ -19,7 +19,6 @@ export async function get_blog(req: Request, res: Response) {
     }
     blog = await blog.populate("tags")
     blog = await blog.populate("author")
-    blog = await blog.populate("comments")
     res.json(blog)
 }
 

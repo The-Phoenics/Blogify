@@ -1,13 +1,11 @@
 import mongoose from 'mongoose';
 import { ITagDocument } from '@models/tag.model';
-import { commentSchema, ICommentDocument } from '@models/comment.model';
 import { IUserDocument } from './user.model';
 
 export interface IBlogDocument extends Document {
     title: string,
     author: IUserDocument,
     content: string,
-    comments: [ICommentDocument],
     published: boolean,
     public: boolean,
     image: String,
@@ -24,7 +22,6 @@ const blogSchema = new mongoose.Schema<IBlogDocument>({
         required: true
     },
     content: { type: String, required: true },
-    comments: [commentSchema],
     published: { type: Boolean, default: false },
     public: { type: Boolean, default: true },
     image: String,
