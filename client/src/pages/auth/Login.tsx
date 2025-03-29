@@ -6,8 +6,8 @@ import { Spinner } from '@/components/Spinner'
 import { API_STATUS } from '../../types/types'
 
 export const Login = () => {
-  const emailInputRef = useRef<HTMLInputElement>(null)
-  const passwordInputRef = useRef<HTMLInputElement>(null)
+  const emailInputRef = useRef<HTMLInputElement | null>(null)
+  const passwordInputRef = useRef<HTMLInputElement | null>(null)
   const [emailInputValid, setEmailInputValid] = useState<boolean>(true)
   const [passwordInputValid, setPasswordInputValid] = useState<boolean>(true)
   const [apiStatus, setApiStatus] = useState<API_STATUS>(API_STATUS.IDLE)

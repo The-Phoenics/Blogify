@@ -90,10 +90,6 @@ export async function delete_blog(req: Request, res: Response) {
     res.json(deletedBlog)
 }
 
-export async function create_comment(req: Request, res: Response) {
-    // TODO: implement this route for handling comment creation
-}
-
 export async function search_blog(req: Request, res: Response) {
     let searchString = req.query.title
     searchString = searchString.trim()

@@ -1,6 +1,5 @@
 import express, { Router } from "express";
 import * as commentController from "@controllers/comment.controller";
-import { verifyUserSession } from "@middlewares/verifyUserSession";
 
 const commentRouter: Router = express.Router()
 

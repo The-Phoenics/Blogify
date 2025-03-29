@@ -1,15 +1,23 @@
-import { useRef } from 'react'
+import { useRef, useState } from 'react'
 import './Editor.css'
-import { IBlog } from '@/types/types'
+import { IBlog, IComment } from '@/types/types'
 
-function Editor(props) {
+interface EditorProps {
+  className: string
+  children: string
+  setBlogData: (val: IBlog) => void
+  setEditorDataChanged: (val: boolean) => void
+  editable: boolean
+}
+
+function Editor(props: EditorProps) {
   const stylingClasses = props.className
   const blogContent = props.children
   const setBlogData = props.setBlogData
   const setEditorDataChanged = props.setEditorDataChanged
   const editable = props.editable
 
-  const editorRef = useRef<HTMLTextAreaElement>(null)
+  const editorRef = useRef<HTMLTextAreaElement | null>(null)
 
   const handleBlogContentChange = () => {
     const newBlogContent = editorRef.current?.value
@@ -24,6 +32,12 @@ function Editor(props) {
     }
     setEditorDataChanged(true)
   }
+
+  useState(() => {
+    if (editorRef.current) {
+      editorRef.current.value = blogContent
+    }
+  }, [])
 
   return (
     <textarea

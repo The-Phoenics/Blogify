@@ -11,7 +11,7 @@ export const Feed = () => {
   const [searchNotFound, setSearchNotFound] = useState<boolean>(false)
 
   const navigate = useNavigate()
-  const searchInputRef = useRef<HTMLInputElement | undefined>(undefined)
+  const searchInputRef = useRef<HTMLInputElement | null>(null)
 
   const fetchFeedBlogs = async () => {
     const url = `${import.meta.env.VITE_SERVER_ADDRESS}${import.meta.env.VITE_SERVER_PORT}/blog`

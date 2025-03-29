@@ -2,9 +2,13 @@ import Editor from '@/components/Editor'
 import { IBlog, ITag } from '@/types/types'
 import { useRef } from 'react'
 
-// TODO: Add props types for all components taking prop args
+interface EditableProps {
+  blogData: IBlog
+  setBlogData: (val: IBlog) => void
+  setEditorDataChanged: (val: boolean) => boolean
+}
 
-function Editable(props) {
+function Editable(props: EditableProps) {
   const titleRef = useRef<HTMLHeadingElement | null>(null)
   const { blogData, setBlogData, setEditorDataChanged } = props
 

@@ -2,8 +2,8 @@ import { Spinner } from '@/components/Spinner'
 import { API_STATUS, IComment } from '@/types/types'
 import { useEffect, useRef, useState } from 'react'
 
-const CommentSection = (props: { blogId: string, setEditorDataChanged: (val: boolean) => void }) => {
-  const { blogId, setEditorDataChanged } = props
+const CommentSection = (props: { blogId: string }) => {
+  const { blogId } = props
   const [comments, setComments] = useState<IComment[]>([])
 
   return (

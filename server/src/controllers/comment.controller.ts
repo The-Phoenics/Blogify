@@ -6,14 +6,14 @@ export async function get_comments(req: Request, res: Response) {
     const blogId = req.params.blogId
     if (!blogId || !isValidObjectId(blogId)) {
         res.status(404).json({
-            message: "invalid comment"
+            message: "Invalid comment"
         })
         return
     }
     let comment = await Comment.find({ blogId: blogId })
     if (!comment) {
         res.status(404).json({
-            message: "invalid blog id"
+            message: "Invalid blog id"
         })
         return
     }
@@ -31,7 +31,7 @@ export async function create_comment(req: Request, res: Response) {
     if (!createdcomment) {
         return res.status(400).json({
             success: false,
-            message: "failed to create comment"
+            message: "Failed to create comment"
         })
     }
     await createdcomment.save()

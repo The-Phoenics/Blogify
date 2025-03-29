@@ -10,6 +10,5 @@ blogRouter.delete("/", blogController.delete_blog)
 blogRouter.get("/search", blogController.search_blog)
 blogRouter.get("/:id", blogController.get_blog)
 blogRouter.patch("/:id", blogController.update_blog)
-blogRouter.post("/comment", blogController.create_comment)
 
 export default blogRouter;

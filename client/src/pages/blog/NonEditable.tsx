@@ -1,10 +1,10 @@
 import Editor from '@/components/Editor'
 import CommentSection from './CommentSection'
-import { ITag } from '@/types/types'
+import { IBlog, ITag } from '@/types/types'
 import { getSmallDate } from '@/utils'
 
-function NonEditable(props) {
-  const { blogData, setBlogData, setEditorDataChanged } = props
+function NonEditable(props: { blogData: IBlog, setEditorDataChanged: (val: boolean) => void }) {
+  const { blogData, setEditorDataChanged } = props
 
   return (
     <div className='w-full max-w-[2100px] px-16'>
@@ -44,7 +44,7 @@ function NonEditable(props) {
       <hr />
 
       {/* render comments */}
-      <CommentSection blogId={blogData._id} setBlogData={setBlogData} />
+      <CommentSection blogId={blogData._id} />
 
       <div className='mt-8 flex items-center justify-center'>
         <div className='flex flex-wrap gap-2'>
