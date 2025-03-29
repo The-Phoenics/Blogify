@@ -2,32 +2,43 @@ import { Spinner } from '@/components/Spinner'
 import { API_STATUS, IComment } from '@/types/types'
 import { useEffect, useRef, useState } from 'react'
 
-const CommentSection = (props) => {
-  const { blogData, setEditorDataChanged } = props
-  const blogId = blogData._id
+const CommentSection = (props: { blogId: string, setEditorDataChanged: (val: boolean) => void }) => {
+  const { blogId, setEditorDataChanged } = props
+  const [comments, setComments] = useState<IComment[]>([])
 
   return (
     <div className='mb-6 mt-8 flex flex-col items-center justify-center'>
       <h2 className='text-xl font-semibold text-gray-900'>Comments</h2>
-      <CommentViewSection blogData={blogData} />
-      <CommentPostSection blogId={blogId} />
+      <CommentViewSection blogId={blogId} comments={comments} setComments={setComments} />
+      <CommentPostSection blogId={blogId} setComments={setComments} />
     </div>
   )
 }
 
-function CommentViewSection(props) {
-  const { blogData } = props
+function CommentViewSection(props: { blogId: string, comments: IComment[], setComments: (comments: IComment[]) => void }) {
+  const { blogId, comments, setComments } = props
   const [apiStatus, setApiStatus] = useState<API_STATUS>(API_STATUS.IDLE)
-  const [comments, setComments] = useState<IComment[]>([])
 
-  const fetchCommentsOfBlog =(blogId: string) => {
-    // TODO: fetch comments of a blog
-    setComments(blogData.comments)
+  const fetchCommentsOfBlog = async () => {
+    const response = await fetch(
+      `${import.meta.env.VITE_SERVER_ADDRESS}${import.meta.env.VITE_SERVER_PORT}/comment/${blogId}`)
+    if (response.ok) {
+      const result = await response.json()
+      setComments(result)
+      setApiStatus(API_STATUS.SUCCESS)
+    }
+    setApiStatus(API_STATUS.ERROR)
   }
 
   useEffect(() => {
-    fetchCommentsOfBlog(blogData._id)
+    fetchCommentsOfBlog()
   }, [])
+
+  if (apiStatus === API_STATUS.WAITING) {
+    return <>
+      <Spinner />
+    </>
+  }
 
   return (<>
     {comments?.map((comment: IComment, idx: number) => {
@@ -35,7 +46,7 @@ function CommentViewSection(props) {
         <div key={idx} className='flex w-full flex-col gap-2 rounded-lg p-4 text-left text-lg text-gray-800'>
           <p className=''>{comment.content}</p>
           <span className='flex w-full justify-end'>
-            <span className='mr-10 font-semibold text-gray-700 hover:cursor-pointer'>@{'UserA232E!'}</span>
+            <span className='mr-10 font-semibold text-gray-700 hover:cursor-pointer'>@{comment.username}</span>
           </span>
         </div>
       )
@@ -43,34 +54,52 @@ function CommentViewSection(props) {
   </>)
 }
 
-function CommentPostSection(props) {
+function CommentPostSection(props: { blogId: string, setComments: (comments: IComment[]) => void }) {
+  const { blogId, setComments } = props
   const commentInputRef = useRef<HTMLTextAreaElement | null>(null)
   const [apiStatus, setApiStatus] = useState<API_STATUS>(API_STATUS.IDLE)
 
-  const handlePostComment = async () => {
-    if (apiStatus === API_STATUS.WAITING) return
-    setApiStatus(API_STATUS.WAITING)
+  const addComment = (comment: IComment) => {
+    setComments((prev) => [...prev, comment]);
+  }
 
-    const response = await fetch(
-      `${import.meta.env.VITE_SERVER_ADDRESS}${import.meta.env.VITE_SERVER_PORT}/blog/comment`,
-      {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          // TODO: post comment for a specific blog
-        }),
-      }
-    )
-
-    if (!response.ok) {
-      setApiStatus(API_STATUS.ERROR)
-      return
+  const clearTextInput = () => {
+    if (commentInputRef.current) {
+      commentInputRef.current.value = "";
     }
-    const result = await response.json()
-    console.log(result)
-    setApiStatus(API_STATUS.SUCCESS)
+  };
+
+  const handlePostComment = async () => {
+    const commentValue: string | undefined = commentInputRef.current?.value.trim()
+    if (blogId && commentValue && commentValue !== "") {
+      if (apiStatus === API_STATUS.WAITING) return
+      setApiStatus(API_STATUS.WAITING)
+      const response = await fetch(
+        `${import.meta.env.VITE_SERVER_ADDRESS}${import.meta.env.VITE_SERVER_PORT}/comment/${blogId}`,
+        {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({
+            username: "Marcos.Cummerata14", // TODO: remove hardcoded username
+            blogId: blogId,
+            content: commentValue
+          }),
+        }
+      )
+
+      if (!response.ok) {
+        setApiStatus(API_STATUS.ERROR)
+        return
+      }
+      const result = await response.json()
+      if (blogId === result.blogId) {
+        setApiStatus(API_STATUS.SUCCESS)
+        addComment(result)
+        clearTextInput()
+      }
+    }
   }
 
   return (

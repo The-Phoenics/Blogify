@@ -30,6 +30,7 @@ function Editor(props) {
       ref={editorRef}
       readOnly={!editable}
       onChange={handleBlogContentChange}
+      placeholder='Start writing your blog...'
       className={` ${stylingClasses} min-h-[100vh] w-full overflow-scroll bg-transparent p-2 outline-none`}
     >
       {blogContent}

@@ -44,7 +44,7 @@ function NonEditable(props) {
       <hr />
 
       {/* render comments */}
-      <CommentSection blogData={blogData} setBlogData={setBlogData} />
+      <CommentSection blogId={blogData._id} setBlogData={setBlogData} />
 
       <div className='mt-8 flex items-center justify-center'>
         <div className='flex flex-wrap gap-2'>

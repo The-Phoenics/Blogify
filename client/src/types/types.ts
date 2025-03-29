@@ -13,7 +13,8 @@ export interface ITag {
 
 export interface IComment {
   content: string
-  userId: string
+  username: string
+  blogId: string
   date: Date
 }
 
