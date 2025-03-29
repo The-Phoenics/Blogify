@@ -43,9 +43,6 @@ function NonEditable(props: { blogData: IBlog, setEditorDataChanged: (val: boole
       </article>
       <hr />
 
-      {/* render comments */}
-      <CommentSection blogId={blogData._id} />
-
       <div className='mt-8 flex items-center justify-center'>
         <div className='flex flex-wrap gap-2'>
           {blogData?.tags?.map((tag: ITag, idx: number) => {
@@ -57,6 +54,10 @@ function NonEditable(props: { blogData: IBlog, setEditorDataChanged: (val: boole
           })}
         </div>
       </div>
+
+      {/* render comments */}
+      <CommentSection blogId={blogData._id} />
+
     </div>
   )
 }

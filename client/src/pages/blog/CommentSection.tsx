@@ -7,10 +7,10 @@ const CommentSection = (props: { blogId: string }) => {
   const [comments, setComments] = useState<IComment[]>([])
 
   return (
-    <div className='mb-6 mt-8 flex flex-col items-center justify-center'>
-      <h2 className='text-xl font-semibold text-gray-900'>Comments</h2>
-      <CommentViewSection blogId={blogId} comments={comments} setComments={setComments} />
+    <div className='mb-10 mt-2 flex flex-col items-center justify-center'>
+      {/* <h2 className='text-xl font-semibold text-gray-900'>Comments</h2> */}
       <CommentPostSection blogId={blogId} setComments={setComments} />
+      <CommentViewSection blogId={blogId} comments={comments} setComments={setComments} />
     </div>
   )
 }
@@ -43,7 +43,7 @@ function CommentViewSection(props: { blogId: string, comments: IComment[], setCo
   return (<>
     {comments?.map((comment: IComment, idx: number) => {
       return (
-        <div key={idx} className='flex w-full flex-col gap-2 rounded-lg p-4 text-left text-lg text-gray-800'>
+        <div key={idx} className='border flex w-full flex-col gap-2 rounded-lg p-4 text-left text-lg text-gray-800'>
           <p className=''>{comment.content}</p>
           <span className='flex w-full justify-end'>
             <span className='mr-10 font-semibold text-gray-700 hover:cursor-pointer'>@{comment.username}</span>
@@ -111,7 +111,7 @@ function CommentPostSection(props: { blogId: string, setComments: (comments: ICo
         placeholder='Add a comment...'
       ></textarea>
       <button
-        className='mt-4 min-h-9 min-w-[200px] rounded-md bg-blue-600 px-4 py-2 text-sm font-semibold tracking-wider text-white hover:bg-blue-700 focus:outline-none'
+        className='mt-4 mb-8 min-h-9 min-w-[200px] rounded-md bg-blue-600 px-4 py-2 text-sm font-semibold tracking-wider text-white hover:bg-blue-700 focus:outline-none'
         onClick={handlePostComment}
       >
         {apiStatus === API_STATUS.WAITING ? <Spinner /> : 'Post Comment'}
