@@ -1,24 +1,47 @@
 import { Request, Response } from "express";
-import User, { IUserDocument } from "@models/user.model";
+import User from "@models/user.model";
 import Blog from "@models/blog.model";
 import mongoose, { isValidObjectId } from "mongoose";
 import * as EmailValidator from "email-validator";
 import bcrypt from "bcrypt";
+import { getClientUser } from "@services/auth.service";
 
 const SALT_ROUNDS = 10;
 
-export async function get_user(req: Request, res: Response) {
-    const email: string = req.body.email
-    const user: IUserDocument = await User.findOne({
-        email: email
-    })
+export async function get_user_logged_in(req: Request, res: Response) {
+    const user = await getClientUser(req)
     if (!user) {
+        return res.json({
+            message: "not logged in"
+        })
+    }
+    return res.status(200).json(user)
+}
+
+export async function get_user(req: Request, res: Response) {
+    const username = req.params.username
+    const user = await User.findOne({
+        username: username
+    })
+    if (!username || !user) {
         res.status(404).json({
             message: "Invalid user"
         })
         return
     }
-    res.json(user)
+    const loggedInUser = await getClientUser(req)
+    if (loggedInUser && loggedInUser.username === username) {
+        return res.status(200).json({
+            _id: user._id,
+            username: user.username,
+            email: user.email,
+            joinDate: user.joinDate
+        }) // TODO: append image to these
+    }
+    res.status(200).json({
+        username: user.username,
+        joinDate: user.joinDate
+    })
 }
 
 export async function create_user(req: Request, res: Response) {
