@@ -27,8 +27,8 @@ export const BlogHeaderUserModel = () => {
       {isOpen && (
         <div className='absolute right-0 top-16 mt-2 w-56 rounded-lg border border-gray-200 bg-white p-2 shadow-lg'>
           <div className='cursor-pointer border-b border-gray-200 p-3'>
-            <p className='font-bold'>Bjp King</p>
-            <p className='text-sm text-gray-500'>@BjpKing221</p>
+            <p className='font-bold'>{userContext.user.username}</p>
+            <p className='text-sm text-gray-500'>@{userContext.user.username}</p>
           </div>
           <ul className='py-1'>
             <li className='flex cursor-pointer items-center gap-3 px-4 py-2 hover:bg-gray-100'>

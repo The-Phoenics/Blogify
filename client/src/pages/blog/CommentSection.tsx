@@ -57,7 +57,6 @@ function CommentViewSection(props: { blogId: string, comments: IComment[], setCo
 
 function CommentPostSection(props: { blogId: string, setComments: (comments: IComment[]) => void }) {
   const userContext = useContext(UserContext)
-  console.log(userContext)
   const { blogId, setComments } = props
   const commentInputRef = useRef<HTMLTextAreaElement | null>(null)
   const [apiStatus, setApiStatus] = useState<API_STATUS>(API_STATUS.IDLE)
