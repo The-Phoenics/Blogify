@@ -20,7 +20,7 @@ export async function getClientUser(req: Request) {
 
 async function getClientSession(req: Request) {
     const cookie = req.cookies
-    if (!cookie) {
+    if (!cookie || !cookie["sid"]) {
         return undefined
     }
     const session: IUserSessionDocument = await UserSession.findOne({

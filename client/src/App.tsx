@@ -8,20 +8,23 @@ import { Home } from './pages/Home'
 import { NotFound } from './pages/NotFound'
 import { BrowserRouter, Routes, Route } from 'react-router'
 import ProfilePage from './pages/Profile'
+import UserContextProvider from './context/UserContext'
 
 function App() {
   return (
-    <BrowserRouter>
-      <Routes>
-        <Route path='/' element={<Home />} />
-        <Route path='/:username' element={<ProfilePage />} />
-        <Route path='/feed' element={<Feed />} />
-        <Route path='/signup' element={<Signup />} />
-        <Route path='/login' element={<Login />} />
-        <Route path='/blog/:blogId' element={<BlogPost />} />
-        <Route path='*' element={<NotFound />} />
-      </Routes>
-    </BrowserRouter>
+    <UserContextProvider>
+      <BrowserRouter>
+        <Routes>
+          <Route path='/' element={<Home />} />
+          <Route path='/:username' element={<ProfilePage />} />
+          <Route path='/feed' element={<Feed />} />
+          <Route path='/signup' element={<Signup />} />
+          <Route path='/login' element={<Login />} />
+          <Route path='/blog/:blogId' element={<BlogPost />} />
+          <Route path='*' element={<NotFound />} />
+        </Routes>
+      </BrowserRouter>
+    </UserContextProvider>
   )
 }
 

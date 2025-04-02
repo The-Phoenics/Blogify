@@ -137,7 +137,7 @@ export const Feed = () => {
         </div>
 
         {/* Sidebar for screen size above sm */}
-        <div className='hidden space-y-6 lg:block'>
+        <div className='hidden space-y-6 lg:block w-full'>
           <div className='rounded-lg border border-gray-300 bg-white p-4 shadow'>
             <h4 className='mb-2 font-semibold text-gray-900'>Search</h4>
             <input

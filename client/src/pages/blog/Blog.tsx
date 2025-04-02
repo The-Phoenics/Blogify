@@ -1,15 +1,19 @@
 import { useParams } from 'react-router'
-import React, { useEffect, useState } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import BlogHeader, { BlogHeaderUserModel } from '@/components/Header'
 import { IBlog, API_STATUS } from '@/types/types'
 import Editable from './Editable'
 import NonEditable from './NonEditable'
 import { SiBloglovin } from 'react-icons/si'
 import { Spinner } from '@/components/Spinner'
+import { UserContext } from '@/context/UserContext'
 
 // Main component
 export const BlogPost = () => {
   const params = useParams()
+  const userContext = useContext(UserContext)
+  const user = userContext.user
+
   const [apiStatus, setApiStatus] = useState<API_STATUS>(API_STATUS.WAITING)
   const [blogData, setBlogData] = useState<IBlog>()
   const [editable, setEditable] = useState<boolean>(true)
