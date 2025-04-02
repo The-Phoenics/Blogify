@@ -48,7 +48,7 @@ function Editor(props: EditorProps) {
       readOnly={!editable}
       onChange={handleBlogContentChange}
       placeholder='Start writing your blog...'
-      className={` ${stylingClasses} w-full overflow-hidden bg-transparent p-2 outline-none resize-none`}
+      className={` ${stylingClasses} w-full resize-none overflow-hidden bg-transparent p-2 outline-none`}
     />
   )
 }

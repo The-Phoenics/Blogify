@@ -16,13 +16,18 @@ const CommentSection = (props: { blogId: string }) => {
   )
 }
 
-function CommentViewSection(props: { blogId: string, comments: IComment[], setComments: (comments: IComment[]) => void }) {
+function CommentViewSection(props: {
+  blogId: string
+  comments: IComment[]
+  setComments: (comments: IComment[]) => void
+}) {
   const { blogId, comments, setComments } = props
   const [apiStatus, setApiStatus] = useState<API_STATUS>(API_STATUS.IDLE)
 
   const fetchCommentsOfBlog = async () => {
     const response = await fetch(
-      `${import.meta.env.VITE_SERVER_ADDRESS}${import.meta.env.VITE_SERVER_PORT}/comment/${blogId}`)
+      `${import.meta.env.VITE_SERVER_ADDRESS}${import.meta.env.VITE_SERVER_PORT}/comment/${blogId}`
+    )
     if (response.ok) {
       const result = await response.json()
       setComments(result)
@@ -36,49 +41,53 @@ function CommentViewSection(props: { blogId: string, comments: IComment[], setCo
   }, [])
 
   if (apiStatus === API_STATUS.WAITING) {
-    return <>
-      <Spinner />
-    </>
+    return (
+      <>
+        <Spinner />
+      </>
+    )
   }
 
-  return (<>
-    {comments?.map((comment: IComment, idx: number) => {
-      return (
-        <div key={idx} className='border flex w-full flex-col gap-2 rounded-lg p-4 text-left text-lg text-gray-800'>
-          <p className=''>{comment.content}</p>
-          <span className='flex w-full justify-end'>
-            <span className='mr-10 font-semibold text-gray-700 hover:cursor-pointer'>@{comment.username}</span>
-          </span>
-        </div>
-      )
-    })}
-  </>)
+  return (
+    <>
+      {comments?.map((comment: IComment, idx: number) => {
+        return (
+          <div key={idx} className='flex w-full flex-col gap-2 rounded-lg border p-4 text-left text-lg text-gray-800'>
+            <p className=''>{comment.content}</p>
+            <span className='flex w-full justify-end'>
+              <span className='mr-10 font-semibold text-gray-700 hover:cursor-pointer'>@{comment.username}</span>
+            </span>
+          </div>
+        )
+      })}
+    </>
+  )
 }
 
-function CommentPostSection(props: { blogId: string, setComments: (comments: IComment[]) => void }) {
+function CommentPostSection(props: { blogId: string; setComments: (comments: IComment[]) => void }) {
   const userContext = useContext(UserContext)
   const { blogId, setComments } = props
   const commentInputRef = useRef<HTMLTextAreaElement | null>(null)
   const [apiStatus, setApiStatus] = useState<API_STATUS>(API_STATUS.IDLE)
 
   const addComment = (comment: IComment) => {
-    setComments((prev) => [...prev, comment]);
+    setComments(prev => [...prev, comment])
   }
 
   const clearTextInput = () => {
     if (commentInputRef.current) {
-      commentInputRef.current.value = "";
+      commentInputRef.current.value = ''
     }
-  };
+  }
 
   const handlePostComment = async () => {
     const commentValue: string | undefined = commentInputRef.current?.value.trim()
-    if (blogId && commentValue && commentValue !== "") {
+    if (blogId && commentValue && commentValue !== '') {
       if (apiStatus === API_STATUS.WAITING) {
         return
       }
       if (!userContext.isLoggedIn) {
-        alert("Login to comment!")
+        alert('Login to comment!')
         return
       }
       setApiStatus(API_STATUS.WAITING)
@@ -92,7 +101,7 @@ function CommentPostSection(props: { blogId: string, setComments: (comments: ICo
           body: JSON.stringify({
             username: userContext.user.username,
             blogId: blogId,
-            content: commentValue
+            content: commentValue,
           }),
         }
       )
@@ -119,7 +128,7 @@ function CommentPostSection(props: { blogId: string, setComments: (comments: ICo
         placeholder='Add a comment...'
       ></textarea>
       <button
-        className='mt-4 mb-8 min-h-9 min-w-[200px] rounded-md bg-blue-600 px-4 py-2 text-sm font-semibold tracking-wider text-white hover:bg-blue-700 focus:outline-none'
+        className='mb-8 mt-4 min-h-9 min-w-[200px] rounded-md bg-blue-600 px-4 py-2 text-sm font-semibold tracking-wider text-white hover:bg-blue-700 focus:outline-none'
         onClick={handlePostComment}
       >
         {apiStatus === API_STATUS.WAITING ? <Spinner /> : 'Post Comment'}

@@ -62,7 +62,7 @@ export const Feed = () => {
   return (
     <div className='flex w-screen flex-col justify-center bg-gray-100'>
       <BlogHeader />
-      <div className='flex w-full flex-col gap-6 p-6 lg:flex-row justify-center'>
+      <div className='flex w-full flex-col justify-center gap-6 p-6 lg:flex-row'>
         {/* Sidebar for sm-screen size */}
         <div className='space-y-6 lg:hidden'>
           <div className='rounded-lg border border-gray-300 bg-white p-4 shadow'>
@@ -105,13 +105,11 @@ export const Feed = () => {
               <p className='mt-1 text-sm text-gray-500'>Try searching for something else.</p>
             </div>
           ) : (
-              <div className='grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3'>
+            <div className='grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3'>
               {feedBlogs?.map((blog: IBlog, idx: number) => (
                 <div key={idx} className='rounded-lg border border-gray-300 bg-white p-4 pb-6 shadow'>
                   <img src={`${blog.image}`} className='aspect-square w-full rounded-md bg-transparent object-cover' />
-                  <p className='mt-2 text-sm text-gray-600'>
-                    {getLargeDate(blog.date)}
-                  </p>
+                  <p className='mt-2 text-sm text-gray-600'>{getLargeDate(blog.date)}</p>
                   <h3 className='mt-1 text-lg font-semibold text-gray-900'>
                     {blog.title.split(' ', 4).map((word: string, idx: number) => {
                       return <span key={idx}>{word}&nbsp;</span>
@@ -137,7 +135,7 @@ export const Feed = () => {
         </div>
 
         {/* Sidebar for screen size above sm */}
-        <div className='hidden space-y-6 lg:block w-full'>
+        <div className='hidden w-full space-y-6 lg:block'>
           <div className='rounded-lg border border-gray-300 bg-white p-4 shadow'>
             <h4 className='mb-2 font-semibold text-gray-900'>Search</h4>
             <input
@@ -152,7 +150,7 @@ export const Feed = () => {
           </div>
           <div className='rounded-lg border border-gray-300 bg-white p-4 shadow'>
             <h4 className='mb-4 font-semibold text-gray-900'>Categories</h4>
-            <div className='flex flex-wrap justify-center items-center gap-2'>
+            <div className='flex flex-wrap items-center justify-center gap-2'>
               <span className='rounded-full bg-blue-100 px-3 py-1 text-sm text-blue-700 hover:cursor-pointer'>
                 Technology
               </span>

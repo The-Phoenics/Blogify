@@ -3,7 +3,7 @@ import CommentSection from './CommentSection'
 import { IBlog, ITag } from '@/types/types'
 import { getSmallDate } from '@/utils'
 
-function NonEditable(props: { blogData: IBlog, setEditorDataChanged: (val: boolean) => void }) {
+function NonEditable(props: { blogData: IBlog; setEditorDataChanged: (val: boolean) => void }) {
   const { blogData, setEditorDataChanged } = props
 
   return (
@@ -57,7 +57,6 @@ function NonEditable(props: { blogData: IBlog, setEditorDataChanged: (val: boole
 
       {/* render comments */}
       <CommentSection blogId={blogData._id} />
-
     </div>
   )
 }
