@@ -1,6 +1,6 @@
-import { useRef, useState } from 'react'
+import { useRef, useState, useEffect } from 'react'
 import './Editor.css'
-import { IBlog, IComment } from '@/types/types'
+import { IBlog } from '@/types/types'
 
 interface EditorProps {
   className: string
@@ -19,25 +19,28 @@ function Editor(props: EditorProps) {
 
   const editorRef = useRef<HTMLTextAreaElement | null>(null)
 
-  const handleBlogContentChange = () => {
-    const newBlogContent = editorRef.current?.value
-    if (newBlogContent) {
-      setBlogData((prev: IBlog) => {
-        const blog: IBlog = {
-          ...prev,
-          content: newBlogContent,
-        }
-        return blog
-      })
+  const adjustHeight = () => {
+    if (editorRef.current) {
+      editorRef.current.style.height = 'auto'
+      editorRef.current.style.height = editorRef.current.scrollHeight + 'px'
     }
-    setEditorDataChanged(true)
   }
 
-  useState(() => {
+  const handleBlogContentChange = () => {
+    if (editorRef.current) {
+      const newBlogContent = editorRef.current.value
+      setBlogData((prev: IBlog) => ({ ...prev, content: newBlogContent }))
+      setEditorDataChanged(true)
+      adjustHeight()
+    }
+  }
+
+  useEffect(() => {
     if (editorRef.current) {
       editorRef.current.value = blogContent
+      adjustHeight()
     }
-  }, [])
+  }, [blogContent])
 
   return (
     <textarea
@@ -45,10 +48,8 @@ function Editor(props: EditorProps) {
       readOnly={!editable}
       onChange={handleBlogContentChange}
       placeholder='Start writing your blog...'
-      className={` ${stylingClasses} min-h-[100vh] w-full overflow-scroll bg-transparent p-2 outline-none`}
-    >
-      {blogContent}
-    </textarea>
+      className={` ${stylingClasses} w-full overflow-hidden bg-transparent p-2 outline-none resize-none`}
+    />
   )
 }
 
