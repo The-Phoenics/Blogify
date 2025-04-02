@@ -12,12 +12,10 @@ import { UserContext } from '@/context/UserContext'
 export const BlogPost = () => {
   const params = useParams()
   const userContext = useContext(UserContext)
-  const user = userContext.user
 
   const [apiStatus, setApiStatus] = useState<API_STATUS>(API_STATUS.WAITING)
   const [blogData, setBlogData] = useState<IBlog>()
-  const [editable, setEditable] = useState<boolean>(true)
-  const owner: boolean = editable
+  const [editable, setEditable] = useState<boolean>(false)
 
   const [publishApiStatus, setPublishApiStatus] = useState<API_STATUS>(API_STATUS.IDLE)
   const [previewStatus, setpPreviewStatus] = useState<API_STATUS>(API_STATUS.IDLE)
@@ -49,7 +47,7 @@ export const BlogPost = () => {
 
   const getHeader = (): React.JSX.Element => {
     let rightPortion: React.JSX.Element = <></>
-    if (owner) {
+    if (editable) {
       if (editing) {
         rightPortion = (
           <div className='flex gap-6'>
@@ -130,6 +128,9 @@ export const BlogPost = () => {
     } else {
       setApiStatus(API_STATUS.SUCCESS)
       setBlogData(result)
+      if (userContext.isLoggedIn && userContext.user.username === result.author.username) {
+        setEditable(true)
+      }
     }
   }
 

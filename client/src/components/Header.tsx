@@ -1,4 +1,5 @@
-import { useState } from 'react'
+import { UserContext } from '@/context/UserContext'
+import { useContext, useState } from 'react'
 import { BsBookmark, BsBoxArrowRight, BsClockHistory, BsGear, BsListCheck } from 'react-icons/bs'
 import { FaUserCircle } from 'react-icons/fa'
 import { SiBloglovin } from 'react-icons/si'
@@ -6,11 +7,16 @@ import { useNavigate } from 'react-router'
 
 export const BlogHeaderUserModel = () => {
   const navigate = useNavigate()
+  const userContext = useContext(UserContext)
   const [isOpen, setIsOpen] = useState(false)
 
   const handleLogout = async () => {
-    await fetch(`${import.meta.env.VITE_SERVER_ADDRESS}${import.meta.env.VITE_SERVER_PORT}/auth/logout`)
-    navigate('/login')
+    if (userContext.isLoggedIn) {
+      await fetch(`${import.meta.env.VITE_SERVER_ADDRESS}${import.meta.env.VITE_SERVER_PORT}/auth/logout`)
+      userContext.setUser(null)
+      userContext.setIsLoggedIn(false)
+      navigate('/login')
+    }
   }
 
   return (

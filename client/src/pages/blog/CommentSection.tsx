@@ -1,6 +1,7 @@
 import { Spinner } from '@/components/Spinner'
+import { UserContext } from '@/context/UserContext'
 import { API_STATUS, IComment } from '@/types/types'
-import { useEffect, useRef, useState } from 'react'
+import { useContext, useEffect, useRef, useState } from 'react'
 
 const CommentSection = (props: { blogId: string }) => {
   const { blogId } = props
@@ -55,6 +56,8 @@ function CommentViewSection(props: { blogId: string, comments: IComment[], setCo
 }
 
 function CommentPostSection(props: { blogId: string, setComments: (comments: IComment[]) => void }) {
+  const userContext = useContext(UserContext)
+  console.log(userContext)
   const { blogId, setComments } = props
   const commentInputRef = useRef<HTMLTextAreaElement | null>(null)
   const [apiStatus, setApiStatus] = useState<API_STATUS>(API_STATUS.IDLE)
@@ -72,7 +75,13 @@ function CommentPostSection(props: { blogId: string, setComments: (comments: ICo
   const handlePostComment = async () => {
     const commentValue: string | undefined = commentInputRef.current?.value.trim()
     if (blogId && commentValue && commentValue !== "") {
-      if (apiStatus === API_STATUS.WAITING) return
+      if (apiStatus === API_STATUS.WAITING) {
+        return
+      }
+      if (!userContext.isLoggedIn) {
+        alert("Login to comment!")
+        return
+      }
       setApiStatus(API_STATUS.WAITING)
       const response = await fetch(
         `${import.meta.env.VITE_SERVER_ADDRESS}${import.meta.env.VITE_SERVER_PORT}/comment/${blogId}`,
@@ -82,7 +91,7 @@ function CommentPostSection(props: { blogId: string, setComments: (comments: ICo
             'Content-Type': 'application/json',
           },
           body: JSON.stringify({
-            username: "Marcos.Cummerata14", // TODO: remove hardcoded username
+            username: userContext.user.username,
             blogId: blogId,
             content: commentValue
           }),

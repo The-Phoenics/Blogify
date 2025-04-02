@@ -9,10 +9,17 @@ import { createUser } from "@services/user.service";
 import jwt from "jsonwebtoken"
 import { sendVerificationLink } from "@services/mail.service";
 
-const cookieOptions: CookieOptions = {
+const prodCookieOptions: CookieOptions = {
     secure: true,
     httpOnly: true,
     sameSite: "none",
+    maxAge: 3600000 * 24 * 2 // 1hour * 24 x 2 = 2days
+}
+
+const devCookieOptions: CookieOptions = {
+    secure: false,
+    httpOnly: true,
+    sameSite: "lax",
     maxAge: 3600000 * 24 * 2 // 1hour * 24 x 2 = 2days
 }
 
@@ -40,7 +47,7 @@ export async function login(req: Request, res: Response) {
     // create session for user login
     const sid = await generateSessionId()
     const session = await createSession(sid, user._id)
-    res.cookie("sid", sid, cookieOptions)
+    res.cookie("sid", sid, devCookieOptions) // TODO: change to prod when deploying, due to firefox problem, using prod env
     res.status(200).json({
         success: true,
         message: "login success"

@@ -30,7 +30,8 @@ const UserContextProvider = ({ children }: { children: React.ReactElement }) => 
         <UserContext.Provider value={{
             user: user,
             setUser: setUser,
-            isLoggedIn: isLoggedIn
+            isLoggedIn: isLoggedIn,
+            setIsLoggedIn: setIsLoggedIn
         }}>
             {children}
         </UserContext.Provider>
