@@ -3,9 +3,12 @@ import CommentSection from './CommentSection'
 import { IBlog, ITag } from '@/types/types'
 import { getSmallDate } from '@/utils'
 
-function NonEditable(props: { blogData: IBlog; setEditorDataChanged: (val: boolean) => void }) {
-  const { blogData, setEditorDataChanged } = props
+interface NonEditableProps {
+  blogData: IBlog
+  setEditorDataChanged: (val: boolean) => void
+}
 
+function NonEditable({ blogData, setEditorDataChanged }: NonEditableProps) {
   return (
     <div className='w-full max-w-[2100px] px-16'>
       <article>

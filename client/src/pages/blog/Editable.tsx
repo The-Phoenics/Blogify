@@ -8,9 +8,8 @@ interface EditableProps {
   setEditorDataChanged: (val: boolean) => boolean
 }
 
-function Editable(props: EditableProps) {
+function Editable({ blogData, setBlogData }: EditableProps) {
   const titleRef = useRef<HTMLHeadingElement | null>(null)
-  const { blogData, setBlogData, setEditorDataChanged } = props
 
   const handleTitleChange = () => {
     console.log('handle title change')
@@ -24,7 +23,6 @@ function Editable(props: EditableProps) {
         return blog
       })
     }
-    setEditorDataChanged(true)
   }
 
   return (
