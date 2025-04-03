@@ -41,4 +41,4 @@ Blogify is a modern blogging platform that enables users to create, share, and e
 Contributions are welcome! If you'd like to improve the project, feel free to fork the repository and submit a pull request.
 
 ## License
-This project is licensed under the MIT License. See the LICENSE file for more details.
+This project is licensed under the MIT License. See the [LICENSE](https://github.com/The-Phoenics/Blogify/blob/main/LICENSE) file for more details.
