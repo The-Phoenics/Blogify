@@ -86,7 +86,6 @@ const BlogHeader = () => {
   if (!userContext) {
     return null
   }
-  console.log(userContext)
 
   return (
     <div className='relative mb-6 flex w-full items-center justify-between border-b bg-white px-6 py-4 shadow-sm'>

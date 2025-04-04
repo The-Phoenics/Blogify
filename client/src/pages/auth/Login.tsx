@@ -1,4 +1,4 @@
-import { useContext, useRef, useState } from 'react'
+import { useContext, useEffect, useRef, useState } from 'react'
 import { SiBloglovin } from 'react-icons/si'
 import { Link, useNavigate } from 'react-router'
 import { validate } from 'email-validator'
@@ -9,9 +9,12 @@ import { UserContext } from '@/context/UserContext'
 export const Login = () => {
   const navigate = useNavigate()
   const userContext = useContext(UserContext)
-  if (userContext?.user) {
-    navigate("/feed")
-  }
+
+  useEffect(() => {
+    if (userContext?.user) {
+      navigate("/feed")
+    }
+  }, [userContext])
 
   const emailInputRef = useRef<HTMLInputElement | null>(null)
   const passwordInputRef = useRef<HTMLInputElement | null>(null)
@@ -66,12 +69,11 @@ export const Login = () => {
       return
     }
     setApiStatus(API_STATUS.SUCCESS)
-    if (!userContext.user) {
-      userContext.setUser({
-        username: result.username,
-        email: result.email,
-      })
-    }
+    console.log("result:", result)
+    userContext.setUser({
+      username: result.username,
+      email: result.email,
+    })
     navigate('/feed')
   }
 

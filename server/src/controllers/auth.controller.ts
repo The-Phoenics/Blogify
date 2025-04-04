@@ -50,7 +50,12 @@ export async function login(req: Request, res: Response) {
     res.cookie("sid", sid, devCookieOptions) // TODO: change to prod when deploying, due to firefox problem, using prod env
     res.status(200).json({
         success: true,
-        message: "login success"
+        message: "login success",
+        user: {
+            username: user.username,
+            email: user.email,
+            joinDate: user.joinDate
+        }
     })
 }
 
