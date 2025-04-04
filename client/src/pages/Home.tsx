@@ -15,7 +15,7 @@ export const Home = () => {
             <Link to='/' className='hover:text-primary text-sm font-medium'>
               Home
             </Link>
-            <Link to='#' className='hover:text-primary text-sm font-medium text-gray-500'>
+            <Link to='/feed' className='hover:text-primary text-sm font-medium text-gray-500'>
               Explore
             </Link>
             <Link to='#' className='hover:text-primary text-sm font-medium text-gray-500'>

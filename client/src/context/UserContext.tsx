@@ -1,11 +1,18 @@
-import React, { useEffect, useState } from 'react'
+import React, { Dispatch, useEffect, useState } from 'react'
 import { IUser } from '../types/types'
 
-export const UserContext = React.createContext(undefined)
+interface UserContextType {
+  user: IUser | null
+  setUser: Dispatch<IUser> | null
+}
+
+export const UserContext = React.createContext<UserContextType>({
+  user: null,
+  setUser: null,
+})
 
 const UserContextProvider = ({ children }: { children: React.ReactElement }) => {
   const [user, setUser] = useState<IUser | null>(null)
-  const [isLoggedIn, setIsLoggedIn] = useState<boolean>(false)
 
   const fetchUser = async () => {
     const res = await fetch(`${import.meta.env.VITE_SERVER_ADDRESS}${import.meta.env.VITE_SERVER_PORT}/user/logged`, {
@@ -15,7 +22,6 @@ const UserContextProvider = ({ children }: { children: React.ReactElement }) => 
       const user = await res.json()
       if (user._id) {
         setUser(user)
-        setIsLoggedIn(true)
       } else {
         setUser(null)
       }
@@ -31,8 +37,6 @@ const UserContextProvider = ({ children }: { children: React.ReactElement }) => 
       value={{
         user: user,
         setUser: setUser,
-        isLoggedIn: isLoggedIn,
-        setIsLoggedIn: setIsLoggedIn,
       }}
     >
       {children}

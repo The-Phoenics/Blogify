@@ -1,112 +1,11 @@
 import { useParams } from 'react-router'
-import React, { useContext, useEffect, useState } from 'react'
-import BlogHeader, { BlogHeaderUserModel } from '@/components/Header'
+import { useContext, useEffect, useState } from 'react'
+import BlogHeader from '@/components/Header'
 import { IBlog, API_STATUS } from '@/types/types'
-import { SiBloglovin } from 'react-icons/si'
-import { Spinner } from '@/components/Spinner'
 import { UserContext } from '@/context/UserContext'
 import NonEditable from './NonEditable'
 import Editable from './Editable'
-
-interface BlogPageHeaderProps {
-  blogData: IBlog
-  editing: boolean
-  editable: boolean
-  publishApiStatus: API_STATUS
-  handlePreviewing: () => void
-  handlePublishing: () => void
-  handleEditing: () => void
-  handleBlogSave: () => void
-}
-
-export const BlogPageHeader = ({
-  blogData,
-  editing,
-  editable,
-  handlePreviewing,
-  handlePublishing,
-  publishApiStatus,
-  handleEditing,
-  handleBlogSave,
-}: BlogPageHeaderProps): React.JSX.Element => {
-  const SaveButtonHeader = () => {
-    return (
-      <button className='min-h-14 min-w-[140px] rounded-lg border p-2 px-6 py-3 shadow-sm' onClick={handleBlogSave}>
-        Save
-      </button>
-    )
-  }
-
-  const PublishButtonHeader = () => {
-    return (
-      <button
-        className='min-h-14 min-w-[140px] rounded-lg border bg-blue-600 p-2 px-6 py-3 text-white shadow-sm'
-        onClick={handlePublishing}
-      >
-        {publishApiStatus === API_STATUS.WAITING ? <Spinner /> : 'Publish'}
-      </button>
-    )
-  }
-
-  const EditButtonHeader = () => {
-    return (
-      <button className='min-h-14 min-w-[100px] rounded-lg border p-2 px-6 py-3 shadow-sm' onClick={handleEditing}>
-        Edit
-      </button>
-    )
-  }
-
-  const PreviewButtonHeader = () => {
-    return (
-      <button className='min-h-14 min-w-[140px] rounded-lg border p-2 px-6 py-3 shadow-sm' onClick={handlePreviewing}>
-        Preview
-      </button>
-    )
-  }
-
-  let rightPortion: React.JSX.Element = <></>
-  if (editable) {
-    if (editing) {
-      rightPortion = (
-        <div className='flex gap-6'>
-          <div className='flex gap-4'>
-            <SaveButtonHeader />
-            <PreviewButtonHeader />
-            {blogData?.published ?? <PublishButtonHeader />}
-          </div>
-          <BlogHeaderUserModel />
-        </div>
-      )
-    } else {
-      rightPortion = (
-        <div className='flex gap-6'>
-          <div className='flex gap-4'>
-            <SaveButtonHeader />
-            <EditButtonHeader />
-            {blogData?.published ?? <PublishButtonHeader />}
-          </div>
-          <BlogHeaderUserModel />
-        </div>
-      )
-    }
-  } else {
-    rightPortion = <BlogHeaderUserModel />
-  }
-
-  return (
-    <div className='relative mb-6 flex w-full items-center justify-between border-b bg-white px-6 py-4 shadow-sm'>
-      <a href={`${import.meta.env.VITE_SERVER_ADDRESS}${import.meta.env.VITE_SERVER_PORT}/`}>
-        <div className='flex items-center gap-1 text-gray-700'>
-          <SiBloglovin className='mb-1' />
-          <p className='font-bold'>Logify</p>
-        </div>
-      </a>
-
-      {/* right section of the header for blog page */}
-      {rightPortion}
-    </div>
-  )
-}
+import { BlogPageHeader } from './BlogPageHeader'
 
 export const BlogPost = () => {
   const params = useParams()
@@ -164,7 +63,7 @@ export const BlogPost = () => {
     } else {
       setApiStatus(API_STATUS.SUCCESS)
       setBlogData(result)
-      if (userContext.isLoggedIn && userContext.user.username === result.author.username) {
+      if (userContext.user && userContext.user.username === result.author.username) {
         setEditable(true)
       }
     }

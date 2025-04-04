@@ -1,9 +1,24 @@
 import { UserContext } from '@/context/UserContext'
-import { useContext, useState } from 'react'
+import React, { useContext, useState } from 'react'
 import { BsBookmark, BsBoxArrowRight, BsClockHistory, BsGear, BsListCheck } from 'react-icons/bs'
 import { FaUserCircle } from 'react-icons/fa'
 import { SiBloglovin } from 'react-icons/si'
-import { useNavigate } from 'react-router'
+import { Link, useNavigate } from 'react-router'
+
+const LoginSignupButtons = (): React.JSX.Element => {
+  return (
+    <>
+      <div className='flex items-center gap-4'>
+        <Link to='/login' className='rounded-md border px-4 py-2 text-sm'>
+          Log in
+        </Link>
+        <Link to='/signup' className='rounded-md bg-blue-600 px-4 py-2 text-sm text-white'>
+          Sign up
+        </Link>
+      </div>
+    </>
+  )
+}
 
 export const BlogHeaderUserModel = () => {
   const navigate = useNavigate()
@@ -11,7 +26,7 @@ export const BlogHeaderUserModel = () => {
   const [isOpen, setIsOpen] = useState(false)
 
   const handleLogout = async () => {
-    if (userContext.isLoggedIn) {
+    if (userContext.user) {
       await fetch(`${import.meta.env.VITE_SERVER_ADDRESS}${import.meta.env.VITE_SERVER_PORT}/auth/logout`)
       userContext.setUser(null)
       userContext.setIsLoggedIn(false)
@@ -57,6 +72,11 @@ export const BlogHeaderUserModel = () => {
 }
 
 const BlogHeader = () => {
+  const userContext = useContext(UserContext)
+  if (!userContext) {
+    return null
+  }
+
   return (
     <div className='relative mb-6 flex w-full items-center justify-between border-b bg-white px-6 py-4 shadow-sm'>
       <a href={`${import.meta.env.VITE_SERVER_ADDRESS}${import.meta.env.VITE_SERVER_PORT}/`}>
@@ -65,7 +85,7 @@ const BlogHeader = () => {
           <p className='font-bold'>Logify</p>
         </div>
       </a>
-      <BlogHeaderUserModel />
+      {userContext?.user ? <LoginSignupButtons /> : <BlogHeaderUserModel />}
     </div>
   )
 }

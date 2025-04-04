@@ -86,7 +86,7 @@ function CommentPostSection(props: { blogId: string; setComments: (comments: ICo
       if (apiStatus === API_STATUS.WAITING) {
         return
       }
-      if (!userContext.isLoggedIn) {
+      if (!userContext.user) {
         alert('Login to comment!')
         return
       }

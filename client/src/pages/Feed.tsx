@@ -120,7 +120,7 @@ export const Feed = () => {
                     {blog.content.split(' ', 5).map((word: string, idx: number) => {
                       return <span key={idx}>{word}&nbsp;</span>
                     })}
-                    {blog.content.length > 5 ? <span>...</span> : ''}
+                    {blog.content.length > 4 ? <span>...</span> : ''}
                   </p>
                   <Link
                     to={`/blog/${blog._id}`}
