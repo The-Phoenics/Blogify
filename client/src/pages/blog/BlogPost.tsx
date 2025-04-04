@@ -119,17 +119,39 @@ export const BlogPost = () => {
   const [publishApiStatus, setPublishApiStatus] = useState<API_STATUS>(API_STATUS.IDLE)
   const [editing, setEditing] = useState<boolean>(false)
 
+  useEffect(() => {
+    // @The-Phoenics: if this is not called here blog data is getting fetched before user context data and gets rendered with null user context
+    fetchBlog()
+  }, [userContext])
+
   const handleEditing = () => {
     setEditing(true)
   }
 
-  const handlePublishing = () => {
+  const handlePublishing = async () => {
     if (publishApiStatus === API_STATUS.WAITING) {
       return
     }
     setPublishApiStatus(API_STATUS.WAITING)
 
-    // TODO: send blog publish request
+    const url = `${import.meta.env.VITE_SERVER_ADDRESS}${import.meta.env.VITE_SERVER_PORT}/blog/${params.blogId}`
+    const res = await fetch(url, {
+      method: 'PATCH',
+      credentials: 'include',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        published: true,
+      }),
+    })
+    if (!res.ok) {
+      setPublishApiStatus(API_STATUS.ERROR)
+      return
+    }
+    const blog = await res.json()
+    setBlogData(blog)
+    setPublishApiStatus(API_STATUS.SUCCESS)
   }
 
   const fetchBlog = async () => {
@@ -147,14 +169,6 @@ export const BlogPost = () => {
       }
     }
   }
-
-  useEffect(() => {
-    fetchBlog()
-  }, [])
-
-  useEffect(() => {
-    fetchBlog() // Note: if this is not called here blog data is getting fetched before user context data and gets rendered with null user context
-  }, [userContext])
 
   const handleBlogSave = async () => {
     const url = `${import.meta.env.VITE_SERVER_ADDRESS}${import.meta.env.VITE_SERVER_PORT}/blog/${params.blogId}`
