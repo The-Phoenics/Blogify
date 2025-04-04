@@ -1,9 +1,10 @@
-import { useRef, useState } from 'react'
+import { useContext, useRef, useState } from 'react'
 import { SiBloglovin } from 'react-icons/si'
-import { Link } from 'react-router'
+import { Link, useNavigate } from 'react-router'
 import { validate } from 'email-validator'
 import { Spinner } from '@/components/Spinner'
 import { API_STATUS } from '@/types/types'
+import { UserContext } from '@/context/UserContext'
 
 export const EmailSentMessageInfo = () => {
   return (
@@ -23,13 +24,19 @@ export const EmailSentMessageInfo = () => {
 }
 
 export const Signup = () => {
+  const userContext = useContext(UserContext)
+  const navigate = useNavigate()
+  if (userContext?.user) {
+    navigate("/feed")
+  }
+
   const [emailInputValid, setEmailInputValid] = useState<boolean>(true)
   const [passwordMatching, setPasswordMatching] = useState<boolean>(true)
   const [apiStatus, setApiStatus] = useState<API_STATUS>(API_STATUS.IDLE)
 
-  const emailInputRef = useRef<HTMLInputElement>(null)
-  const passwordInputRef = useRef<HTMLInputElement>(null)
-  const confirmPasswordInputRef = useRef<HTMLInputElement>(null)
+  const emailInputRef = useRef<HTMLInputElement | null>(null)
+  const passwordInputRef = useRef<HTMLInputElement | null>(null)
+  const confirmPasswordInputRef = useRef<HTMLInputElement | null>(null)
 
   const isInputValid = (): boolean => {
     const emailValue: string | undefined = emailInputRef.current?.value

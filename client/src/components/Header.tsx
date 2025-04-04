@@ -32,9 +32,8 @@ export const BlogHeaderUserModel = () => {
         credentials: 'include',
       })
       if (res.ok) {
-        if (userContext) {
+        if (userContext && userContext.user) {
           userContext.setUser(null)
-          userContext.setUser = null
         }
         navigate('/login')
       }
@@ -97,7 +96,7 @@ const BlogHeader = () => {
           <p className='font-bold'>Logify</p>
         </div>
       </a>
-      {userContext?.user ? <BlogHeaderUserModel /> : <LoginSignupButtons />}
+      {userContext.user ? <BlogHeaderUserModel /> : <LoginSignupButtons />}
     </div>
   )
 }

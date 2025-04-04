@@ -7,18 +7,17 @@ import { API_STATUS } from '../../types/types'
 import { UserContext } from '@/context/UserContext'
 
 export const Login = () => {
+  const navigate = useNavigate()
   const userContext = useContext(UserContext)
-  let setUser = null
-  if (userContext) {
-    setUser = userContext.setUser()
+  if (userContext?.user) {
+    navigate("/feed")
   }
+
   const emailInputRef = useRef<HTMLInputElement | null>(null)
   const passwordInputRef = useRef<HTMLInputElement | null>(null)
   const [emailInputValid, setEmailInputValid] = useState<boolean>(true)
   const [passwordInputValid, setPasswordInputValid] = useState<boolean>(true)
   const [apiStatus, setApiStatus] = useState<API_STATUS>(API_STATUS.IDLE)
-
-  const navigate = useNavigate()
 
   const validateInput = () => {
     const emailValue: string | undefined = emailInputRef?.current?.value
@@ -67,8 +66,8 @@ export const Login = () => {
       return
     }
     setApiStatus(API_STATUS.SUCCESS)
-    if (setUser) {
-      setUser({
+    if (!userContext.user) {
+      userContext.setUser({
         username: result.username,
         email: result.email,
       })
