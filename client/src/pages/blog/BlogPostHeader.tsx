@@ -21,7 +21,7 @@ const LoginSignupButtons = (): React.JSX.Element => {
   )
 }
 
-interface BlogPageHeaderProps {
+interface BlogPostHeaderProps {
   blogData: IBlog
   editing: boolean
   editable: boolean
@@ -32,7 +32,7 @@ interface BlogPageHeaderProps {
   handleBlogSave: () => void
 }
 
-export const BlogPageHeader = ({
+export const BlogPostHeader = ({
   blogData,
   editing,
   editable,
@@ -41,7 +41,7 @@ export const BlogPageHeader = ({
   publishApiStatus,
   handleEditing,
   handleBlogSave,
-}: BlogPageHeaderProps): React.JSX.Element => {
+}: BlogPostHeaderProps): React.JSX.Element => {
   const userContext = useContext(UserContext)
 
   const SaveButtonHeader = () => {
@@ -118,7 +118,7 @@ export const BlogPageHeader = ({
       </a>
 
       {/* right section of the header for blog page */}
-      {userContext?.user ? <LoginSignupButtons /> : rightPortion}
+      {userContext?.user ? rightPortion : <LoginSignupButtons />}
     </div>
   )
 }

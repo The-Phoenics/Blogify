@@ -27,11 +27,22 @@ export const BlogHeaderUserModel = () => {
 
   const handleLogout = async () => {
     if (userContext.user) {
-      await fetch(`${import.meta.env.VITE_SERVER_ADDRESS}${import.meta.env.VITE_SERVER_PORT}/auth/logout`)
-      userContext.setUser(null)
-      userContext.setIsLoggedIn(false)
-      navigate('/login')
+      const res = await fetch(`${import.meta.env.VITE_SERVER_ADDRESS}${import.meta.env.VITE_SERVER_PORT}/auth/logout`, {
+        method: 'POST',
+        credentials: 'include',
+      })
+      if (res.ok) {
+        if (userContext) {
+          userContext.setUser(null)
+          userContext.setUser = null
+        }
+        navigate('/login')
+      }
     }
+  }
+
+  const goToUserProfile = () => {
+    navigate(`/${userContext.user?.username}`)
   }
 
   return (
@@ -41,7 +52,7 @@ export const BlogHeaderUserModel = () => {
       </button>
       {isOpen && (
         <div className='absolute right-0 top-16 mt-2 w-56 rounded-lg border border-gray-200 bg-white p-2 shadow-lg'>
-          <div className='cursor-pointer border-b border-gray-200 p-3'>
+          <div className='cursor-pointer border-b border-gray-200 p-3' onClick={goToUserProfile}>
             <p className='font-bold'>{userContext.user.username}</p>
             <p className='text-sm text-gray-500'>@{userContext.user.username}</p>
           </div>
@@ -76,6 +87,7 @@ const BlogHeader = () => {
   if (!userContext) {
     return null
   }
+  console.log(userContext)
 
   return (
     <div className='relative mb-6 flex w-full items-center justify-between border-b bg-white px-6 py-4 shadow-sm'>
@@ -85,7 +97,7 @@ const BlogHeader = () => {
           <p className='font-bold'>Logify</p>
         </div>
       </a>
-      {userContext?.user ? <LoginSignupButtons /> : <BlogHeaderUserModel />}
+      {userContext?.user ? <BlogHeaderUserModel /> : <LoginSignupButtons />}
     </div>
   )
 }

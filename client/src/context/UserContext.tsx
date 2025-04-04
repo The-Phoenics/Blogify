@@ -19,9 +19,9 @@ const UserContextProvider = ({ children }: { children: React.ReactElement }) => 
       credentials: 'include',
     })
     if (res.ok) {
-      const user = await res.json()
-      if (user._id) {
-        setUser(user)
+      const result = await res.json()
+      if (result._id) {
+        setUser(result)
       } else {
         setUser(null)
       }

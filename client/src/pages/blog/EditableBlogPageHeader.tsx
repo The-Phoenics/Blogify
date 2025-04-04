@@ -1,7 +1,7 @@
 import { SiBloglovin } from 'react-icons/si'
 import { useNavigate } from 'react-router'
 
-const EditableBlogPageHeader = () => {
+const EditableBlogPostHeader = () => {
   const navigate = useNavigate()
 
   return (
@@ -16,4 +16,4 @@ const EditableBlogPageHeader = () => {
   )
 }
 
-export default EditableBlogPageHeader
+export default EditableBlogPostHeader

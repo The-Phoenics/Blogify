@@ -5,7 +5,7 @@ import { IBlog, API_STATUS } from '@/types/types'
 import { UserContext } from '@/context/UserContext'
 import NonEditable from './NonEditable'
 import Editable from './Editable'
-import { BlogPageHeader } from './BlogPageHeader'
+import { BlogPostHeader } from './BlogPostHeader'
 
 export const BlogPost = () => {
   const params = useParams()
@@ -103,7 +103,7 @@ export const BlogPost = () => {
     <div className='flex w-screen items-center justify-center'>
       <div className='flex w-full flex-col justify-center font-[sans-serif]'>
         <div className='flex flex-col items-center justify-center rounded-2xl pb-6'>
-          <BlogPageHeader
+          <BlogPostHeader
             blogData={blogData}
             editing={editing}
             editable={editable}

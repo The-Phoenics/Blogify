@@ -1,11 +1,17 @@
-import { useRef, useState } from 'react'
+import { useContext, useRef, useState } from 'react'
 import { SiBloglovin } from 'react-icons/si'
 import { Link, useNavigate } from 'react-router'
 import { validate } from 'email-validator'
 import { Spinner } from '@/components/Spinner'
 import { API_STATUS } from '../../types/types'
+import { UserContext } from '@/context/UserContext'
 
 export const Login = () => {
+  const userContext = useContext(UserContext)
+  let setUser = null
+  if (userContext) {
+    setUser = userContext.setUser()
+  }
   const emailInputRef = useRef<HTMLInputElement | null>(null)
   const passwordInputRef = useRef<HTMLInputElement | null>(null)
   const [emailInputValid, setEmailInputValid] = useState<boolean>(true)
@@ -61,6 +67,12 @@ export const Login = () => {
       return
     }
     setApiStatus(API_STATUS.SUCCESS)
+    if (setUser) {
+      setUser({
+        username: result.username,
+        email: result.email,
+      })
+    }
     navigate('/feed')
   }
 
