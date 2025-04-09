@@ -108,17 +108,23 @@ export const Feed = () => {
             <div className='grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3'>
               {feedBlogs?.map((blog: IBlog, idx: number) => (
                 <div key={idx} className='rounded-lg border border-gray-300 bg-white p-4 pb-6 shadow'>
-                  <img src={`${blog.image}`} className='aspect-square w-full rounded-md bg-transparent object-cover' />
+                  <img
+                    src={`${blog.image}`}
+                    className='aspect-square w-full rounded-md bg-transparent object-cover'
+                    width='300'
+                    height='300'
+                    decoding='async'
+                  />
                   <p className='mt-2 text-sm text-gray-600'>{getLargeDate(blog.date)}</p>
                   <h3 className='mt-1 text-lg font-semibold text-gray-900'>
-                    {blog.title.split(' ', 4).map((word: string, idx: number) => {
-                      return <span key={idx}>{word}&nbsp;</span>
+                    {blog.title.split(' ', 3).map((word: string, idx: number) => {
+                      return <span key={idx}>&nbsp;{word}</span>
                     })}
                     {blog.content.length > 4 ? <span>...</span> : ''}
                   </h3>
                   <p className='mb-4 text-sm text-gray-700'>
-                    {blog.content.split(' ', 5).map((word: string, idx: number) => {
-                      return <span key={idx}>{word}&nbsp;</span>
+                    {blog.content.split(' ', 4).map((word: string, idx: number) => {
+                      return <span key={idx}>&nbsp;{word}</span>
                     })}
                     {blog.content.length > 4 ? <span>...</span> : ''}
                   </p>

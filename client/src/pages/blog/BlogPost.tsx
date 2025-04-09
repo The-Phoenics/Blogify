@@ -1,15 +1,15 @@
 import { useParams } from 'react-router'
-import { useContext, useEffect, useState } from 'react'
+import { useEffect, useState } from 'react'
 import BlogHeader from '@/components/Header'
-import { IBlog, API_STATUS } from '@/types/types'
-import { UserContext } from '@/context/UserContext'
+import { IBlog, API_STATUS, IUser } from '@/types/types'
 import NonEditable from './NonEditable'
 import Editable from './Editable'
 import { BlogPostHeader } from './BlogPostHeader'
+import useUserAuth from '@/hooks/useUserAuth'
 
 export const BlogPost = () => {
   const params = useParams()
-  const userContext = useContext(UserContext)
+  const { isLoading, user }: { isLoading: boolean; user: IUser | null } = useUserAuth()
 
   const [apiStatus, setApiStatus] = useState<API_STATUS>(API_STATUS.WAITING)
   const [blogData, setBlogData] = useState<IBlog>()
@@ -19,9 +19,10 @@ export const BlogPost = () => {
   const [editing, setEditing] = useState<boolean>(false)
 
   useEffect(() => {
-    // @The-Phoenics: if this is not called here blog data is getting fetched before user context data and gets rendered with null user context
-    fetchBlog()
-  }, [userContext])
+    if (!isLoading && user) {
+      fetchBlog()
+    }
+  }, [user])
 
   const handleEditing = () => {
     setEditing(true)
@@ -63,7 +64,7 @@ export const BlogPost = () => {
     } else {
       setApiStatus(API_STATUS.SUCCESS)
       setBlogData(result)
-      if (userContext.user && userContext.user.username === result.author.username) {
+      if (user && user.username === result.author.username) {
         setEditable(true)
       }
     }
@@ -119,7 +120,7 @@ export const BlogPost = () => {
           ) : editing ? (
             <Editable blogData={blogData} setBlogData={setBlogData} />
           ) : (
-            <NonEditable blogData={blogData} setBlogData={setBlogData} />
+            <NonEditable blogData={blogData} />
           )}
         </div>
       </div>

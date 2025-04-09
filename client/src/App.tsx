@@ -8,6 +8,7 @@ import BlogPost from './pages/blog/BlogPost'
 import { BrowserRouter, Routes, Route } from 'react-router'
 import ProfilePage from './pages/Profile'
 import UserContextProvider from './context/UserContext'
+import CreateBlog from './pages/blog/CreateBlog'
 
 function App() {
   return (
@@ -16,6 +17,7 @@ function App() {
         <Routes>
           <Route path='/' element={<Home />} />
           <Route path='/:username' element={<ProfilePage />} />
+          <Route path='/blog/create' element={<CreateBlog />} />
           <Route path='/feed' element={<Feed />} />
           <Route path='/signup' element={<Signup />} />
           <Route path='/login' element={<Login />} />

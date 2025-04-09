@@ -1,10 +1,9 @@
 import { SiBloglovin } from 'react-icons/si'
 import { Spinner } from '@/components/Spinner'
 import { BlogHeaderUserModel } from '@/components/Header'
-import { API_STATUS, IBlog } from '@/types/types'
-import { useContext } from 'react'
-import { UserContext } from '@/context/UserContext'
+import { API_STATUS, IBlog, IUser } from '@/types/types'
 import { Link } from 'react-router'
+import useUserAuth from '@/hooks/useUserAuth'
 
 const LoginSignupButtons = (): React.JSX.Element => {
   return (
@@ -22,14 +21,14 @@ const LoginSignupButtons = (): React.JSX.Element => {
 }
 
 interface BlogPostHeaderProps {
-  blogData: IBlog
+  blogData: IBlog | undefined
   editing: boolean
   editable: boolean
   publishApiStatus: API_STATUS
-  handlePreviewing: () => void
-  handlePublishing: () => void
-  handleEditing: () => void
-  handleBlogSave: () => void
+  handlePreviewing?: () => void
+  handlePublishing?: () => void
+  handleEditing?: () => void
+  handleBlogSave?: () => void
 }
 
 export const BlogPostHeader = ({
@@ -42,7 +41,7 @@ export const BlogPostHeader = ({
   handleEditing,
   handleBlogSave,
 }: BlogPostHeaderProps): React.JSX.Element => {
-  const userContext = useContext(UserContext)
+  const { isLoading, user }: { isLoading: boolean; user: IUser | null } = useUserAuth()
 
   const SaveButtonHeader = () => {
     return (
@@ -118,7 +117,7 @@ export const BlogPostHeader = ({
       </a>
 
       {/* right section of the header for blog page */}
-      {userContext?.user ? rightPortion : <LoginSignupButtons />}
+      {!isLoading && user ? rightPortion : <LoginSignupButtons />}
     </div>
   )
 }

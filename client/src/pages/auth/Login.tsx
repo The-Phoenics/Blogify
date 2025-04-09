@@ -1,20 +1,21 @@
-import { useContext, useEffect, useRef, useState } from 'react'
+import { Dispatch, useEffect, useRef, useState } from 'react'
 import { SiBloglovin } from 'react-icons/si'
 import { Link, useNavigate } from 'react-router'
 import { validate } from 'email-validator'
 import { Spinner } from '@/components/Spinner'
-import { API_STATUS } from '../../types/types'
-import { UserContext } from '@/context/UserContext'
+import { API_STATUS, IUser } from '../../types/types'
+import useUserAuth from '@/hooks/useUserAuth'
 
 export const Login = () => {
   const navigate = useNavigate()
-  const userContext = useContext(UserContext)
+  const { isLoading, user, setUser }: { isLoading: boolean; user: IUser | null; setUser: Dispatch<IUser> } =
+    useUserAuth()
 
   useEffect(() => {
-    if (userContext?.user) {
-      navigate("/feed")
+    if (!isLoading && user) {
+      navigate('/feed')
     }
-  }, [userContext])
+  }, [user])
 
   const emailInputRef = useRef<HTMLInputElement | null>(null)
   const passwordInputRef = useRef<HTMLInputElement | null>(null)
@@ -69,8 +70,8 @@ export const Login = () => {
       return
     }
     setApiStatus(API_STATUS.SUCCESS)
-    console.log("result:", result)
-    userContext.setUser({
+    console.log('result:', result)
+    setUser({
       username: result.username,
       email: result.email,
     })

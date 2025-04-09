@@ -3,8 +3,9 @@ import { SiBloglovin } from 'react-icons/si'
 import { Link, useNavigate } from 'react-router'
 import { validate } from 'email-validator'
 import { Spinner } from '@/components/Spinner'
-import { API_STATUS } from '@/types/types'
+import { API_STATUS, IUser } from '@/types/types'
 import { UserContext } from '@/context/UserContext'
+import useUserAuth from '@/hooks/useUserAuth'
 
 export const EmailSentMessageInfo = () => {
   return (
@@ -24,11 +25,8 @@ export const EmailSentMessageInfo = () => {
 }
 
 export const Signup = () => {
-  const userContext = useContext(UserContext)
+  const { isLoading, user }: { isLoading: boolean; user: IUser | null } = useUserAuth()
   const navigate = useNavigate()
-  if (userContext?.user) {
-    navigate("/feed")
-  }
 
   const [emailInputValid, setEmailInputValid] = useState<boolean>(true)
   const [passwordMatching, setPasswordMatching] = useState<boolean>(true)
@@ -37,6 +35,13 @@ export const Signup = () => {
   const emailInputRef = useRef<HTMLInputElement | null>(null)
   const passwordInputRef = useRef<HTMLInputElement | null>(null)
   const confirmPasswordInputRef = useRef<HTMLInputElement | null>(null)
+
+  if (!isLoading && user) {
+    navigate('/feed')
+  }
+  if (isLoading) {
+    return <Spinner />
+  }
 
   const isInputValid = (): boolean => {
     const emailValue: string | undefined = emailInputRef.current?.value

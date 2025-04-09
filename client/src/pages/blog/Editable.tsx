@@ -3,12 +3,12 @@ import { IBlog, ITag } from '@/types/types'
 import { useRef } from 'react'
 
 interface EditableProps {
-  blogData: IBlog
+  blogData: IBlog | undefined
   setBlogData: (val: IBlog) => void
-  setEditorDataChanged: (val: boolean) => boolean
+  setEditorDataChanged?: (val: boolean) => boolean
 }
 
-function Editable({ blogData, setBlogData }: EditableProps) {
+function Editable({ blogData, setBlogData, setEditorDataChanged }: EditableProps) {
   const titleRef = useRef<HTMLHeadingElement | null>(null)
 
   const handleTitleChange = () => {
@@ -56,8 +56,10 @@ function Editable({ blogData, setBlogData }: EditableProps) {
         {blogData?.image ? (
           <div className='h-90 mb-6 flex w-full items-center justify-center'>
             <img
+              width='500'
+              height='500'
               src={`${blogData?.image}`}
-              className='w-full max-w-[500px] rounded-md object-cover shadow-lg md:w-[80%]'
+              className='max-h-[500px] w-full max-w-[500px] rounded-md object-cover shadow-lg md:w-[80%]'
             />
           </div>
         ) : (

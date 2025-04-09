@@ -19,6 +19,7 @@ export interface IComment {
 }
 
 export interface IUser {
+  _id?: string
   username: string
   email: string
 }
@@ -28,11 +29,11 @@ export interface IBlog {
   title: string
   author: IUser
   content: string
-  comments: [IComment]
+  comments: IComment[]
   published: boolean
   public: boolean
   image: string
-  tags: [ITag]
+  tags: ITag[]
   date: Date
   lastUpdated: Date
 }

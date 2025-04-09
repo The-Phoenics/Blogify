@@ -1,6 +1,7 @@
 import { Spinner } from '@/components/Spinner'
 import { UserContext } from '@/context/UserContext'
-import { API_STATUS, IComment } from '@/types/types'
+import useUserAuth from '@/hooks/useUserAuth'
+import { API_STATUS, IComment, IUser } from '@/types/types'
 import { useContext, useEffect, useRef, useState } from 'react'
 
 const CommentSection = (props: { blogId: string }) => {
@@ -65,7 +66,7 @@ function CommentViewSection(props: {
 }
 
 function CommentPostSection(props: { blogId: string; setComments: (comments: IComment[]) => void }) {
-  const userContext = useContext(UserContext)
+  const { isLoading, user }: { isLoading: boolean; user: IUser | null } = useUserAuth()
   const { blogId, setComments } = props
   const commentInputRef = useRef<HTMLTextAreaElement | null>(null)
   const [apiStatus, setApiStatus] = useState<API_STATUS>(API_STATUS.IDLE)
@@ -81,40 +82,38 @@ function CommentPostSection(props: { blogId: string; setComments: (comments: ICo
   }
 
   const handlePostComment = async () => {
-    const commentValue: string | undefined = commentInputRef.current?.value.trim()
-    if (blogId && commentValue && commentValue !== '') {
-      if (apiStatus === API_STATUS.WAITING) {
-        return
-      }
-      if (!userContext.user) {
-        alert('Login to comment!')
-        return
-      }
-      setApiStatus(API_STATUS.WAITING)
-      const response = await fetch(
-        `${import.meta.env.VITE_SERVER_ADDRESS}${import.meta.env.VITE_SERVER_PORT}/comment/${blogId}`,
-        {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify({
-            username: userContext.user.username,
-            blogId: blogId,
-            content: commentValue,
-          }),
+    if (!isLoading && !user) {
+      const commentValue: string | undefined = commentInputRef.current?.value.trim()
+      if (blogId && commentValue && commentValue !== '') {
+        if (apiStatus === API_STATUS.WAITING) {
+          return
         }
-      )
+        setApiStatus(API_STATUS.WAITING)
+        const response = await fetch(
+          `${import.meta.env.VITE_SERVER_ADDRESS}${import.meta.env.VITE_SERVER_PORT}/comment/${blogId}`,
+          {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+              username: user?.username,
+              blogId: blogId,
+              content: commentValue,
+            }),
+          }
+        )
 
-      if (!response.ok) {
-        setApiStatus(API_STATUS.ERROR)
-        return
-      }
-      const result = await response.json()
-      if (blogId === result.blogId) {
-        setApiStatus(API_STATUS.SUCCESS)
-        addComment(result)
-        clearTextInput()
+        if (!response.ok) {
+          setApiStatus(API_STATUS.ERROR)
+          return
+        }
+        const result = await response.json()
+        if (blogId === result.blogId) {
+          setApiStatus(API_STATUS.SUCCESS)
+          addComment(result)
+          clearTextInput()
+        }
       }
     }
   }

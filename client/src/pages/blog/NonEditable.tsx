@@ -4,8 +4,8 @@ import { IBlog, ITag } from '@/types/types'
 import { getSmallDate } from '@/utils'
 
 interface NonEditableProps {
-  blogData: IBlog
-  setEditorDataChanged: (val: boolean) => void
+  blogData: IBlog | undefined
+  setEditorDataChanged?: (val: boolean) => void
 }
 
 function NonEditable({ blogData, setEditorDataChanged }: NonEditableProps) {
@@ -27,8 +27,11 @@ function NonEditable({ blogData, setEditorDataChanged }: NonEditableProps) {
         {blogData?.image ? (
           <div className='h-90 mb-6 flex w-full items-center justify-center'>
             <img
+              width='500'
+              height='500'
+              decoding='async'
               src={`${blogData?.image}`}
-              className='w-full max-w-[500px] rounded-md object-cover shadow-lg md:w-[80%]'
+              className='max-h-[500px] w-full max-w-[500px] rounded-md object-cover shadow-lg md:w-[80%]'
             />
           </div>
         ) : (

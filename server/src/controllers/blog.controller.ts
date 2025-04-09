@@ -4,7 +4,8 @@ import mongoose, { isValidObjectId } from "mongoose";
 
 export async function get_blog(req: Request, res: Response) {
     const id = req.params.id
-    if (!id) {
+    console.log(id)
+    if (!id || !isValidObjectId(id)) {
         res.status(404).json({
             message: "invalid blog"
         })

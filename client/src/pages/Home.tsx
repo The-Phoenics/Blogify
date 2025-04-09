@@ -1,7 +1,20 @@
-import { Link } from 'react-router'
+import { Link, useNavigate } from 'react-router'
 import { Search, ChevronRight, BookOpen } from 'lucide-react'
+import useUserAuth from '@/hooks/useUserAuth'
+import { Spinner } from '@/components/Spinner'
+import { IUser } from '@/types/types'
 
 export const Home = () => {
+  const { isLoading, user }: { isLoading: boolean; user: IUser | null } = useUserAuth()
+  const navigate = useNavigate()
+  if (!isLoading && user) {
+    navigate('/feed')
+  }
+
+  if (isLoading) {
+    return <Spinner />
+  }
+
   return (
     <div className='flex min-h-screen flex-col'>
       {/* Header */}

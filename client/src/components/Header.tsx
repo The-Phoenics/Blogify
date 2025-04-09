@@ -1,9 +1,11 @@
-import { UserContext } from '@/context/UserContext'
-import React, { useContext, useState } from 'react'
+import useUserAuth from '@/hooks/useUserAuth'
+import React, { Dispatch, useState } from 'react'
 import { BsBookmark, BsBoxArrowRight, BsClockHistory, BsGear, BsListCheck } from 'react-icons/bs'
 import { FaUserCircle } from 'react-icons/fa'
 import { SiBloglovin } from 'react-icons/si'
 import { Link, useNavigate } from 'react-router'
+import { Spinner } from './Spinner'
+import { IUser } from '@/types/types'
 
 const LoginSignupButtons = (): React.JSX.Element => {
   return (
@@ -22,18 +24,19 @@ const LoginSignupButtons = (): React.JSX.Element => {
 
 export const BlogHeaderUserModel = () => {
   const navigate = useNavigate()
-  const userContext = useContext(UserContext)
+  const { isLoading, user, setUser }: { isLoading: boolean; user: IUser | null; setUser: Dispatch<IUser | null> } =
+    useUserAuth()
   const [isOpen, setIsOpen] = useState(false)
 
   const handleLogout = async () => {
-    if (userContext.user) {
+    if (!isLoading && user) {
       const res = await fetch(`${import.meta.env.VITE_SERVER_ADDRESS}${import.meta.env.VITE_SERVER_PORT}/auth/logout`, {
         method: 'POST',
         credentials: 'include',
       })
       if (res.ok) {
-        if (userContext && userContext.user) {
-          userContext.setUser(null)
+        if (user) {
+          setUser(null)
         }
         navigate('/login')
       }
@@ -41,7 +44,13 @@ export const BlogHeaderUserModel = () => {
   }
 
   const goToUserProfile = () => {
-    navigate(`/${userContext.user?.username}`)
+    if (!isLoading && user) {
+      navigate(`/${user?.username}`)
+    }
+  }
+
+  if (isLoading) {
+    return <Spinner />
   }
 
   return (
@@ -52,8 +61,8 @@ export const BlogHeaderUserModel = () => {
       {isOpen && (
         <div className='absolute right-0 top-16 mt-2 w-56 rounded-lg border border-gray-200 bg-white p-2 shadow-lg'>
           <div className='cursor-pointer border-b border-gray-200 p-3' onClick={goToUserProfile}>
-            <p className='font-bold'>{userContext.user.username}</p>
-            <p className='text-sm text-gray-500'>@{userContext.user.username}</p>
+            <p className='font-bold'>{user?.username}</p>
+            <p className='text-sm text-gray-500'>@{user?.username}</p>
           </div>
           <ul className='py-1'>
             <li className='flex cursor-pointer items-center gap-3 px-4 py-2 hover:bg-gray-100'>
@@ -82,9 +91,13 @@ export const BlogHeaderUserModel = () => {
 }
 
 const BlogHeader = () => {
-  const userContext = useContext(UserContext)
-  if (!userContext) {
-    return null
+  const navigate = useNavigate()
+  const { isLoading, user }: { isLoading: boolean, user: IUser | null } = useUserAuth()
+
+  const handleCreateBlog = () => {
+    if (!isLoading && user) {
+      navigate('/blog/create')
+    }
   }
 
   return (
@@ -95,7 +108,19 @@ const BlogHeader = () => {
           <p className='font-bold'>Logify</p>
         </div>
       </a>
-      {userContext.user ? <BlogHeaderUserModel /> : <LoginSignupButtons />}
+      {!isLoading && user ? (
+        <div className='flex gap-4'>
+          <button
+            className='min-h-14 min-w-[100px] rounded-lg border p-2 px-6 py-3 shadow-sm'
+            onClick={handleCreateBlog}
+          >
+            Create
+          </button>
+          <BlogHeaderUserModel />
+        </div>
+      ) : (
+        <LoginSignupButtons />
+      )}
     </div>
   )
 }
