@@ -34,7 +34,7 @@ function Editable({ blogData, setBlogData, setEditorDataChanged }: EditableProps
           className='border-none text-2xl font-bold text-gray-900 outline-none focus:underline'
           contentEditable={true}
         >
-          {blogData?.title}
+          {blogData?.title ?? 'Enter title...'}
         </h1>
 
         <div className='mb-8 mt-8 flex items-center justify-center'>
@@ -53,18 +53,14 @@ function Editable({ blogData, setBlogData, setEditorDataChanged }: EditableProps
         </div>
 
         {/* image banner for blog */}
-        {blogData?.image ? (
-          <div className='h-90 mb-6 flex w-full items-center justify-center'>
-            <img
-              width='500'
-              height='500'
-              src={`${blogData?.image}`}
-              className='max-h-[500px] w-full max-w-[500px] rounded-md object-cover shadow-lg md:w-[80%]'
-            />
-          </div>
-        ) : (
-          ''
-        )}
+        <div className='h-90 mb-6 flex w-full items-center justify-center'>
+          <img
+            width='500'
+            height='500'
+            src={`${blogData?.image ?? '/dummyimg.jpg'}`}
+            className='max-h-[500px] w-full max-w-[500px] rounded-md object-cover shadow-lg md:w-[80%]'
+          />
+        </div>
 
         {/* editor for writing blogs content */}
         <Editor
@@ -73,7 +69,7 @@ function Editable({ blogData, setBlogData, setEditorDataChanged }: EditableProps
           setBlogData={setBlogData}
           className='mb-14 text-left text-lg leading-relaxed text-gray-800'
         >
-          {blogData?.content}
+          {blogData?.content ?? 'Start writing here...'}
         </Editor>
       </article>
     </div>
