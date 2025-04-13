@@ -1,4 +1,4 @@
-import { useRef, useState, useEffect } from 'react'
+import { useRef, useEffect, Dispatch } from 'react'
 import './Editor.css'
 import { IBlog } from '@/types/types'
 
@@ -6,17 +6,13 @@ interface EditorProps {
   className: string
   children: string
   setBlogData: (val: IBlog) => void
-  setEditorDataChanged: (val: boolean) => void
+  setEditorDataChanged: Dispatch<boolean>
   editable: boolean
+  stylingClasses: string
+  blogContent: string
 }
 
-function Editor(props: EditorProps) {
-  const stylingClasses = props.className
-  const blogContent = props.children
-  const setBlogData = props.setBlogData
-  const setEditorDataChanged = props.setEditorDataChanged
-  const editable = props.editable
-
+function Editor({ stylingClasses, blogContent, setBlogData, setEditorDataChanged, editable }: EditorProps) {
   const editorRef = useRef<HTMLTextAreaElement | null>(null)
 
   const adjustHeight = () => {
@@ -46,6 +42,8 @@ function Editor(props: EditorProps) {
     <textarea
       ref={editorRef}
       readOnly={!editable}
+      defaultValue={blogContent}
+      spellCheck={false}
       onChange={handleBlogContentChange}
       placeholder='Start writing your blog...'
       className={` ${stylingClasses} w-full resize-none overflow-hidden bg-transparent p-2 outline-none`}

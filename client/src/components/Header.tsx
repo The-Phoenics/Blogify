@@ -103,7 +103,7 @@ const BlogHeader = () => {
 
   const handleCreateBlog = () => {
     if (!isLoading && user) {
-      navigate('/blog/create')
+      navigate('/create-blog')
     }
   }
 

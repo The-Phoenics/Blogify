@@ -25,15 +25,17 @@ export interface IUser {
 }
 
 export interface IBlog {
-  _id: string
+  _id?: string
   title: string
   author: IUser
   content: string
-  comments: IComment[]
+  comments?: IComment[]
   published: boolean
   public: boolean
-  image: string
-  tags: ITag[]
-  date: Date
-  lastUpdated: Date
+  image?: string
+  tags?: ITag[]
+  date?: Date
+  lastUpdated?: Date
 }
+
+export type BlogType = 'existing' | 'create-new'

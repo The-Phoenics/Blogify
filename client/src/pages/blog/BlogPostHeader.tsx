@@ -5,25 +5,12 @@ import { API_STATUS, IBlog, IUser } from '@/types/types'
 import { Link } from 'react-router'
 import useUserAuth from '@/hooks/useUserAuth'
 
-const LoginSignupButtons = (): React.JSX.Element => {
-  return (
-    <>
-      <div className='flex items-center gap-4'>
-        <Link to='/login' className='rounded-md border px-4 py-2 text-sm'>
-          Log in
-        </Link>
-        <Link to='/signup' className='rounded-md bg-blue-600 px-4 py-2 text-sm text-white'>
-          Sign up
-        </Link>
-      </div>
-    </>
-  )
-}
-
 interface BlogPostHeaderProps {
+  setBlogData: (blog: IBlog) => void,
+  setBlogType: (val: string) => void,
   blogData: IBlog | undefined
   editing: boolean
-  editable: boolean
+  isOwner: boolean
   publishApiStatus: API_STATUS
   handlePreviewing?: () => void
   handlePublishing?: () => void
@@ -34,7 +21,7 @@ interface BlogPostHeaderProps {
 export const BlogPostHeader = ({
   blogData,
   editing,
-  editable,
+  isOwner,
   handlePreviewing,
   handlePublishing,
   publishApiStatus,
@@ -42,6 +29,21 @@ export const BlogPostHeader = ({
   handleBlogSave,
 }: BlogPostHeaderProps): React.JSX.Element => {
   const { isLoading, user }: { isLoading: boolean; user: IUser | null } = useUserAuth()
+
+  const LoginSignupButtons = (): React.JSX.Element => {
+    return (
+      <>
+        <div className='flex items-center gap-4'>
+          <Link to='/login' className='rounded-md border px-4 py-2 text-sm'>
+            Log in
+          </Link>
+          <Link to='/signup' className='rounded-md bg-blue-600 px-4 py-2 text-sm text-white'>
+            Sign up
+          </Link>
+        </div>
+      </>
+    )
+  }
 
   const SaveButtonHeader = () => {
     return (
@@ -79,7 +81,7 @@ export const BlogPostHeader = ({
   }
 
   let rightPortion: React.JSX.Element = <></>
-  if (editable) {
+  if (isOwner) {
     if (editing) {
       rightPortion = (
         <div className='flex gap-6'>

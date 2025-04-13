@@ -42,6 +42,7 @@ function NonEditable({ blogData, setEditorDataChanged }: NonEditableProps) {
         <Editor
           editable={false}
           setEditorDataChanged={setEditorDataChanged}
+          blogContent={blogData?.content}
           className='mb-6 text-left text-lg leading-relaxed text-gray-800'
         >
           {blogData?.content}

@@ -11,12 +11,12 @@ export const BlogPost = () => {
   const params = useParams()
   const { isLoading, user }: { isLoading: boolean; user: IUser | null } = useUserAuth()
 
-  const [apiStatus, setApiStatus] = useState<API_STATUS>(API_STATUS.WAITING)
+  const [apiStatus, setApiStatus] = useState<API_STATUS>(API_STATUS.IDLE)
   const [blogData, setBlogData] = useState<IBlog>()
-  const [editable, setEditable] = useState<boolean>(false)
+  const [isOwner, setIsOwner] = useState<boolean>(true)
 
   const [publishApiStatus, setPublishApiStatus] = useState<API_STATUS>(API_STATUS.IDLE)
-  const [editing, setEditing] = useState<boolean>(false)
+  const [editing, setEditing] = useState<boolean>(true)
 
   useEffect(() => {
     if (!isLoading && user) {
@@ -55,6 +55,7 @@ export const BlogPost = () => {
   }
 
   const fetchBlog = async () => {
+    setApiStatus(API_STATUS.WAITING)
     const response = await fetch(
       `${import.meta.env.VITE_SERVER_ADDRESS}${import.meta.env.VITE_SERVER_PORT}/blog/${params.blogId}`
     )
@@ -65,7 +66,10 @@ export const BlogPost = () => {
       setApiStatus(API_STATUS.SUCCESS)
       setBlogData(result)
       if (user && user.username === result.author.username) {
-        setEditable(true)
+        setIsOwner(true)
+      } else {
+        setIsOwner(false)
+        setEditing(false)
       }
     }
   }
@@ -87,6 +91,12 @@ export const BlogPost = () => {
     setBlogData(blog)
   }
 
+  if (isLoading) {
+    return <div className='mt-20 flex h-full w-full items-center justify-center'>
+      <div className='h-10 w-10 animate-spin rounded-full border-4 border-blue-500 border-t-transparent'></div>
+    </div>
+  }
+
   if (apiStatus === API_STATUS.ERROR) {
     return (
       <div className='flex w-screen items-center justify-center'>
@@ -104,10 +114,12 @@ export const BlogPost = () => {
     <div className='flex w-screen items-center justify-center'>
       <div className='flex w-full flex-col justify-center font-[sans-serif]'>
         <div className='flex flex-col items-center justify-center rounded-2xl pb-6'>
+          {/* header */}
           <BlogPostHeader
+            setBlogData={setBlogData}
             blogData={blogData}
             editing={editing}
-            editable={editable}
+            isOwner={isOwner}
             handlePublishing={handlePublishing}
             publishApiStatus={publishApiStatus}
             handleEditing={handleEditing}
@@ -117,7 +129,7 @@ export const BlogPost = () => {
             <div className='mt-20 flex h-full w-full items-center justify-center'>
               <div className='h-10 w-10 animate-spin rounded-full border-4 border-blue-500 border-t-transparent'></div>
             </div>
-          ) : editing ? (
+          ) : editing && isOwner ? (
             <Editable blogData={blogData} setBlogData={setBlogData} />
           ) : (
             <NonEditable blogData={blogData} />

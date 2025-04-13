@@ -1,19 +1,18 @@
 import Editor from '@/components/Editor'
 import { IBlog, ITag } from '@/types/types'
-import { useRef } from 'react'
+import { Dispatch, useEffect, useRef } from 'react'
 
 interface EditableProps {
   blogData: IBlog | undefined
   setBlogData: (val: IBlog) => void
-  setEditorDataChanged?: (val: boolean) => boolean
+  setEditorDataChanged?: Dispatch<boolean>
 }
 
 function Editable({ blogData, setBlogData, setEditorDataChanged }: EditableProps) {
-  const titleRef = useRef<HTMLHeadingElement | null>(null)
+  const titleRef = useRef<HTMLTextAreaElement | null>(null)
 
   const handleTitleChange = () => {
-    console.log('handle title change')
-    const newBlogTitle = titleRef.current?.innerText
+    const newBlogTitle = titleRef.current?.value
     if (newBlogTitle) {
       setBlogData((prev: IBlog) => {
         const blog: IBlog = {
@@ -22,22 +21,36 @@ function Editable({ blogData, setBlogData, setEditorDataChanged }: EditableProps
         }
         return blog
       })
+      if (titleRef.current)
+        titleRef.current.value = newBlogTitle
     }
   }
+
+  useEffect(() => {
+    titleRef.current?.addEventListener("keypress", (e: KeyboardEvent) => {
+      if (e.key === 'Enter') {
+        if (titleRef.current) {
+          titleRef.current.rows += 1
+        }
+      }
+    })
+  }, [])
 
   return (
     <div className='w-full max-w-[2100px] px-16'>
       <article>
-        <h1
+        <textarea
+          maxLength={180}
           ref={titleRef}
-          onInput={handleTitleChange}
-          className='border-none text-2xl font-bold text-gray-900 outline-none focus:underline'
-          contentEditable={true}
-        >
-          {blogData?.title ?? 'Enter title...'}
-        </h1>
+          defaultValue={blogData?.title}
+          placeholder='Enter title here...'
+          onChange={handleTitleChange}
+          rows={1}
+          spellCheck={false}
+          className='text-2xl resize-none font-bold text-gray-900 md:w-3/5 w-full outline-none focus:underline text-center py-1 bg-transparent mt-4'
+        />
 
-        <div className='mb-8 mt-8 flex items-center justify-center'>
+        <div className='mb-8 mt-4 flex items-center justify-center'>
           <div className='flex flex-wrap gap-2'>
             {blogData?.tags?.map((tag: ITag, idx: number) => {
               return (
@@ -67,6 +80,7 @@ function Editable({ blogData, setBlogData, setEditorDataChanged }: EditableProps
           editable={true}
           setEditorDataChanged={setEditorDataChanged}
           setBlogData={setBlogData}
+          blogContent={blogData?.content}
           className='mb-14 text-left text-lg leading-relaxed text-gray-800'
         >
           {blogData?.content ?? 'Start writing here...'}
