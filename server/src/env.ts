@@ -1,8 +1,7 @@
 import dotenv from "dotenv";
 dotenv.config();
 
-import z, { ZodError } from "zod";
-import { Log } from "./utils/util";
+import z from "zod";
 import Logger from "./utils/logger";
 
 const envServerSchema = z.object({
@@ -11,6 +10,7 @@ const envServerSchema = z.object({
     JWT_SECRET_KEY: z.string("JWT_SECRET_KEY missing").readonly(),
     EMAIL_HOST: z.string("EMAIL_HOST missing").readonly(),
     EMAIL_PASS: z.string("EMAIL_PASS missing").readonly(),
+    CLIENT_URL: z.string("CLIENT_URL missing").readonly(),
 })
 
 const env = {
@@ -19,16 +19,15 @@ const env = {
     JWT_SECRET_KEY: process.env.JWT_SECRET_KEY,
     EMAIL_HOST: process.env.EMAIL_HOST,
     EMAIL_PASS: process.env.EMAIL_PASS,
+    CLIENT_URL: process.env.CLIENT_URL,
 }
-
-console.log(env)
 
 const result = envServerSchema.safeParse(env)
 if (!result.success) {
-    console.log("err ----------", result.error.issues.forEach((errObject) => {
+    result.error.issues.forEach((errObject) => {
         Logger.error(errObject.message)
-    }))
-    throw Error("❗Environment variables missing");
+    })
+    throw Error("❌ Environment variables missing");
 }
 
 export default env

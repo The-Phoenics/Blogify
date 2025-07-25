@@ -2,6 +2,7 @@ import nodemailer from "nodemailer";
 import Mail from "nodemailer/lib/mailer";
 import jwt from "jsonwebtoken";
 import { IUserDocument } from "@models/user.model";
+import env from "src/env";
 
 const transporter: Mail = nodemailer.createTransport({
     service: 'gmail',
@@ -9,20 +10,20 @@ const transporter: Mail = nodemailer.createTransport({
     port: 587,
     secure: false,
     auth: {
-        user: process.env.EMAIL_HOST,
-        pass: process.env.EMAIL_PASSWORD
+        user: env.EMAIL_HOST,
+        pass: env.EMAIL_PASS
     },
 });
 
 function getVerificationTokenLink(user: IUserDocument): string {
-    let link: string = `http://localhost:${process.env.PORT}/auth/verifyemail/`;
-    const jwtSecret = process.env.JWT_SECRET_KEY
+    let link: string = `http://localhost:${env.PORT}/auth/verifyemail/`;
+    const jwtSecret = env.JWT_SECRET_KEY
     if (!jwtSecret) {
         console.log("jwt secret key env variable not loaded")
     }
     const token: string = jwt.sign({
         id: user._id
-    }, process.env.JWT_SECRET_KEY, { expiresIn: '300000ms' }); // 5 minutes
+    }, env.JWT_SECRET_KEY, { expiresIn: '300000ms' }); // 5 minutes
     return link + token;
 }
 
@@ -31,7 +32,7 @@ export async function sendVerificationLink(email: string, user: IUserDocument) {
     const info = await transporter.sendMail({
         from: {
             name: 'Blogify',
-            address: process.env.EMAIL_HOST
+            address: env.EMAIL_HOST
         },
         to: email,
         subject: "Email verification",

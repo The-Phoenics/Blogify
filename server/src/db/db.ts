@@ -1,11 +1,10 @@
 import mongoose from "mongoose";
-import dotenv from "dotenv";
 import Logger from "src/utils/logger";
-dotenv.config();
+import env from "src/env";
 
 export async function connectDB(callback?: () => void) {
     try {
-        await mongoose.connect(process.env.DATABASE_URL as string);
+        await mongoose.connect(env.DATABASE_URL as string);
         Logger.info('MongoDB connected successfully');
         callback()
     } catch (error) {

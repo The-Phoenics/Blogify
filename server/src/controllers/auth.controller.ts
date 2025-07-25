@@ -8,6 +8,7 @@ import * as emailValidator from "email-validator";
 import { createUser } from "@services/user.service";
 import jwt from "jsonwebtoken"
 import { sendVerificationLink } from "@services/mail.service";
+import env from "src/env";
 
 const prodCookieOptions: CookieOptions = {
     secure: true,
@@ -113,7 +114,7 @@ export async function signup(req: Request, res: Response) {
         res.status(200).json({
             success: false,
             message: "User already exist with this email",
-            redirect: `http://localhost:${process.env.PORT}/auth/login`
+            redirect: `${env.CLIENT_URL}/auth/login`
         })
         return
     }
@@ -148,19 +149,19 @@ export async function verify_email(req: Request, res: Response) {
     // verify user token
     let userId = ""
     try {
-        const decoded = await jwt.verify(verificationToken, process.env.JWT_SECRET_KEY);
+        const decoded = await jwt.verify(verificationToken, env.JWT_SECRET_KEY);
         userId = decoded.id;
     } catch (err) {
         if (err.name === "TokenExpiredError") {
             return res.json({
                 message: "expired try again",
-                redirect: `http://localhost:${process.env.PORT}/auth/signup`,
+                redirect: `http://localhost:${env.PORT}/auth/signup`,
             });
         }
         if (err.name === "JsonWebTokenError") {
             return res.json({
                 message: "invalid token",
-                redirect: `http://localhost:${process.env.PORT}/auth/signup`,
+                redirect: `${env.CLIENT_URL}/auth/signup`,
             });
         }
     }
@@ -185,5 +186,5 @@ export async function verify_email(req: Request, res: Response) {
     const sid: string = await generateSessionId()
     const session: IUserSessionDocument = await createSession(sid, user._id)
     res.cookie("sid", sid, devCookieOptions)
-    res.redirect(`${process.env.CLIENT_ADDRESS}/feed`)
+    res.redirect(`${env.CLIENT_URL}/feed`)
 }

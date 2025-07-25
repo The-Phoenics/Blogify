@@ -1,5 +1,4 @@
 import env from "./env"
-console.log(env)
 import { Request, Response } from "express";
 import app from "./app.js";
 import { connectDB } from "./db/db.js";
@@ -27,7 +26,7 @@ app.get('*', (req: Request, res: Response) => {
 
 async function startServer(): Promise<void> {
     await connectDB(() => {
-        app.listen(process.env.PORT, () => Logger.info(`Server started at port ${process.env.PORT}`))
+        app.listen(env.PORT, () => Logger.info(`Server started at port ${env.PORT}`))
     })
 }
 
