@@ -67,7 +67,7 @@ export const Signup = () => {
     const passwordValue = passwordInputRef.current?.value
     setApiStatus(API_STATUS.WAITING)
 
-    const reqUrl = `${import.meta.env.VITE_SERVER_ADDRESS}${import.meta.env.VITE_SERVER_PORT}/auth/signup`
+    const reqUrl = `${import.meta.env.VITE_SERVER_URL}/auth/signup`
     const response = await fetch(reqUrl, {
         method: 'POST',
         headers: {
@@ -103,7 +103,7 @@ export const Signup = () => {
       <div className='flex flex-col justify-center p-4 font-[sans-serif]'>
         <div className='mx-auto w-full max-w-md rounded-2xl border border-gray-300 p-8'>
           <div className='mb-12 text-center'>
-            <a href={`${import.meta.env.VITE_SERVER_ADDRESS}${import.meta.env.VITE_SERVER_PORT}/`}>
+            <a href={`${import.meta.env.VITE_SERVER_URL}/`}>
               <div className='flex w-full flex-row items-center justify-center gap-1 text-gray-700'>
                 <SiBloglovin className='mb-1' />
                 <p className='font-bolder'>Logify</p>

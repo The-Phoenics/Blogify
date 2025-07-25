@@ -34,7 +34,7 @@ export const BlogPost = () => {
     }
     setPublishApiStatus(API_STATUS.WAITING)
 
-    const url = `${import.meta.env.VITE_SERVER_ADDRESS}${import.meta.env.VITE_SERVER_PORT}/blog/${params.blogId}`
+    const url = `${import.meta.env.VITE_SERVER_URL}/blog/${params.blogId}`
     const res = await fetch(url, {
       method: 'PATCH',
       credentials: 'include',
@@ -57,7 +57,7 @@ export const BlogPost = () => {
   const fetchBlog = async () => {
     setApiStatus(API_STATUS.WAITING)
     const response = await fetch(
-      `${import.meta.env.VITE_SERVER_ADDRESS}${import.meta.env.VITE_SERVER_PORT}/blog/${params.blogId}`
+      `${import.meta.env.VITE_SERVER_URL}/blog/${params.blogId}`
     )
     const result = await response.json()
     if (result.message === 'invalid blog') {
@@ -75,7 +75,7 @@ export const BlogPost = () => {
   }
 
   const handleBlogSave = async () => {
-    const url = `${import.meta.env.VITE_SERVER_ADDRESS}${import.meta.env.VITE_SERVER_PORT}/blog/${params.blogId}`
+    const url = `${import.meta.env.VITE_SERVER_URL}/blog/${params.blogId}`
     const res = await fetch(url, {
       method: 'PATCH',
       credentials: 'include',

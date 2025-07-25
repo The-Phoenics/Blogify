@@ -38,7 +38,7 @@ const ProfilePage = () => {
 
   const fetchPublishedBlogs = async () => {
     setBlogFetchApiStatus(API_STATUS.WAITING)
-    const url = `${import.meta.env.VITE_SERVER_ADDRESS}${import.meta.env.VITE_SERVER_PORT}/blog`
+    const url = `${import.meta.env.VITE_SERVER_URL}/blog`
     const res = await fetch(url, {
       credentials: 'include',
     })

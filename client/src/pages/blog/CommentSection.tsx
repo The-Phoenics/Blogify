@@ -27,7 +27,7 @@ function CommentViewSection(props: {
 
   const fetchCommentsOfBlog = async () => {
     const response = await fetch(
-      `${import.meta.env.VITE_SERVER_ADDRESS}${import.meta.env.VITE_SERVER_PORT}/comment/${blogId}`
+      `${import.meta.env.VITE_SERVER_URL}/comment/${blogId}`
     )
     if (response.ok) {
       const result = await response.json()
@@ -90,7 +90,7 @@ function CommentPostSection(props: { blogId: string; setComments: (comments: ICo
         }
         setApiStatus(API_STATUS.WAITING)
         const response = await fetch(
-          `${import.meta.env.VITE_SERVER_ADDRESS}${import.meta.env.VITE_SERVER_PORT}/comment/${blogId}`,
+          `${import.meta.env.VITE_SERVER_URL}/comment/${blogId}`,
           {
             method: 'POST',
             headers: {

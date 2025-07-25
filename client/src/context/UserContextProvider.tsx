@@ -9,7 +9,7 @@ const UserContextProvider = ({ children }: { children: React.ReactElement }) => 
   const fetchUser = async () => {
     if (!isLoading) {
       setIsLoading(true)
-      const reqUrl = `${import.meta.env.VITE_SERVER_ADDRESS}${import.meta.env.VITE_SERVER_PORT}/user/logged`
+      const reqUrl = `${import.meta.env.VITE_SERVER_URL}/user/logged`
       console.log(reqUrl)
       const res = await fetch(reqUrl, {
         credentials: 'include',

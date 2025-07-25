@@ -14,7 +14,7 @@ export const Feed = () => {
   const searchInputRef = useRef<HTMLInputElement | null>(null)
 
   const fetchFeedBlogs = async () => {
-    const url = `${import.meta.env.VITE_SERVER_ADDRESS}${import.meta.env.VITE_SERVER_PORT}/blog`
+    const url = `${import.meta.env.VITE_SERVER_URL}/blog`
     const res = await fetch(url, {
       credentials: 'include',
     })
@@ -31,7 +31,7 @@ export const Feed = () => {
   const searchBlogs = async () => {
     const searchString = searchInputRef.current?.value
     if (searchString?.trim() !== '') {
-      const url = `${import.meta.env.VITE_SERVER_ADDRESS}${import.meta.env.VITE_SERVER_PORT}/blog/search?title=${searchString}`
+      const url = `${import.meta.env.VITE_SERVER_URL}/blog/search?title=${searchString}`
       const res = await fetch(url, {
         credentials: 'include',
       })
