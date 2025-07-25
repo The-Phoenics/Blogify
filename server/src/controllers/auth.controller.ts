@@ -113,7 +113,7 @@ export async function signup(req: Request, res: Response) {
         res.status(200).json({
             success: false,
             message: "User already exist with this email",
-            redirect: `${process.env.SERVER_ADDRESS}:${process.env.SERVER_PORT}/auth/login`
+            redirect: `http://localhost:${process.env.PORT}/auth/login`
         })
         return
     }
@@ -154,13 +154,13 @@ export async function verify_email(req: Request, res: Response) {
         if (err.name === "TokenExpiredError") {
             return res.json({
                 message: "expired try again",
-                redirect: `${process.env.SERVER_ADDRESS}:${process.env.SERVER_PORT}/auth/signup`,
+                redirect: `http://localhost:${process.env.PORT}/auth/signup`,
             });
         }
         if (err.name === "JsonWebTokenError") {
             return res.json({
                 message: "invalid token",
-                redirect: `${process.env.SERVER_ADDRESS}:${process.env.SERVER_PORT}/auth/signup`,
+                redirect: `http://localhost:${process.env.PORT}/auth/signup`,
             });
         }
     }
@@ -184,6 +184,6 @@ export async function verify_email(req: Request, res: Response) {
     // create session for user signup
     const sid: string = await generateSessionId()
     const session: IUserSessionDocument = await createSession(sid, user._id)
-    res.cookie("sid", sid, cookieOptions)
+    res.cookie("sid", sid, devCookieOptions)
     res.redirect(`${process.env.CLIENT_ADDRESS}/feed`)
 }
