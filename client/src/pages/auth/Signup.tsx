@@ -1,10 +1,9 @@
-import { useContext, useRef, useState } from 'react'
+import { useRef, useState } from 'react'
 import { SiBloglovin } from 'react-icons/si'
 import { Link, useNavigate } from 'react-router'
 import { validate } from 'email-validator'
 import { Spinner } from '@/components/Spinner'
 import { API_STATUS, IUser } from '@/types/types'
-import { UserContext } from '@/context/UserContext'
 import useUserAuth from '@/hooks/useUserAuth'
 
 export const EmailSentMessageInfo = () => {
@@ -68,9 +67,8 @@ export const Signup = () => {
     const passwordValue = passwordInputRef.current?.value
     setApiStatus(API_STATUS.WAITING)
 
-    const response = await fetch(
-      `${import.meta.env.VITE_SERVER_ADDRESS}${import.meta.env.VITE_SERVER_PORT}/auth/signup`,
-      {
+    const reqUrl = `${import.meta.env.VITE_SERVER_ADDRESS}${import.meta.env.VITE_SERVER_PORT}/auth/signup`
+    const response = await fetch(reqUrl, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

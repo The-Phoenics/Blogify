@@ -1,5 +1,5 @@
 import { Spinner } from '@/components/Spinner'
-import { UserContext } from '@/context/UserContext'
+import { UserContext } from '@/context/UserContextProvider'
 import useUserAuth from '@/hooks/useUserAuth'
 import { API_STATUS, IComment, IUser } from '@/types/types'
 import { useContext, useEffect, useRef, useState } from 'react'

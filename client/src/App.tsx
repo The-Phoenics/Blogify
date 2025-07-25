@@ -7,7 +7,7 @@ import { NotFound } from './pages/NotFound'
 import BlogPost from './pages/blog/BlogPost'
 import { BrowserRouter, Routes, Route } from 'react-router'
 import ProfilePage from './pages/Profile'
-import UserContextProvider from './context/UserContext'
+import UserContextProvider from './context/UserContextProvider'
 import CreateBlog from './pages/blog/CreateBlog'
 
 function App() {
